@@ -33,9 +33,13 @@ export default function ShowTasks() {
       onChangeText={deadline => setDeadlineIn(deadline)} style = {styles.textInput}/>
 
 
-      <Button onPress={() => onPressButton(textIn,energyIn,timeIn,deadlineIn)} title= 'Click here to display generated task.'>
+      <View style = {styles.buttonView}>
+        <Button onPress={() => onPressButton(textIn,energyIn,timeIn,deadlineIn)} 
+        title= 'Click here to display generated task.'>
         
-      </Button>
+        </Button>
+      </View>
+
 
 	  <StatusBar style="auto" />
     </View>
@@ -48,12 +52,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   textInput:{
-    height: 50
+    height: 50,
+    fontSize: 20,
+    borderWidth:1,
+    padding:10,
+    margin:10,
+    width:400
     
+  },
+
+  buttonView:{
+    marginTop:150,
+    fontSize:40
   }
 });
