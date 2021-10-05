@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 
   buttonView:{
     marginTop:150,
-    fontSize:40
+    fontSize:41
   },
   
   defaultPicker:{
