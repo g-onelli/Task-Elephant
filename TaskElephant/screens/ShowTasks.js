@@ -1,92 +1,48 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import React, { useState } from 'react';
 
-import {Notifications} from 'react-native-notifications';
-import {Picker} from '@react-native-picker/picker';
+import { StyleSheet, View, Text,Button,FlatList } from 'react-native';
 
-import Task from '../Task';
+export default function ShowTasks(){
 
-export default function ShowTasks() {
-// [1,2] = useState is a variable declaration. 1 is the 'get' method, 2 is the 'set' method.    
-  const [textIn, setTextIn] = useState("NaN");
-  const [energyIn, setEnergyIn] = useState(-1);
-  const [timeIn, setTimeIn] = useState(-1);
-  const [deadlineIn, setDeadlineIn] = useState("NaN");
-  const [priorityIn, setPriorityIn] = useState(7)
-  
-  function onPressButton(title,energy,time,deadline,priority) {
-    const testTask = new Task(title,energy,time,deadline) 
-    alert(testTask.getTitle() + " " + testTask.getEnergyCost() + " " 
-            + testTask.getTimeCost() + " " + testTask.getDeadline() + " " + priority);
-  }
 
-  async function alarmTest(){
-//     Notifications.registerRemoteNotifications();
-  }
+
+  const [tasks, setTasks] = useState([
+    {title:"tasks 1", energy_cost: 3, time_cost:2, deadline:"3/8", priority: "high", key: "1"},
+    {title:"tasks 2", energy_cost: 4, time_cost:3, deadline:"4/2", priority: "medium", key: "2"},
+  ])
+
 
   return (
-    <View style={styles.container}>
-      
-      <TextInput placeholder="Task title input here" 
-      onChangeText={text => setTextIn(text)} style = {styles.textInput}/>
+    <View style = {styles.container}>
+      <View style = {styles.content}>
 
-      <TextInput placeholder="Task energy-cost input here" 
-      onChangeText={energy => setEnergyIn(energy)} style = {styles.textInput}/>
+        <View style = {styles.list}>
 
-      <TextInput placeholder="Task time-cost input here" 
-      onChangeText={time => setTimeIn(time)} style = {styles.textInput}/>
+          <FlatList data = {tasks}
+            renderItem={({item}) => (
+              <Text>{item.title}</Text>
+            )}></FlatList>
 
-      <TextInput placeholder="Task deadline input here" 
-      onChangeText={deadline => setDeadlineIn(deadline)} style = {styles.textInput}/>
-
-      <Picker prompt={"Task priority input here"} selectedValue={priorityIn} 
-        style={styles.defaultPicker} onValueChange={(itemValue,itemIndex) => setPriorityIn(itemValue)}> 
-        <Picker.Item label="High" value = "7"/>
-        <Picker.Item label="Medium" value = "3"/>
-        <Picker.Item label="Low" value = "1"/>
-      </Picker>
-
-      <View style = {styles.buttonView}>
-        <Button onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn); alarmTest();}} 
-        title= 'Click here to display generated task.'>
-        
-        </Button>
+        </View>
       </View>
-
-
-	  <StatusBar style="auto" />
     </View>
-  
-  );
+  )
+
 }
+
+
 
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex:1,
+    backgroundColor: "#fff",
   },
 
-  textInput:{
-    height: 50,
-    fontSize: 20,
-    borderWidth:1,
-    padding:10,
-    margin:10,
-    width:400
-    
+  content: {
+    padding:40
   },
-
-  buttonView:{
-    marginTop:150,
-    fontSize:41
-  },
-  
-  defaultPicker:{
-     width: 200,
-     height: 50,
+  list:{
+    marginTop:20
   }
-});
+})
