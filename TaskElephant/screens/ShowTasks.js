@@ -1,29 +1,72 @@
 import React, { useState } from 'react';
 
-import { StyleSheet, View, Text,Button,FlatList } from 'react-native';
+import { StyleSheet, View, Text, Button, FlatList, TouchableOpacity, ScrollView, RefreshControlBase } from 'react-native';
 
-export default function ShowTasks(){
+export default function ShowTasks({navigation}){
 
 
 
   const [tasks, setTasks] = useState([
-    {title:"tasks 1", energy_cost: 3, time_cost:2, deadline:"3/8", priority: "high", key: "1"},
-    {title:"tasks 2", energy_cost: 4, time_cost:3, deadline:"4/2", priority: "medium", key: "2"},
+    // {title:1, energyCost:2,timeCost:3, deadline:4,priority:5 ,key:"1"}
   ])
+
+
+
+  const refresh = () =>{
+    // setTasks((prevTasks) =>{
+    //   return [
+    //     ...prevTasks,
+    //     {title: navigation.getParam('title'), energyCost: navigation.getParam('energyCost'), 
+    //     timeCost: navigation.getParam('timeCost'), deadline: navigation.getParam('deadline'), priority: navigation.getParam('priority')}
+    //   ]
+    // })
+  }
+  
+  
+
 
 
   return (
     <View style = {styles.container}>
       <View style = {styles.content}>
 
+        
+
+
         <View style = {styles.list}>
 
-          <FlatList data = {tasks}
+          <FlatList 
+            data = {tasks}
             renderItem={({item}) => (
-              <Text>{item.title}</Text>
+              <TouchableOpacity>
+                <Text style = {styles.item}>
+                  {item.title}, {item.energyCost}, {item.timeCost}, {item.deadline}, {item.priority}
+                </Text>
+              </TouchableOpacity>
             )}></FlatList>
 
         </View>
+
+        <View style = {styles.button}>
+          <Button title = "refresh" onPress = {()=>{
+            setTasks((prevTasks) =>{
+
+              let size = prevTasks.length;
+              return [
+
+                ...prevTasks,
+                {title: navigation.getParam('title'), energyCost: navigation.getParam('energyCost'), 
+                timeCost: navigation.getParam('timeCost'), deadline: navigation.getParam('deadline'), 
+                priority: navigation.getParam('priority'), key: (size + 1).toString()},
+                
+              ];
+            }) 
+          }}>
+          
+          </Button>
+        </View>
+        
+
       </View>
     </View>
   )
@@ -44,5 +87,19 @@ const styles = StyleSheet.create({
   },
   list:{
     marginTop:20
+  },
+
+  button:{
+    marginTop:20
+  },
+
+  item:{
+    padding:16,
+    marginTop:16,
+    borderColor: "#bbb",
+    borderWidth: 1,
+    borderStyle: "dashed",
+    borderRadius: 10
   }
+
 })

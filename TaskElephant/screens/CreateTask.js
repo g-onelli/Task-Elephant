@@ -1,25 +1,64 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, ScrollView,View, TextInput, Button, TouchableOpacity } from 'react-native';
+import TaskItem from '../components/TaskItem';
 
 // import {Notifications} from 'react-native-notifications';
 import {Picker} from '@react-native-picker/picker';
 
 import Task from '../Task';
+import { FlatList } from 'react-native-gesture-handler';
 
-export default function CreateTask() {
+export default function CreateTask({navigation}) {
 // [1,2] = useState is a variable declaration. 1 is the 'get' method, 2 is the 'set' method.    
   const [textIn, setTextIn] = useState("NaN");
   const [energyIn, setEnergyIn] = useState(-1);
   const [timeIn, setTimeIn] = useState(-1);
   const [deadlineIn, setDeadlineIn] = useState("NaN");
-  const [priorityIn, setPriorityIn] = useState(7)
+  const [priorityIn, setPriorityIn] = useState(7);
+
+
+  const [tasks, setTasks] = useState([
+    // {title:1, energyCost:2,timeCost:3, deadline:4,priority:5 ,key:"1"},
+    // {title:"task2", energyCost:2,timeCost:3, deadline:4,priority:5 ,key:"2"}
+
+
+  ]);
+
+
   
   function onPressButton(title,energy,time,deadline,priority) {
     const testTask = new Task(title,energy,time,deadline) 
-    alert(testTask.getTitle() + " " + testTask.getEnergyCost() + " " 
-            + testTask.getTimeCost() + " " + testTask.getDeadline() + " " + priority);
+    // alert(testTask.getTitle() + " " + testTask.getEnergyCost() + " " 
+    //         + testTask.getTimeCost() + " " + testTask.getDeadline() + " " + priority);
+
+    setTasks((prevTasks) =>{
+      return [
+        ...prevTasks,
+        {title: testTask.getTitle(), energyCost: testTask.getEnergyCost(), timeCost: testTask.getTimeCost(),
+        deadline: testTask.getDeadline(), priority: priority, key: prevTasks.length.toString()}
+      ]
+    })
+
+
+
+    // navigation.navigate('Show', {title: testTask.getTitle(), energyCost: testTask.getEnergyCost(),
+    // timeCost: testTask.getTimeCost(), deadline: testTask.getDeadline(), priority: priority});
   }
+
+
+
+  function remove(key){
+    setTasks((prevTasks) =>{
+      return prevTasks.filter(task => task.key != key);
+    })
+  }
+
+
+ 
+
+
+
 
   async function alarmTest(){
 //     Notifications.registerRemoteNotifications();
@@ -56,7 +95,25 @@ export default function CreateTask() {
 
 
 	  <StatusBar style="auto" />
+
+
+
+      <View style = {styles.list}>
+
+        <FlatList
+        data = {tasks}
+        renderItem = { ({item}) =>(
+          <TaskItem item = {item} pressHandler = {remove}></TaskItem>
+        )}>
+          
+        </FlatList>
+        
+      </View>
+
+
     </View>
+
+    
   
   );
 }
@@ -67,7 +124,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
 
   textInput:{
@@ -81,7 +138,7 @@ const styles = StyleSheet.create({
   },
 
   buttonView:{
-    marginTop:200,
+    marginTop:125,
     fontSize:40
   },
   
@@ -90,5 +147,11 @@ const styles = StyleSheet.create({
      height: 50,
      marginTop: -40
      
-  }
+  },
+
+  list:{
+    marginTop:0
+  },
+
+  
 });
