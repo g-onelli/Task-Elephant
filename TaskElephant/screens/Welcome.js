@@ -8,8 +8,10 @@ export default function Welcome({navigation}){
 
 
     const pressHandler = () => {
-        navigation.navigate('Tasks');
+        navigation.navigate('Create');
     }
+
+    
 
 
 
@@ -31,9 +33,11 @@ export default function Welcome({navigation}){
             </Text>
 
 
-            <Button title = 'Show your tasks' onPress = {pressHandler} style = {styles.button}>
+            <Button title = 'Create a task' onPress = {pressHandler} style = {styles.button}>
 
             </Button>
+
+            
 
 
         </View>

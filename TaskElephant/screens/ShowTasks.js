@@ -1,92 +1,105 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import React, { useState } from 'react';
 
-import {Notifications} from 'react-native-notifications';
-import {Picker} from '@react-native-picker/picker';
+import { StyleSheet, View, Text, Button, FlatList, TouchableOpacity, ScrollView, RefreshControlBase } from 'react-native';
 
-import Task from '../Task';
+export default function ShowTasks({navigation}){
 
-export default function ShowTasks() {
-// [1,2] = useState is a variable declaration. 1 is the 'get' method, 2 is the 'set' method.    
-  const [textIn, setTextIn] = useState("NaN");
-  const [energyIn, setEnergyIn] = useState(-1);
-  const [timeIn, setTimeIn] = useState(-1);
-  const [deadlineIn, setDeadlineIn] = useState("NaN");
-  const [priorityIn, setPriorityIn] = useState(7)
+
+
+  const [tasks, setTasks] = useState([
+    // {title:1, energyCost:2,timeCost:3, deadline:4,priority:5 ,key:"1"}
+  ])
+
+
+
+  const refresh = () =>{
+    // setTasks((prevTasks) =>{
+    //   return [
+    //     ...prevTasks,
+    //     {title: navigation.getParam('title'), energyCost: navigation.getParam('energyCost'), 
+    //     timeCost: navigation.getParam('timeCost'), deadline: navigation.getParam('deadline'), priority: navigation.getParam('priority')}
+    //   ]
+    // })
+  }
   
-  function onPressButton(title,energy,time,deadline,priority) {
-    const testTask = new Task(title,energy,time,deadline) 
-    alert(testTask.getTitle() + " " + testTask.getEnergyCost() + " " 
-            + testTask.getTimeCost() + " " + testTask.getDeadline() + " " + priority);
-  }
+  
 
-  async function alarmTest(){
-//     Notifications.registerRemoteNotifications();
-  }
+
 
   return (
-    <View style={styles.container}>
-      
-      <TextInput placeholder="Task title input here" 
-      onChangeText={text => setTextIn(text)} style = {styles.textInput}/>
+    <View style = {styles.container}>
+      <View style = {styles.content}>
 
-      <TextInput placeholder="Task energy-cost input here" 
-      onChangeText={energy => setEnergyIn(energy)} style = {styles.textInput}/>
-
-      <TextInput placeholder="Task time-cost input here" 
-      onChangeText={time => setTimeIn(time)} style = {styles.textInput}/>
-
-      <TextInput placeholder="Task deadline input here" 
-      onChangeText={deadline => setDeadlineIn(deadline)} style = {styles.textInput}/>
-
-      <Picker prompt={"Task priority input here"} selectedValue={priorityIn} 
-        style={styles.defaultPicker} onValueChange={(itemValue,itemIndex) => setPriorityIn(itemValue)}> 
-        <Picker.Item label="High" value = "7"/>
-        <Picker.Item label="Medium" value = "3"/>
-        <Picker.Item label="Low" value = "1"/>
-      </Picker>
-
-      <View style = {styles.buttonView}>
-        <Button onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn); alarmTest();}} 
-        title= 'Click here to display generated task.'>
         
-        </Button>
+
+
+        <View style = {styles.list}>
+
+          <FlatList 
+            data = {tasks}
+            renderItem={({item}) => (
+              <TouchableOpacity>
+                <Text style = {styles.item}>
+                  {item.title}, {item.energyCost}, {item.timeCost}, {item.deadline}, {item.priority}
+                </Text>
+              </TouchableOpacity>
+            )}></FlatList>
+
+        </View>
+
+        <View style = {styles.button}>
+          <Button title = "refresh" onPress = {()=>{
+            setTasks((prevTasks) =>{
+
+              let size = prevTasks.length;
+              return [
+
+                ...prevTasks,
+                {title: navigation.getParam('title'), energyCost: navigation.getParam('energyCost'), 
+                timeCost: navigation.getParam('timeCost'), deadline: navigation.getParam('deadline'), 
+                priority: navigation.getParam('priority'), key: (size + 1).toString()},
+                
+              ];
+            }) 
+          }}>
+          
+          </Button>
+        </View>
+        
+
       </View>
-
-
-	  <StatusBar style="auto" />
     </View>
-  
-  );
+  )
+
 }
+
+
 
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex:1,
+    backgroundColor: "#fff",
   },
 
-  textInput:{
-    height: 50,
-    fontSize: 20,
-    borderWidth:1,
-    padding:10,
-    margin:10,
-    width:400
-    
+  content: {
+    padding:40
+  },
+  list:{
+    marginTop:20
   },
 
-  buttonView:{
-    marginTop:150,
-    fontSize:41
+  button:{
+    marginTop:20
   },
-  
-  defaultPicker:{
-     width: 200,
-     height: 50,
+
+  item:{
+    padding:16,
+    marginTop:16,
+    borderColor: "#bbb",
+    borderWidth: 1,
+    borderStyle: "dashed",
+    borderRadius: 10
   }
-});
+
+})

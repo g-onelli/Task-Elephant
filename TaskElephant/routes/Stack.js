@@ -1,7 +1,8 @@
 import { createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import Welcome from '../screens/Welcome';
-import ShowTasks from '../screens/ShowTasks';
+import CreateTask from '../screens/CreateTask';
+import Show from "../screens/ShowTasks";
 
 
 const screens = {
@@ -10,9 +11,13 @@ const screens = {
         screen: Welcome
     },
 
-    Tasks:{
-        screen: ShowTasks
+    Create:{
+        screen: CreateTask
     },
+
+    Show: {
+        screen: Show
+    }
 
 
 }
