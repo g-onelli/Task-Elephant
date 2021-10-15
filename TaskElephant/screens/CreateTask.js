@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import { StyleSheet, Text, ScrollView,View, TextInput, Button, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, ScrollView,View, TextInput, Button, TouchableOpacity } from 'react-native';
 import TaskItem from '../components/TaskItem';
 
 // import {Notifications} from 'react-native-notifications';
 import {Picker} from '@react-native-picker/picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Task from '../Task';
 import { FlatList } from 'react-native-gesture-handler';
@@ -25,13 +26,109 @@ export default function CreateTask({navigation}) {
 
   ]);
 
+  const saveTask = async (inpTask) => {
+    /* Takes a Task object user input and attempts to store it in AsyncStorage. 
+        Inputs: inpTask (Task)
+        Outputs: None
+    */
+    try{
+      const input = JSON.stringify(inpTask);
+//      console.log("JSON: " + input);
+      var tasks = await AsyncStorage.getItem("Tasks");
+      if (tasks == null){
+        tasks = input
+      }
+      else{
+        tasks += "\n" + input;
+      }
+ //     console.log("Saved tasks: " + tasks);
+      await AsyncStorage.setItem("Tasks",tasks);
+      console.log("Tasks set");
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
 
+  const getAllTasks = async() => {
+    /* Returns an array of Task objects stored in AsyncStorage. 
+        Inputs: None
+        Outputs: taskArray(Task[])
+    */
+    try{
+      var tasks = await AsyncStorage.getItem("Tasks");
+//      console.log(tasks);
+      let taskArray = [];
+      if (tasks == null){
+        return taskArray;
+      }
+      console.log("Saved tasks: ");
+      if (tasks.includes("\n")){
+        tasks = tasks.split("\n");
+      } 
+      else{
+        tasks = [tasks];
+      }
+
+      for (var i in tasks){
+        if(tasks[i] == ""){
+          continue;
+        }
+        var storedTask = JSON.parse(tasks[i]);
+        storedTask = new Task(storedTask["title"],storedTask["energyCost"],storedTask["timeCost"],storedTask["deadline"],storedTask["priority"])
+        console.log(storedTask);
+        taskArray.push(storedTask);
+      }
+      return taskArray;
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+
+  const removeTask = async (inpTask) => {
+    /* Takes a Task object user input and attempts to remove it from AsyncStorage. 
+        Inputs: inpTask (Task)
+        Outputs: None
+    */
+    var taskArray = await getAllTasks();
+    if (taskArray.length == 0){
+      return;
+    }
+//    console.log(taskArray);
+
+    for (var i = 0; i < taskArray.length; i++){
+//      console.log(inpTask.compareTasks(taskArray[i]));
+      if (inpTask.compareTasks(taskArray[i])){
+        console.log("Found and removing task...");
+        taskArray.splice(taskArray.indexOf(inpTask), 1);
+        i--;  
+      }      
+    }
+    var storedTasks = null;
+    taskArray.forEach(task => {
+      if (storedTasks == null){
+       storedTasks = JSON.stringify(task);
+      }
+      else{
+        storedTasks += "\n"  + JSON.stringify(task);
+      }
+    }); 
+    if (storedTasks == null){
+      await AsyncStorage.removeItem("Tasks")
+    }
+    else{
+      await AsyncStorage.setItem("Tasks",storedTasks);  
+    }
+    console.log("Task Removed");
+  }
   
   function onPressButton(title,energy,time,deadline,priority) {
-    const testTask = new Task(title,energy,time,deadline) 
+    const testTask = new Task(title,energy,time,deadline,priority); 
     // alert(testTask.getTitle() + " " + testTask.getEnergyCost() + " " 
     //         + testTask.getTimeCost() + " " + testTask.getDeadline() + " " + priority);
-
+    saveTask(testTask);
+    console.log(getAllTasks());
     setTasks((prevTasks) =>{
       return [
         ...prevTasks,
@@ -89,7 +186,13 @@ export default function CreateTask({navigation}) {
       <View style = {styles.buttonView}>
         <Button onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn); alarmTest();}} 
         title= 'Click here to display generated task.'>
-        
+        </Button>
+
+        {/* Button is present here for demonstrating the new function. 
+            Please remove once function is properly implemented. */}
+
+        <Button onPress={() => {removeTask(new Task(textIn,energyIn,timeIn,deadlineIn,priorityIn));}} 
+          title= 'Click here to remove task with matching info.'>
         </Button>
       </View>
 
@@ -144,8 +247,7 @@ const styles = StyleSheet.create({
   
   defaultPicker:{
      width: 200,
-     height: 50,
-     marginTop: -40
+     height: 50
      
   },
 
