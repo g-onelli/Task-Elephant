@@ -2,10 +2,23 @@ import React from 'react';
 
 import { StyleSheet, View, Text,Button } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function Welcome({navigation}){
 
-
-
+  const getAllTasks = async() => {
+    /* Returns an array of Task objects stored in AsyncStorage. 
+        Inputs: None
+        Outputs: taskArray(Task[])
+    */
+    try{
+      var tasks = await AsyncStorage.getItem("Tasks");
+      console.log("Previously saved tasks: " + tasks);
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
 
     const pressHandler = () => {
         navigation.navigate('Create');
@@ -14,8 +27,7 @@ export default function Welcome({navigation}){
     
 
 
-
-
+    getAllTasks();
     return (
 
 

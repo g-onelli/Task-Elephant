@@ -144,8 +144,7 @@ const styles = StyleSheet.create({
   
   defaultPicker:{
      width: 200,
-     height: 50,
-     marginTop:-40
+     height: 50
      
   },
 
