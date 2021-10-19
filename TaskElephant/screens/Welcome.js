@@ -20,40 +20,40 @@ export default function Welcome({navigation}){
     }
   }
 
-    const pressHandler = () => {
-        navigation.navigate('Create');
-    }
+  const pressHandler = () => {
+      navigation.navigate('Create');
+  }
 
     
 
 
-    getAllTasks();
-    return (
+  getAllTasks();
+  return (
 
 
-        <View style = {styles.container}>
-            <Text style = {
-                {
-                    padding:20
-                }
-            }>
-                Welcome to
-            </Text>
+      <View style = {styles.container}>
+          <Text style = {
+              {
+                  padding:20
+              }
+          }>
+              Welcome to
+          </Text>
 
-            <Text style = {styles.name}>
-                Task Elephant
-            </Text>
-
-
-            <Button title = 'Create a task' onPress = {pressHandler} style = {styles.button}>
-
-            </Button>
-
-            
+          <Text style = {styles.name}>
+              Task Elephant
+          </Text>
 
 
-        </View>
-    )
+          <Button title = 'Create a task' onPress = {pressHandler} style = {styles.button}>
+
+          </Button>
+
+          
+
+
+      </View>
+  )
         
 
 }
