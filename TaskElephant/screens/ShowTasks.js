@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 
 import { StyleSheet, View, Text, Button, FlatList, TouchableOpacity, ScrollView, RefreshControlBase } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import Task from '../Task';
+
 export default function ShowTasks({navigation}){
 
 
@@ -12,16 +16,75 @@ export default function ShowTasks({navigation}){
 
 
 
-  const refresh = () =>{
-    // setTasks((prevTasks) =>{
-    //   return [
-    //     ...prevTasks,
-    //     {title: navigation.getParam('title'), energyCost: navigation.getParam('energyCost'), 
-    //     timeCost: navigation.getParam('timeCost'), deadline: navigation.getParam('deadline'), priority: navigation.getParam('priority')}
-    //   ]
-    // })
+  async function getAllTasks() {
+    /* Returns an array of Task objects stored in AsyncStorage. 
+        Inputs: None
+        Outputs: taskArray(Task[])
+    */
+    try{
+      var tasks = await AsyncStorage.getItem("Tasks");
+//      console.log(tasks);
+      let taskArray = [];
+      if (tasks == null){
+        return taskArray;
+      }
+      console.log("Saved tasks: ");
+      if (tasks.includes("\n")){
+        tasks = tasks.split("\n");
+      } 
+      else{
+        tasks = [tasks];
+      }
+
+      for (var i in tasks){
+        if(tasks[i] == ""){
+          continue;
+        }
+        var storedTask = JSON.parse(tasks[i]);
+        storedTask = new Task(
+          storedTask["title"],
+          storedTask["energyCost"],
+          storedTask["timeCost"],
+          storedTask["deadline"],
+          storedTask["priority"],
+          storedTask["key"]
+        )
+        console.log(storedTask);
+        taskArray.push(storedTask);
+      }
+      return taskArray;
+    }
+    catch(error){
+      console.log(error)
+    }
   }
+
+  async function start(){
+    try{
+      const allTasks = await getAllTasks();
+      // console.log(allTasks);
+
+      setTasks(allTasks);
+      console.log(1);
+
+      return allTasks;
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+
   
+
+
+  // const data = start();
+  // console.log(data);
+
+
+
+
+  // let allTasks = 0;
+  // const allTasks = await getAllTasks();
   
 
 
@@ -30,7 +93,11 @@ export default function ShowTasks({navigation}){
     <View style = {styles.container}>
       <View style = {styles.content}>
 
-        
+      <View style = {styles.button}>
+        <Button onPress={() => {start()}} 
+        title= 'refresh'>
+        </Button>
+      </View>
 
 
         <View style = {styles.list}>
@@ -47,30 +114,19 @@ export default function ShowTasks({navigation}){
 
         </View>
 
-        <View style = {styles.button}>
-          <Button title = "refresh" onPress = {()=>{
-            setTasks((prevTasks) =>{
-
-              let size = prevTasks.length;
-              return [
-
-                ...prevTasks,
-                {title: navigation.getParam('title'), energyCost: navigation.getParam('energyCost'), 
-                timeCost: navigation.getParam('timeCost'), deadline: navigation.getParam('deadline'), 
-                priority: navigation.getParam('priority'), key: (size + 1).toString()},
-                
-              ];
-            }) 
-          }}>
-          
-          </Button>
-        </View>
+        
         
 
       </View>
     </View>
   )
 
+
+  
+
+  
+
+  
 }
 
 
@@ -90,7 +146,7 @@ const styles = StyleSheet.create({
   },
 
   button:{
-    marginTop:20
+    marginBottom:20
   },
 
   item:{
