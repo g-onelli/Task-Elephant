@@ -75,7 +75,14 @@ export default function CreateTask({navigation}) {
           continue;
         }
         var storedTask = JSON.parse(tasks[i]);
-        storedTask = new Task(storedTask["title"],storedTask["energyCost"],storedTask["timeCost"],storedTask["deadline"],storedTask["priority"])
+        storedTask = new Task(
+          storedTask["title"],
+          storedTask["energyCost"],
+          storedTask["timeCost"],
+          storedTask["deadline"],
+          storedTask["priority"],
+          storedTask["key"]
+        )
         console.log(storedTask);
         taskArray.push(storedTask);
       }
@@ -123,19 +130,31 @@ export default function CreateTask({navigation}) {
     console.log("Task Removed");
   }
   
-  function onPressButton(title,energy,time,deadline,priority) {
-    const testTask = new Task(title,energy,time,deadline,priority); 
+
+
+
+
+  async function onPressButton(title,energy,time,deadline,priority) {
+
+
+    let allTasks = await getAllTasks();
+    
+
+    const testTask = new Task(title,energy,time,deadline,priority,(allTasks.length+1).toString()); 
     // alert(testTask.getTitle() + " " + testTask.getEnergyCost() + " " 
     //         + testTask.getTimeCost() + " " + testTask.getDeadline() + " " + priority);
-    saveTask(testTask);
-    console.log(getAllTasks());
-    setTasks((prevTasks) =>{
-      return [
-        ...prevTasks,
-        {title: testTask.getTitle(), energyCost: testTask.getEnergyCost(), timeCost: testTask.getTimeCost(),
-        deadline: testTask.getDeadline(), priority: priority, key: prevTasks.length.toString()}
-      ]
-    })
+    await saveTask(testTask);
+    // console.log(await getAllTasks());
+
+    navigation.navigate("Show");
+
+    // setTasks((prevTasks) =>{
+    //   return [
+    //     ...prevTasks,
+    //     {title: testTask.getTitle(), energyCost: testTask.getEnergyCost(), timeCost: testTask.getTimeCost(),
+    //     deadline: testTask.getDeadline(), priority: priority, key: prevTasks.length.toString()}
+    //   ]
+    // })
 
 
 
@@ -201,7 +220,7 @@ export default function CreateTask({navigation}) {
 
 
 
-      <View style = {styles.list}>
+      {/* <View style = {styles.list}>
 
         <FlatList
         data = {tasks}
@@ -211,7 +230,7 @@ export default function CreateTask({navigation}) {
           
         </FlatList>
         
-      </View>
+      </View> */}
 
 
     </View>

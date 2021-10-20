@@ -1,14 +1,15 @@
 import React, {useState} from 'react'
 
 class Task{
-	constructor(title,energyCost,timeCost,deadline,priority){
+	constructor(title,energyCost,timeCost,deadline,priority,key){
 		this.title = title;
 		this.energyCost = energyCost;
 		this.timeCost = timeCost;
 		this.deadline = deadline;
 
 //		"Priority is something that the user should not be able to directly set. Unsure yet how it will be calculated, will modify later."
-		this.priority = priority
+		this.priority = priority;
+		this.key = key;
 
 	}
 
@@ -37,6 +38,10 @@ class Task{
 	}
 	setDeadline(deadline){
 		this.deadline = deadline
+	}
+
+	setKey(key){
+		this.key = key;
 	}
 
 // "Comparison methods for checking if two tasks match."
