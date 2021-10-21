@@ -6,24 +6,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Task from '../Task';
 
-export default function ShowTasks({navigation}){
 
 
 
-  const [tasks, setTasks] = useState([
-    // {title:1, energyCost:2,timeCost:3, deadline:4,priority:5 ,key:"1"}
-  ])
+class ShowTasks extends React.Component{
+  state = {
+    tasks:[]
+  }
 
-
-
-  async function getAllTasks() {
+  async componentDidMount() {
     /* Returns an array of Task objects stored in AsyncStorage. 
         Inputs: None
         Outputs: taskArray(Task[])
     */
     try{
       var tasks = await AsyncStorage.getItem("Tasks");
-//      console.log(tasks);
+      // console.log(tasks);
       let taskArray = [];
       if (tasks == null){
         return taskArray;
@@ -35,7 +33,7 @@ export default function ShowTasks({navigation}){
       else{
         tasks = [tasks];
       }
-
+  
       for (var i in tasks){
         if(tasks[i] == ""){
           continue;
@@ -49,86 +47,205 @@ export default function ShowTasks({navigation}){
           storedTask["priority"],
           storedTask["key"]
         )
+  
+        let newTaskObj = {
+          title: storedTask.getTitle(),
+          energyCost: storedTask.getEnergyCost(),
+          timeCost: storedTask.getTimeCost(),
+          deadline: storedTask.getDeadline(),
+          priority: storedTask.getPriority()
+        }
         console.log(storedTask);
         taskArray.push(storedTask);
       }
-      return taskArray;
+
+      this.setState({tasks: taskArray});
+      // return taskArray;
     }
     catch(error){
       console.log(error)
     }
   }
 
-  async function start(){
-    try{
-      const allTasks = await getAllTasks();
-      // console.log(allTasks);
 
-      setTasks(allTasks);
-      console.log(1);
-
-      return allTasks;
-    }
-    catch(e){
-      console.log(e);
-    }
-  }
-
+  render(){
+    return (
+      <View style = {styles.container}>
+        <View style = {styles.content}>
   
-
-
-  // const data = start();
-  // console.log(data);
-
-
-
-
-  // let allTasks = 0;
-  // const allTasks = await getAllTasks();
+       
   
-
-
-
-  return (
-    <View style = {styles.container}>
-      <View style = {styles.content}>
-
-      <View style = {styles.button}>
-        <Button onPress={() => {start()}} 
-        title= 'refresh'>
-        </Button>
-      </View>
-
-
-        <View style = {styles.list}>
-
-          <FlatList 
-            data = {tasks}
-            renderItem={({item}) => (
-              <TouchableOpacity>
-                <Text style = {styles.item}>
-                  {item.title}, {item.energyCost}, {item.timeCost}, {item.deadline}, {item.priority}
-                </Text>
-              </TouchableOpacity>
-            )}></FlatList>
-
+  
+          <View style = {styles.list}>
+  
+            <FlatList 
+              data = {this.state.tasks}
+              renderItem={({item}) => (
+                <TouchableOpacity>
+                  <Text style = {styles.item}>
+                    {item.getTitle()}, {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()}
+                    {/* {typeof item} */}
+                  </Text>
+                </TouchableOpacity>
+              )}></FlatList>
+  
+          </View>
+  
+          
+          
+  
         </View>
-
-        
-        
-
       </View>
-    </View>
-  )
-
-
-  
-
-  
-
-  
+    )
+  }
 }
 
+
+// function ShowTasks({navigation}){
+
+
+
+//   const [tasks, setTasks] = useState([
+//     // {title:1, energyCost:2,timeCost:3, deadline:4,priority:5 ,key:"1"}
+//   ])
+
+  
+//   async function getAllTasks() {
+//     /* Returns an array of Task objects stored in AsyncStorage. 
+//         Inputs: None
+//         Outputs: taskArray(Task[])
+//     */
+//     try{
+//       var tasks = await AsyncStorage.getItem("Tasks");
+//   //      console.log(tasks);
+//       let taskArray = [];
+//       if (tasks == null){
+//         return taskArray;
+//       }
+//       console.log("Saved tasks: ");
+//       if (tasks.includes("\n")){
+//         tasks = tasks.split("\n");
+//       } 
+//       else{
+//         tasks = [tasks];
+//       }
+  
+//       for (var i in tasks){
+//         if(tasks[i] == ""){
+//           continue;
+//         }
+//         var storedTask = JSON.parse(tasks[i]);
+//         storedTask = new Task(
+//           storedTask["title"],
+//           storedTask["energyCost"],
+//           storedTask["timeCost"],
+//           storedTask["deadline"],
+//           storedTask["priority"],
+//           storedTask["key"]
+//         )
+  
+//         let newTaskObj = {
+//           title: storedTask.getTitle(),
+//           energyCost: storedTask.getEnergyCost(),
+//           timeCost: storedTask.getTimeCost(),
+//           deadline: storedTask.getDeadline(),
+//           priority: storedTask.getPriority()
+//         }
+//         console.log(storedTask);
+//         taskArray.push(storedTask);
+//       }
+
+//       setTasks(taskArray);
+//       return taskArray;
+//     }
+//     catch(error){
+//       console.log(error)
+//     }
+//   }
+
+  
+
+//   // async function start(){
+//   //   try{
+//   //     const allTasks = await getAllTasks();
+      
+//   //     data2 = allTasks;
+
+//   //     console.log(data2.length);
+
+//   //     return;
+//   //   }
+//   //   catch(e){
+//   //     console.log(e);
+//   //   }
+//   // }
+
+//   // start();
+//   // console.log(data2.length);
+
+  
+  
+//   // console.log(data);
+
+//   // const data = start();
+//   // console.log(data);
+
+
+//   // let data2 = await getAllTasks(); 
+
+//   // let allTasks = 0;
+//   // const allTasks = await getAllTasks();
+  
+//   let data3 = [{
+//     "deadline": "NaN",
+//     "energyCost": -1,
+//     "key": "1",
+//     "priority": 7,
+//     "timeCost": -1,
+//     "title": "NaN"
+//   },]
+
+//   // console.log(data3[0]);
+
+
+  
+
+
+//   return (
+//     <View style = {styles.container}>
+//       <View style = {styles.content}>
+
+//       <View style = {styles.button}>
+//         <Button onPress={() => {start()}} 
+//         title= 'refresh'>
+//         </Button>
+//       </View>
+
+
+//         <View style = {styles.list}>
+
+//           <FlatList 
+//             data = {tasks}
+//             renderItem={({item}) => (
+//               <TouchableOpacity>
+//                 <Text style = {styles.item}>
+//                   {/* {item.getTitle()}, {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
+//                   {typeof item}
+//                 </Text>
+//               </TouchableOpacity>
+//             )}></FlatList>
+
+//         </View>
+
+        
+        
+
+//       </View>
+//     </View>
+//   )
+// }
+
+export default ShowTasks;
 
 
 
