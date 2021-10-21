@@ -23,7 +23,10 @@ class Task{
 		return this.timeCost;
 	}
 	getDeadline(){
-		return this.deadline
+		return this.deadline;
+	}
+	getPriority(){
+		return this.priority;
 	}
 
 //	"Set methods should be used for editing values, either from user choice or by partial task completion."
