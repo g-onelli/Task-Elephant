@@ -5,6 +5,7 @@ import { StyleSheet, View, Text, Button, FlatList, TouchableOpacity, ScrollView,
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Task from '../Task';
+import TaskStore from '../TaskStore'
 
 
 
@@ -44,8 +45,9 @@ class ShowTasks extends React.Component{
           storedTask["energyCost"],
           storedTask["timeCost"],
           storedTask["deadline"],
-          storedTask["priority"],
-          storedTask["key"]
+          storedTask["basePriority"],
+          storedTask["key"],
+          storedTask["startDate"]
         )
   
         let newTaskObj = {

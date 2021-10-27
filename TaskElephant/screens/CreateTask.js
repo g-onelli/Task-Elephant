@@ -1,18 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import {StyleSheet, Text, ScrollView,View, TextInput, Button, TouchableOpacity } from 'react-native';
-import TaskItem from '../components/TaskItem';
 
 // import {Notifications} from 'react-native-notifications';
 import {Picker} from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FlatList } from 'react-native-gesture-handler';
 
 import Task from '../Task';
-import { FlatList } from 'react-native-gesture-handler';
+import TaskItem from '../components/TaskItem';
+import TaskStore from '../TaskStore';
+
 
 export default function CreateTask({navigation}) {
 // [1,2] = useState is a variable declaration. 1 is the 'get' method, 2 is the 'set' method.    
-  const [textIn, setTextIn] = useState("NaN");
+  const [textIn, setTextIn] = useState("Null");
   const [energyIn, setEnergyIn] = useState(-1);
   const [timeIn, setTimeIn] = useState(-1);
   const [deadlineIn, setDeadlineIn] = useState("NaN");
@@ -26,124 +28,47 @@ export default function CreateTask({navigation}) {
 
   ]);
 
-  const saveTask = async (inpTask) => {
-    /* Takes a Task object user input and attempts to store it in AsyncStorage. 
-        Inputs: inpTask (Task)
-        Outputs: None
-    */
-    try{
-      const input = JSON.stringify(inpTask);
-//      console.log("JSON: " + input);
-      var tasks = await AsyncStorage.getItem("Tasks");
-      if (tasks == null){
-        tasks = input
-      }
-      else{
-        tasks += "\n" + input;
-      }
- //     console.log("Saved tasks: " + tasks);
-      await AsyncStorage.setItem("Tasks",tasks);
-      console.log("Tasks set");
-    }
-    catch(error){
-      console.log(error);
-    }
-  }
-
-  const getAllTasks = async() => {
-    /* Returns an array of Task objects stored in AsyncStorage. 
-        Inputs: None
-        Outputs: taskArray(Task[])
-    */
-    try{
-      var tasks = await AsyncStorage.getItem("Tasks");
-//      console.log(tasks);
-      let taskArray = [];
-      if (tasks == null){
-        return taskArray;
-      }
-      console.log("Saved tasks: ");
-      if (tasks.includes("\n")){
-        tasks = tasks.split("\n");
-      } 
-      else{
-        tasks = [tasks];
-      }
-
-      for (var i in tasks){
-        if(tasks[i] == ""){
-          continue;
-        }
-        var storedTask = JSON.parse(tasks[i]);
-        storedTask = new Task(
-          storedTask["title"],
-          storedTask["energyCost"],
-          storedTask["timeCost"],
-          storedTask["deadline"],
-          storedTask["priority"],
-          storedTask["key"]
-        )
-        console.log(storedTask);
-        taskArray.push(storedTask);
-      }
-      return taskArray;
-    }
-    catch(error){
-      console.log(error)
-    }
-  }
-
-  const removeTask = async (inpTask) => {
-    /* Takes a Task object user input and attempts to remove it from AsyncStorage. 
-        Inputs: inpTask (Task)
-        Outputs: None
-    */
-    var taskArray = await getAllTasks();
-    if (taskArray.length == 0){
+   function initTask(title,energy,time,deadline,priority){
+     //  "Basic Input sanitiation, if field does not match expected value throw an alert and return."
+    if (energy < 0 || energy > 100 || isNaN(parseInt(energy))){
+      alert("Error: " + energy + " not a valid energy cost value. [0 - 100]");
       return;
     }
-//    console.log(taskArray);
 
-    for (var i = 0; i < taskArray.length; i++){
-//      console.log(inpTask.compareTasks(taskArray[i]));
-      if (inpTask.compareTasks(taskArray[i])){
-        console.log("Found and removing task...");
-        taskArray.splice(taskArray.indexOf(inpTask), 1);
-        i--;  
-      }      
+//  "Time cost value must be limited, or we'll run into issues regarding 
+//    time cost values too large to fit in a schedule, or possibly even a day.  "
+    if (time < 0 || time > 180 || isNaN(parseInt(time))){
+      alert("Error: " + energy + " not a valid time cost value. [0 - 180]");
+      return;
     }
-    var storedTasks = null;
-    taskArray.forEach(task => {
-      if (storedTasks == null){
-       storedTasks = JSON.stringify(task);
-      }
-      else{
-        storedTasks += "\n"  + JSON.stringify(task);
-      }
-    }); 
-    if (storedTasks == null){
-      await AsyncStorage.removeItem("Tasks")
+
+    if (deadline != "NaN" && deadline < Date.now()){
+      alert("Error: Deadline is set before present time.")
+      return;
     }
-    else{
-      await AsyncStorage.setItem("Tasks",storedTasks);  
+
+    if (isNaN(parseInt(deadline)) && deadline != "NaN"){
+      alert("Error: " + deadline + " not a valid date.");
     }
-    console.log("Task Removed");
-  }
-  
 
+    if (deadline == "NaN") priority += 1;
+//  "Until a Date picker is implemented, this will be set to a 'default' deadline 1 week away."  
+    else date = Date.now + 1000 * 60 * 60 * 24 * 7
+    console.log("TimeCost: " + time);
+//  "Time Cost should be a positive integer of minutes."    
+    time *=  1000 * 60;
+    return new Task(title,energy,time,deadline,priority);
+   }
 
+   async function onPressButton(title,energy,time,deadline,priority) {
 
+    var testTask = initTask(title,energy,time,deadline,priority);
+    let allTasks = await TaskStore.getAllTasks();
+    testTask.setKey((allTasks.length+1).toString());
 
-  async function onPressButton(title,energy,time,deadline,priority) {
-
-
-    let allTasks = await getAllTasks();
-    
-
-    const testTask = new Task(title,energy,time,deadline,priority,(allTasks.length+1).toString()); 
     // alert(testTask.getTitle() + " " + testTask.getEnergyCost() + " " 
     //         + testTask.getTimeCost() + " " + testTask.getDeadline() + " " + priority);
-    await saveTask(testTask);
+    await TaskStore.saveTask(testTask);
     // console.log(await getAllTasks());
 
     navigation.navigate("Show");
@@ -165,7 +90,7 @@ export default function CreateTask({navigation}) {
 
 
   function remove(key){
-    setTasks((prevTasks) =>{
+    TaskStore.setTasks((prevTasks) =>{
       return prevTasks.filter(task => task.key != key);
     })
   }
@@ -210,7 +135,7 @@ export default function CreateTask({navigation}) {
         {/* Button is present here for demonstrating the new function. 
             Please remove once function is properly implemented. */}
 
-        <Button onPress={() => {removeTask(new Task(textIn,energyIn,timeIn,deadlineIn,priorityIn));}} 
+        <Button onPress={() => {TaskStore.removeTask(initTask(textIn,energyIn,timeIn,deadlineIn,priorityIn));}} 
           title= 'Click here to remove task with matching info.'>
         </Button>
       </View>

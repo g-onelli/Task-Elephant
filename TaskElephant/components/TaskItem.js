@@ -4,10 +4,11 @@ import { StyleSheet, Text,TouchableOpacity } from 'react-native';
 
 
 export default function TaskItem({item, pressHandler}){
-
+    if (item.deadline == "NaN") deadlineText = time; 
+    else deadlineText = Date.getMonth(item.deadline) + "/" + Date.getDay(item.deadline) + "/" + Date.getYear(item.deadline)
     return(
         <TouchableOpacity onPress = {() => pressHandler(item.key)}>
-            <Text style = {styles.item}>{item.title}, {item.energyCost}, {item.timeCost}, {item.deadline}, {item.priority}</Text>
+            <Text style = {styles.item}>{item.getTitle()}, {item.getEnergyCost()}, {item.getTimeCost()}, {item.deadline}, {item.getPriority()}</Text>
         </TouchableOpacity>
     )
 }

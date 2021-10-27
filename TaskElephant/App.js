@@ -4,24 +4,12 @@ import { StyleSheet, Text, View, Image, SafeAreaView} from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 import Navigator from './routes/Stack';
+import {clearTasks} from './TaskStore';
 
 export default function App() {
 
-  const clearTasks = async() => {
-      /* Removes all Task objects stored in AsyncStorage. Run to reset stored data between sessions. 
-        Inputs: None
-        Outputs: None
-    */
-      try{
-          await AsyncStorage.removeItem("Tasks");
-          console.log("Tasks Reset");
-      }
-      catch(error){
-          console.log(error)
-      }
-  }
+  
 
   clearTasks();
 
