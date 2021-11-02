@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Task from '../Task';
 import TaskStore from '../TaskStore'
+import { StackRouter } from 'react-navigation';
+import {NavigationEvents} from 'react-navigation';
 
 
 
@@ -62,20 +64,34 @@ class ShowTasks extends React.Component{
       }
 
       this.setState({tasks: taskArray});
+      
+
+
       // return taskArray;
     }
     catch(error){
       console.log(error)
     }
+
+    this.props.navigation.addListener('focus', () => {
+      // do something
+      this.setState({tasks: taskArray});
+    });
   }
 
+  // async componentWillUnmount() {
+  //   this.unsubscribe();
+  // }
+  
 
   render(){
     return (
+      
+    
       <View style = {styles.container}>
         <View style = {styles.content}>
   
-       
+          <NavigationEvents onDidFocus={() => this.componentDidMount()} />
   
   
           <View style = {styles.list}>
@@ -85,11 +101,12 @@ class ShowTasks extends React.Component{
               renderItem={({item}) => (
                 <TouchableOpacity>
                   <Text style = {styles.item}>
-                    {item.getTitle()}, {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()}
+                    {item.getTitle()}
+                    {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                     {/* {typeof item} */}
                   </Text>
                 </TouchableOpacity>
-              )}></FlatList>
+              )}>{this.props.isFocused ? 'Focused' : 'Not focused'}</FlatList> 
   
           </View>
   
@@ -258,9 +275,11 @@ const styles = StyleSheet.create({
   },
 
   content: {
+    flex:1,
     padding:40
   },
   list:{
+    flex:1,
     marginTop:20
   },
 
@@ -274,7 +293,8 @@ const styles = StyleSheet.create({
     borderColor: "#bbb",
     borderWidth: 1,
     borderStyle: "dashed",
-    borderRadius: 10
+    borderRadius: 10,
+    textAlign:'center'
   }
 
 })
