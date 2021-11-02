@@ -129,7 +129,7 @@ export default function CreateTask({navigation}) {
 
       <View style = {styles.buttonView}>
         <Button onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn); alarmTest();}} 
-        title= 'Click here to display generated task.'>
+        title= 'Save'>
         </Button>
 
         {/* Button is present here for demonstrating the new function. 
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
 
   buttonView:{
-    marginTop:125,
+    marginTop:150,
     fontSize:40
   },
   

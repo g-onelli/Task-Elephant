@@ -49,7 +49,7 @@ class Task{
 		const totalTime = this.deadline - this.startDate;
 		const timeRemaining = totalTime - timeElapsed;
 
-		const elapsePriority = 0;
+		let elapsePriority = 0;
 		const timeCostPrioity = 0;
 		const c_Prio2 = 8;
 		

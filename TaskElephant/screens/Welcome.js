@@ -21,7 +21,7 @@ export default function Welcome({navigation}){
   }
 
   const pressHandler = () => {
-      navigation.navigate('Create');
+      navigation.navigate('Show');
   }
 
     
