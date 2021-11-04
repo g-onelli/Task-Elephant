@@ -1,11 +1,12 @@
 import { createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
+import React from 'react';
+
 import Welcome from '../screens/Welcome';
 import CreateTask from '../screens/CreateTask';
 import Show from "../screens/ShowTasks";
 import Header from "../components/header";
-import React from 'react';
-
+import EnergyDay from "../screens/EnergyDay";
 
 const screens = {
 
@@ -13,6 +14,13 @@ const screens = {
         screen: Welcome,
         navigationOptions:{
             title: 'Home'
+        }
+    },
+
+    EnergyDay:{
+        screen:EnergyDay,
+        navigationOptions:{
+            title: 'Set Daily Energy'
         }
     },
 
