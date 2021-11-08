@@ -17,6 +17,23 @@ class ShowTasks extends React.Component{
     tasks:[]
   }
 
+
+  sort(arr){
+    let n = arr.length;
+    for (let i =0; i< n-1; i++){
+      for (let j = 0; j< n-i-1; j ++){
+        if (arr[j].getBasePriority()< arr[j+1].getBasePriority()){
+          let temp = arr[j];
+          arr[j] = arr[j+1];
+          arr[j+1] = temp;
+        }
+      }
+    }
+  }
+
+  
+
+
   async componentDidMount() {
     /* Returns an array of Task objects stored in AsyncStorage. 
         Inputs: None
@@ -63,9 +80,11 @@ class ShowTasks extends React.Component{
         taskArray.push(storedTask);
       }
 
+      this.sort(taskArray);
+
       this.setState({tasks: taskArray});
       
-
+      // console.log(taskArray[0].getBasePriority());
 
       // return taskArray;
     }
@@ -87,21 +106,28 @@ class ShowTasks extends React.Component{
   render(){
     return (
       
-    
       <View style = {styles.container}>
+      <NavigationEvents onDidFocus={() => this.componentDidMount()} />
+
+      {this.state.tasks.length === 0 ?
+        <View style = {styles.empty}>
+        <Text style = {styles.startText}>You don't have any task yet</Text>
+        </View>
+        :
         <View style = {styles.content}>
   
-          <NavigationEvents onDidFocus={() => this.componentDidMount()} />
+          
   
+          
   
           <View style = {styles.list}>
   
             <FlatList 
               data = {this.state.tasks}
               renderItem={({item}) => (
-                <TouchableOpacity>
+                <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingle", item)}}>
                   <Text style = {styles.item}>
-                    {item.getTitle()}
+                    {item.getTitle()}, {item.getBasePriority()}
                     {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                     {/* {typeof item} */}
                   </Text>
@@ -113,7 +139,7 @@ class ShowTasks extends React.Component{
           
           
   
-        </View>
+        </View>}
       </View>
     )
   }
@@ -285,6 +311,24 @@ const styles = StyleSheet.create({
 
   button:{
     marginBottom:20
+  },
+
+  empty:{
+    // flex:1,
+    // alignItems: 'center',
+    // justifyContent: 'center'
+
+    position:'absolute',
+    justifyContent:'center',
+    alignItems: 'center',
+    top: 0, left: 0, 
+    right: 0, bottom: 0, 
+    
+  },
+
+  startText:{
+    color:'#9D9B9C',
+    fontSize: 18
   },
 
   item:{

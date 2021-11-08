@@ -50,7 +50,7 @@ class Task{
 		const timeRemaining = totalTime - timeElapsed;
 
 		let elapsePriority = 0;
-		const timeCostPrioity = 0;
+		let timeCostPriority = 0;
 		const c_Prio2 = 8;
 		
 		if (timeRemaining <= 0) elapsePriority = c_Prio1;
@@ -64,6 +64,10 @@ class Task{
 		else priority += timeCostPriority;
 
 		return priority;
+	}
+
+	getBasePriority(){
+		return this.basePriority;
 	}
 	getKey(){
 		return this.key;

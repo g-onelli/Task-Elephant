@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, ScrollView,View, TextInput, Button, TouchableOpacity } from 'react-native';
 
 // import {Notifications} from 'react-native-notifications';
@@ -20,6 +20,7 @@ export default function CreateTask({navigation}) {
   const [deadlineIn, setDeadlineIn] = useState("NaN");
   const [priorityIn, setPriorityIn] = useState(7);
 
+  // const [totalTasks, setTotalTask] = useState(0);
 
   const [tasks, setTasks] = useState([
     // {title:1, energyCost:2,timeCost:3, deadline:4,priority:5 ,key:"1"},
@@ -27,6 +28,8 @@ export default function CreateTask({navigation}) {
 
 
   ]);
+
+  let totalTasks = 0;
 
    function initTask(title,energy,time,deadline,priority){
      //  "Basic Input sanitiation, if field does not match expected value throw an alert and return."
@@ -62,9 +65,29 @@ export default function CreateTask({navigation}) {
 
    async function onPressButton(title,energy,time,deadline,priority) {
 
+    
+
     var testTask = initTask(title,energy,time,deadline,priority);
     let allTasks = await TaskStore.getAllTasks();
-    testTask.setKey((allTasks.length+1).toString());
+
+    let totalTasks = await TaskStore.getTotalTaskNum();
+    // testTask.setKey((allTasks.length+1).toString());
+    testTask.setKey((totalTasks + 1).toString());
+
+    await TaskStore.addTotalTaskNum();
+
+
+    
+    // console.log(totalTasks);
+    // testTask.setKey(totalTasks.toString());
+    
+
+    // useEffect(() => {
+    //   setTotalTask(2)
+    // },[])
+
+    // testTask.setKey(totalTasks.toString());
+    
 
     // alert(testTask.getTitle() + " " + testTask.getEnergyCost() + " " 
     //         + testTask.getTimeCost() + " " + testTask.getDeadline() + " " + priority);

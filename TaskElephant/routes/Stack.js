@@ -4,6 +4,7 @@ import Welcome from '../screens/Welcome';
 import CreateTask from '../screens/CreateTask';
 import Show from "../screens/ShowTasks";
 import Header from "../components/header";
+import ShowSingle from "../screens/ShowSingleTask";
 import React from 'react';
 
 
@@ -31,10 +32,14 @@ const screens = {
         navigationOptions:{
             title: 'New Task'
         }
+    },
+
+    ShowSingle: {
+        screen: ShowSingle,
+        navigationOptions:{
+            title: 'View Task'
+        }
     }
-
-    
-
 
 }
 
