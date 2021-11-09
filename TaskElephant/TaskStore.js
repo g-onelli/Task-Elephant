@@ -101,7 +101,7 @@ export const getAllTasks = async() => {
     }
   }
 
-export const removeTask = async (inpTask, navigation) => {
+export const removeTask = async (inpTask) => {
     /* Takes a Task object user input and attempts to remove it from AsyncStorage. 
         Inputs: inpTask (Task)
         Outputs: None
@@ -117,7 +117,7 @@ export const removeTask = async (inpTask, navigation) => {
 //      console.log(inpTask.compareTasks(taskArray[i]));
       if (inpTask.compareTasks(taskArray[i])){
         console.log("Found and removing task...");
-        taskArray.splice(taskArray.indexOf(inpTask), 1);
+        taskArray.splice(i, 1);
         i--;  
       }      
     }

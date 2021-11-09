@@ -44,7 +44,11 @@ class ShowTasks extends React.Component{
       // console.log(tasks);
       let taskArray = [];
       if (tasks == null){
-        return taskArray;
+        // console.log("get empty");
+        // this.render();
+        this.setState({tasks: taskArray});
+        // return taskArray;
+        return;
       }
       console.log("Saved tasks: ");
       if (tasks.includes("\n")){
@@ -83,6 +87,8 @@ class ShowTasks extends React.Component{
       this.sort(taskArray);
 
       this.setState({tasks: taskArray});
+
+      console.log(1);
       
       // console.log(taskArray[0].getBasePriority());
 
@@ -104,6 +110,7 @@ class ShowTasks extends React.Component{
   
 
   render(){
+    // console.log(3333333);
     return (
       
       <View style = {styles.container}>

@@ -12,74 +12,89 @@ import { HeaderTitle } from 'react-navigation-stack';
 
 
 
-class ShowSingleTask extends React.Component{
+// class ShowSingleTask extends React.Component{
 
-    initTask(title,energy,time,deadline,priority){
-        //  "Basic Input sanitiation, if field does not match expected value throw an alert and return."
-       if (energy < 0 || energy > 100 || isNaN(parseInt(energy))){
-         alert("Error: " + energy + " not a valid energy cost value. [0 - 100]");
-         return;
-       }
+export default function ShowSingleTask ({navigation}){
+
+//     initTask(title,energy,time,deadline,priority){
+//         //  "Basic Input sanitiation, if field does not match expected value throw an alert and return."
+//        if (energy < 0 || energy > 100 || isNaN(parseInt(energy))){
+//          alert("Error: " + energy + " not a valid energy cost value. [0 - 100]");
+//          return;
+//        }
    
-   //  "Time cost value must be limited, or we'll run into issues regarding 
-   //    time cost values too large to fit in a schedule, or possibly even a day.  "
-       if (time < 0 || time > 180 || isNaN(parseInt(time))){
-         alert("Error: " + energy + " not a valid time cost value. [0 - 180]");
-         return;
-       }
+//    //  "Time cost value must be limited, or we'll run into issues regarding 
+//    //    time cost values too large to fit in a schedule, or possibly even a day.  "
+//        if (time < 0 || time > 180 || isNaN(parseInt(time))){
+//          alert("Error: " + energy + " not a valid time cost value. [0 - 180]");
+//          return;
+//        }
    
-       if (deadline != "NaN" && deadline < Date.now()){
-         alert("Error: Deadline is set before present time.")
-         return;
-       }
+//        if (deadline != "NaN" && deadline < Date.now()){
+//          alert("Error: Deadline is set before present time.")
+//          return;
+//        }
    
-       if (isNaN(parseInt(deadline)) && deadline != "NaN"){
-         alert("Error: " + deadline + " not a valid date.");
-       }
+//        if (isNaN(parseInt(deadline)) && deadline != "NaN"){
+//          alert("Error: " + deadline + " not a valid date.");
+//        }
    
-       if (deadline == "NaN") priority += 1;
-   //  "Until a Date picker is implemented, this will be set to a 'default' deadline 1 week away."  
-       else date = Date.now + 1000 * 60 * 60 * 24 * 7
-       console.log("TimeCost: " + time);
-   //  "Time Cost should be a positive integer of minutes."    
-       time *=  1000 * 60;
-       return new Task(title,energy,time,deadline,priority);
-      }
+//        if (deadline == "NaN") priority += 1;
+//    //  "Until a Date picker is implemented, this will be set to a 'default' deadline 1 week away."  
+//        else date = Date.now + 1000 * 60 * 60 * 24 * 7
+//        console.log("TimeCost: " + time);
+//    //  "Time Cost should be a positive integer of minutes."    
+//        time *=  1000 * 60;
+//        return new Task(title,energy,time,deadline,priority);
+//     }
     
 
+    async function delete2(){
+        console.log("Deleting task");
+        await TaskStore.removeTask(new Task(
+            navigation.getParam('title'),
+            navigation.getParam('energyCost'),
+            navigation.getParam('timeCost'),
+            navigation.getParam('deadline'),
+            navigation.getParam('basePriority'))
+        );
 
-    render(){
-        return (
+        navigation.navigate('Show');
+    }
+
+    
+    return (
             
             <View style={styles.container}>
-                <Text style = {styles.text}>Title: {this.props.navigation.getParam('title')}</Text>
-                <Text style = {styles.text}>Energy Cost: {this.props.navigation.getParam('energyCost')}</Text>
-                <Text style = {styles.text}>Time Cost: {this.props.navigation.getParam('timeCost')}</Text>
-                <Text style = {styles.text}>Deadline: {this.props.navigation.getParam('deadline')}</Text>
-                <Text style = {styles.text}>Base Priority: {this.props.navigation.getParam('basePriority')}</Text>
-                <Text style = {styles.text}>Start Date: {this.props.navigation.getParam('startDate')}</Text>
+                <Text style = {styles.text}>Title: {navigation.getParam('title')}</Text>
+                <Text style = {styles.text}>Energy Cost: {navigation.getParam('energyCost')}</Text>
+                <Text style = {styles.text}>Time Cost: {navigation.getParam('timeCost')}</Text>
+                <Text style = {styles.text}>Deadline: {navigation.getParam('deadline')}</Text>
+                <Text style = {styles.text}>Base Priority: {navigation.getParam('basePriority')}</Text>
+                <Text style = {styles.text}>Start Date: {navigation.getParam('startDate')}</Text>
                 
                 <View style = {styles.ButtonView}>
-                    <Button color = '#FE4643'onPress={() => {
-                        console.log("Deleting task");
+                    <Button color = '#FE4643'onPress={() =>{
                         TaskStore.removeTask(new Task(
-                        this.props.navigation.getParam('title'),
-                        this.props.navigation.getParam('energyCost'),
-                        this.props.navigation.getParam('timeCost'),
-                        this.props.navigation.getParam('deadline'),
-                        this.props.navigation.getParam('basePriority')));
-                    this.props.navigation.navigate('Show');
+                            navigation.getParam('title'),
+                            navigation.getParam('energyCost'),
+                            navigation.getParam('timeCost'),
+                            navigation.getParam('deadline'),
+                            navigation.getParam('basePriority'))
+                        );
 
-                }} 
+                        console.log(222);
+                        navigation.navigate('Show');
+                    }} 
                         title= 'Delete'>
                     </Button>
                 </View>
             </View>
-        )
-    }
+    )
+    
 }
 
-export default ShowSingleTask;
+// export default ShowSingleTask;
 
 
 const styles = StyleSheet.create({
