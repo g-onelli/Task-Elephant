@@ -101,7 +101,7 @@ export const getAllTasks = async() => {
     }
   }
 
-export const removeTask = async (inpTask, navigation) => {
+export const removeTask = async (inpTask) => {
     /* Takes a Task object user input and attempts to remove it from AsyncStorage. 
         Inputs: inpTask (Task)
         Outputs: None

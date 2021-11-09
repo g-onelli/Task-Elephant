@@ -83,6 +83,8 @@ class ShowTasks extends React.Component{
       this.sort(taskArray);
 
       this.setState({tasks: taskArray});
+
+      console.log(1);
       
       // console.log(taskArray[0].getBasePriority());
 

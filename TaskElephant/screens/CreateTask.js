@@ -55,10 +55,10 @@ export default function CreateTask({navigation}) {
     }
 
     if (deadline == "NaN") priority += 1;
-//  "Until a Date picker is implemented, this will be set to a 'default' deadline 1 week away."  
+ //  "Until a Date picker is implemented, this will be set to a 'default' deadline 1 week away."  
     else date = Date.now + 1000 * 60 * 60 * 24 * 7
     console.log("TimeCost: " + time);
-//  "Time Cost should be a positive integer of minutes."    
+ //  "Time Cost should be a positive integer of minutes."    
     time *=  1000 * 60;
     return new Task(title,energy,time,deadline,priority);
    }
@@ -128,7 +128,7 @@ export default function CreateTask({navigation}) {
 
 
   async function alarmTest(){
-//     Notifications.registerRemoteNotifications();
+ //     Notifications.registerRemoteNotifications();
   }
 
   return (
