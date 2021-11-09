@@ -30,7 +30,32 @@ export const saveTask = async (inpTask) => {
     catch(error){
       console.log(error);
     }
+}
+
+export const addTotalTaskNum = async() => {
+  try{
+    let currentTaskNum = await getTotalTaskNum();
+
+    await AsyncStorage.setItem("TotalTasks", (currentTaskNum + 1).toString());
   }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const getTotalTaskNum = async() => {
+  try{
+    let totalTasks = await AsyncStorage.getItem("TotalTasks");
+    if(totalTasks === null){
+      totalTasks = 0;
+    }
+
+    return parseInt(totalTasks);
+  }
+  catch(e){
+    console.log(e);
+  }
+}
 
 export const getAllTasks = async() => {
     /* Returns an array of Task objects stored in AsyncStorage. 
@@ -76,7 +101,7 @@ export const getAllTasks = async() => {
     }
   }
 
-export const removeTask = async (inpTask) => {
+export const removeTask = async (inpTask, navigation) => {
     /* Takes a Task object user input and attempts to remove it from AsyncStorage. 
         Inputs: inpTask (Task)
         Outputs: None
@@ -182,4 +207,4 @@ export const clearTasks = async() => {
   }
 
 
-export default {componentDidMount, saveTask, getAllTasks, removeTask, clearTasks};
+export default {componentDidMount, saveTask, getAllTasks, removeTask, clearTasks, getTotalTaskNum, addTotalTaskNum};
