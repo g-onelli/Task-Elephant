@@ -95,6 +95,7 @@ class Task{
 
 // "Comparison methods for checking if two tasks match."
 	compareTasks(task){
+//	"Compare two tasks by their defining attributes."
 		/*console.log(this.title == task.title);
 		console.log(this.energyCost == task.energyCost);
 		console.log(this.timeCost == task.timeCost);
@@ -106,9 +107,15 @@ class Task{
 			&& this.deadline == task.deadline 
 			&& this.basePriority == task.basePriority)
 	}
-	compareKeys(task){
+	compareTaskKeys(task){
+// "Compare two tasks by their key."		
 		return (this.key == task.key);
 	}
+	compareKeys(key){
+// "Compare a task with an input key."
+		return(this.key == key);
+	}
+
 
 }
 

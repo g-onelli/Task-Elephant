@@ -68,6 +68,9 @@ export default function CreateTask({navigation}) {
     
 
     var testTask = initTask(title,energy,time,deadline,priority);
+    if (testTask == null){
+      return;
+    }
     let allTasks = await TaskStore.getAllTasks();
 
     let totalTasks = await TaskStore.getTotalTaskNum();
@@ -145,9 +148,9 @@ export default function CreateTask({navigation}) {
 
       <Picker prompt={"Task priority input here"} selectedValue={priorityIn} 
         style={styles.defaultPicker} onValueChange={(itemValue,itemIndex) => setPriorityIn(itemValue)}> 
-        <Picker.Item label="High" value = "7"/>
-        <Picker.Item label="Medium" value = "3"/>
-        <Picker.Item label="Low" value = "1"/>
+        <Picker.Item label="High" value = {7}/>
+        <Picker.Item label="Medium" value = {3}/>
+        <Picker.Item label="Low" value = {1}/>
       </Picker>
 
       <View style = {styles.buttonView}>

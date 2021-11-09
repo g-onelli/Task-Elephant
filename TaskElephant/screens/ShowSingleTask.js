@@ -60,12 +60,17 @@ class ShowSingleTask extends React.Component{
                 <Text style = {styles.text}>Start Date: {this.props.navigation.getParam('startDate')}</Text>
                 
                 <View style = {styles.ButtonView}>
-                    <Button color = '#FE4643'onPress={() => {TaskStore.removeTask(this. initTask(
+                    <Button color = '#FE4643'onPress={() => {
+                        console.log("Deleting task");
+                        TaskStore.removeTask(new Task(
                         this.props.navigation.getParam('title'),
                         this.props.navigation.getParam('energyCost'),
                         this.props.navigation.getParam('timeCost'),
                         this.props.navigation.getParam('deadline'),
-                        this.props.navigation.getParam('startDate')));}} 
+                        this.props.navigation.getParam('basePriority')));
+                    this.props.navigation.navigate('Show');
+
+                }} 
                         title= 'Delete'>
                     </Button>
                 </View>

@@ -137,8 +137,6 @@ export const removeTask = async (inpTask, navigation) => {
       await AsyncStorage.setItem("Tasks",storedTasks);  
     }
     console.log("Remove Tasks Complete");
-
-    navigation.navigate("Show");
   }
 
 export async function componentDidMount() {

@@ -111,7 +111,7 @@ class ShowTasks extends React.Component{
 
       {this.state.tasks.length === 0 ?
         <View style = {styles.empty}>
-        <Text style = {styles.startText}>You don't have any task yet</Text>
+        <Text style = {styles.startText}>You don't have any tasks yet</Text>
         </View>
         :
         <View style = {styles.content}>
