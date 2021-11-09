@@ -34,9 +34,21 @@ class Task{
 	getDeadline(){
 		return this.deadline;
 	}
+
+	getDeadlineText(){
+		var date = new Date(this.deadline);
+		return (date.getMonth() + 1) + "/" + date.getDay() + "/" + date.getFullYear().toString().slice(-2) + " - " 
+      + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+	}
+
+	getBasePriority(){
+		return this.basePriority;
+	}
+
 	getPriority(){
 //		"c_XXX values are constants to be modified."
 		var priority = this.basePriority;
+//debug		console.log("basePriority: " + priority);
 		const timeElapsed = Date.now() - this.startDate;
 
 		if (this.deadline == 'NaN'){
@@ -46,28 +58,36 @@ class Task{
 			return priority; 
 		} 
 
-		const totalTime = this.deadline - this.startDate;
-		const timeRemaining = totalTime - timeElapsed;
+		const totalTime = parseFloat((this.deadline - this.startDate).toFixed(2));
+		const timeRemaining = parseFloat((totalTime - timeElapsed).toFixed(2));
 
-		let elapsePriority = 0;
-		let timeCostPriority = 0;
+
+		var elapsePriority = 0;
+		var timeCostPriority = 0;
 		const c_Prio2 = 8;
 		
-		if (timeRemaining <= 0) elapsePriority = c_Prio1;
-		else elapsePriority = Math.round((timeRemaining) / totalTime * c_Prio2)
+		if (timeRemaining <= 0) elapsePriority = c_Prio2;
+		else elapsePriority = Math.round((timeElapsed / totalTime) * c_Prio2)
 		
+
+
 		const c_Prio3 = 10
 		if (timeRemaining <= 0) timeCostPriority = c_Prio3 * 2
 		timeCostPriority = Math.round(c_Prio3 / ((timeRemaining) / this.timeCost / 2))
 		
-		if (elapsePriority > timeCostPriority) priority += elapsePriority;
-		else priority += timeCostPriority;
+		if (elapsePriority > timeCostPriority) priority = priority + elapsePriority;
+		else priority = priority + timeCostPriority;
+
+//debug		console.log("totalTime: " + totalTime);
+//debug		console.log("timeElapsed: " + timeElapsed);
+//debug		console.log("timeRemaining: " + timeRemaining);
+
+//debug		console.log("timeCostPriority: " + timeCostPriority);
+//debug		console.log("elapsePriority: " + elapsePriority);
+		
+//debug		console.log("final priority: " + priority);
 
 		return priority;
-	}
-
-	getBasePriority(){
-		return this.basePriority;
 	}
 	getKey(){
 		return this.key;
@@ -95,7 +115,6 @@ class Task{
 
 // "Comparison methods for checking if two tasks match."
 	compareTasks(task){
-//	"Compare two tasks by their defining attributes."
 		/*console.log(this.title == task.title);
 		console.log(this.energyCost == task.energyCost);
 		console.log(this.timeCost == task.timeCost);
@@ -108,14 +127,11 @@ class Task{
 			&& this.basePriority == task.basePriority)
 	}
 	compareTaskKeys(task){
-// "Compare two tasks by their key."		
 		return (this.key == task.key);
 	}
 	compareKeys(key){
-// "Compare a task with an input key."
-		return(this.key == key);
+		return (this.key == key);
 	}
-
 
 }
 

@@ -22,7 +22,7 @@ class ShowTasks extends React.Component{
     let n = arr.length;
     for (let i =0; i< n-1; i++){
       for (let j = 0; j< n-i-1; j ++){
-        if (arr[j].getBasePriority()< arr[j+1].getBasePriority()){
+        if (arr[j].getPriority()< arr[j+1].getPriority()){
           let temp = arr[j];
           arr[j] = arr[j+1];
           arr[j+1] = temp;
@@ -127,7 +127,7 @@ class ShowTasks extends React.Component{
               renderItem={({item}) => (
                 <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingle", item)}}>
                   <Text style = {styles.item}>
-                    {item.getTitle()}, {item.getBasePriority()}
+                    {item.getTitle()}, {item.getPriority()}
                     {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                     {/* {typeof item} */}
                   </Text>

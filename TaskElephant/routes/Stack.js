@@ -2,6 +2,7 @@ import { createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import Welcome from '../screens/Welcome';
 import CreateTask from '../screens/CreateTask';
+import EnergyDay from "../screens/EnergyDay";
 import Show from "../screens/ShowTasks";
 import Header from "../components/header";
 import ShowSingle from "../screens/ShowSingleTask";
@@ -38,6 +39,13 @@ const screens = {
         screen: ShowSingle,
         navigationOptions:{
             title: 'View Task'
+        }
+    },
+
+    EnergyDay: {
+        screen: EnergyDay,
+        navigationOptions:{
+            title: 'Set Daily Energy'
         }
     }
 
