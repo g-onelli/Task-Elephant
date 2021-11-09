@@ -117,7 +117,7 @@ export const removeTask = async (inpTask) => {
 //      console.log(inpTask.compareTasks(taskArray[i]));
       if (inpTask.compareTasks(taskArray[i])){
         console.log("Found and removing task...");
-        taskArray.splice(taskArray.indexOf(inpTask), 1);
+        taskArray.splice(i, 1);
         i--;  
       }      
     }
