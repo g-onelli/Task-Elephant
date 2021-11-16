@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, ScrollView,View, TextInput, Button, TouchableOpacity } from 'react-native';
+import React, {useState} from 'react';
+import {Platform, StyleSheet, Text, ScrollView,View, TextInput, Button, TouchableOpacity } from 'react-native';
 
 // import {Notifications} from 'react-native-notifications';
 import {Picker} from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FlatList } from 'react-native-gesture-handler';
+import DatePicker from 'react-native-date-picker'
 
 import Task from '../Task';
 import TaskItem from '../components/TaskItem';
@@ -14,13 +15,13 @@ import TaskStore from '../TaskStore';
 
 export default function CreateTask({navigation}) {
 // [1,2] = useState is a variable declaration. 1 is the 'get' method, 2 is the 'set' method.    
-  const [textIn, setTextIn] = useState("Null");
+  const [textIn, setTextIn] = useState(null);
   const [energyIn, setEnergyIn] = useState(-1);
   const [timeIn, setTimeIn] = useState(-1);
-  const [deadlineIn, setDeadlineIn] = useState("NaN");
+  const [deadlineIn, setDeadlineIn] = useState(new Date(Date.now()));
   const [priorityIn, setPriorityIn] = useState(7);
 
-  // const [totalTasks, setTotalTask] = useState(0);
+  const [deadlineWindowStatus,setDeadlineWindowStatus] = useState(false);
 
   const [tasks, setTasks] = useState([
     // {title:1, energyCost:2,timeCost:3, deadline:4,priority:5 ,key:"1"},
@@ -29,10 +30,13 @@ export default function CreateTask({navigation}) {
 
   ]);
 
-  let totalTasks = 0;
-
    function initTask(title,energy,time,deadline,priority){
      //  "Basic Input sanitiation, if field does not match expected value throw an alert and return."
+    if (title == null || title.trim() == ""){
+      alert("Error: Title is not valid.");
+      return;
+    }
+
     if (energy < 0 || energy > 100 || isNaN(parseInt(energy))){
       alert("Error: " + energy + " not a valid energy cost value. [0 - 100]");
       return;
@@ -45,52 +49,31 @@ export default function CreateTask({navigation}) {
       return;
     }
 
-    if (deadline != "NaN" && deadline < Date.now()){
+    if (isNaN(deadline.getTime()) && deadline != "NaN"){
+      alert("Error: " + deadline + " not a valid date.");
+    }
+
+    if (deadline != "NaN" && deadline.getTime() < Date.now()){
       alert("Error: Deadline is set before present time.")
       return;
     }
 
-    if (isNaN(parseInt(deadline)) && deadline != "NaN"){
-      alert("Error: " + deadline + " not a valid date.");
-    }
-
     if (deadline == "NaN") priority += 1;
- //  "Until a Date picker is implemented, this will be set to a 'default' deadline 1 week away."  
-    else date = Date.now + 1000 * 60 * 60 * 24 * 7
-    console.log("TimeCost: " + time);
- //  "Time Cost should be a positive integer of minutes."    
+    else deadline = deadline.getTime();
+
+
+//  "Time Cost should be a positive integer of minutes."    
     time *=  1000 * 60;
+
     return new Task(title,energy,time,deadline,priority);
    }
 
    async function onPressButton(title,energy,time,deadline,priority) {
 
-    
-
     var testTask = initTask(title,energy,time,deadline,priority);
-    if (testTask == null){
-      return;
-    }
+    if (testTask == null) return;
     let allTasks = await TaskStore.getAllTasks();
-
-    let totalTasks = await TaskStore.getTotalTaskNum();
-    // testTask.setKey((allTasks.length+1).toString());
-    testTask.setKey((totalTasks + 1).toString());
-
-    await TaskStore.addTotalTaskNum();
-
-
-    
-    // console.log(totalTasks);
-    // testTask.setKey(totalTasks.toString());
-    
-
-    // useEffect(() => {
-    //   setTotalTask(2)
-    // },[])
-
-    // testTask.setKey(totalTasks.toString());
-    
+    testTask.setKey((allTasks.length+1).toString());
 
     // alert(testTask.getTitle() + " " + testTask.getEnergyCost() + " " 
     //         + testTask.getTimeCost() + " " + testTask.getDeadline() + " " + priority);
@@ -113,15 +96,13 @@ export default function CreateTask({navigation}) {
     // timeCost: testTask.getTimeCost(), deadline: testTask.getDeadline(), priority: priority});
   }
 
-
-
-  function remove(key){
-    TaskStore.setTasks((prevTasks) =>{
-      return prevTasks.filter(task => task.key != key);
-    })
+  function displayDate(date){
+    /* "Dates need to be converted from their milisecond data variant to a quick, readable format.
+     *  Take a Date object and convert it to MM/DD/YY-HH:MM format.                               "
+     */
+    return (date.getMonth()+1) + "/" + date.getDay() + "/" + date.getFullYear().toString().slice(-2) + " - " 
+      + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
   }
-
-
  
 
 
@@ -137,14 +118,19 @@ export default function CreateTask({navigation}) {
       <TextInput placeholder="Task title input here" 
       onChangeText={text => setTextIn(text)} style = {styles.textInput}/>
 
-      <TextInput placeholder="Task energy-cost input here" 
+      <TextInput placeholder="Task energy-cost input here [0-100]" 
       onChangeText={energy => setEnergyIn(energy)} style = {styles.textInput}/>
 
-      <TextInput placeholder="Task time-cost input here" 
+      <TextInput placeholder="Task time-cost input here [min]" 
       onChangeText={time => setTimeIn(time)} style = {styles.textInput}/>
 
-      <TextInput placeholder="Task deadline input here" 
-      onChangeText={deadline => setDeadlineIn(deadline)} style = {styles.textInput}/>
+      <Button title="Task deadline input here" onPress={() => setDeadlineWindowStatus(true)}/>
+      <DatePicker modal open={deadlineWindowStatus} date={deadlineIn} onConfirm={(date) => {setDeadlineWindowStatus(false); setDeadlineIn(new Date(date))}}
+      onCancel={() => {setDeadlineWindowStatus(false)}}/>
+
+      <Text> 
+        {"Task deadline: " + displayDate(deadlineIn)} 
+      </Text>
 
       <Picker prompt={"Task priority input here"} selectedValue={priorityIn} 
         style={styles.defaultPicker} onValueChange={(itemValue,itemIndex) => setPriorityIn(itemValue)}> 
@@ -155,15 +141,9 @@ export default function CreateTask({navigation}) {
 
       <View style = {styles.buttonView}>
         <Button onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn); alarmTest();}} 
-        title= 'Save'>
+        title= 'Click here to display generated task.'>
         </Button>
 
-        {/* Button is present here for demonstrating the new function. 
-            Please remove once function is properly implemented. */}
-
-        <Button onPress={() => {TaskStore.removeTask(initTask(textIn,energyIn,timeIn,deadlineIn,priorityIn));}} 
-          title= 'Click here to remove task with matching info.'>
-        </Button>
       </View>
 
 
@@ -206,12 +186,12 @@ const styles = StyleSheet.create({
     borderWidth:1,
     padding:10,
     margin:10,
-    width:400
+    width: Platform.OS === 'ios' ? 400 : 375
     
   },
 
   buttonView:{
-    marginTop:150,
+    marginTop:125,
     fontSize:40
   },
   

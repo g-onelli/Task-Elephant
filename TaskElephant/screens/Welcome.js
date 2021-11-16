@@ -21,12 +21,17 @@ export default function Welcome({navigation}){
   }
 
   const pressHandler = () => {
-      navigation.navigate('Show');
+      navigation.navigate('EnergyDay');
   }
 
+  const debug_CurrentTime = () => {
+    var date = new Date(Date.now());
+    return (date.getMonth() + 1) + "/" + date.getDay() + "/" + date.getFullYear().toString().slice(-2) + " - " 
+      + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+  }
     
 
-
+  console.log(debug_CurrentTime());
   getAllTasks();
   return (
 
@@ -45,7 +50,7 @@ export default function Welcome({navigation}){
           </Text>
 
 
-          <Button title = 'Create a task' onPress = {pressHandler} style = {styles.button}>
+          <Button title = 'Start!' onPress = {pressHandler} style = {styles.button}>
 
           </Button>
 
@@ -54,9 +59,8 @@ export default function Welcome({navigation}){
 
       </View>
   )
-        
+}     
 
-}
 
 
 const styles = StyleSheet.create({

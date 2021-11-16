@@ -30,32 +30,7 @@ export const saveTask = async (inpTask) => {
     catch(error){
       console.log(error);
     }
-}
-
-export const addTotalTaskNum = async() => {
-  try{
-    let currentTaskNum = await getTotalTaskNum();
-
-    await AsyncStorage.setItem("TotalTasks", (currentTaskNum + 1).toString());
   }
-  catch(e){
-    console.log(e);
-  }
-}
-
-export const getTotalTaskNum = async() => {
-  try{
-    let totalTasks = await AsyncStorage.getItem("TotalTasks");
-    if(totalTasks === null){
-      totalTasks = 0;
-    }
-
-    return parseInt(totalTasks);
-  }
-  catch(e){
-    console.log(e);
-  }
-}
 
 export const getAllTasks = async() => {
     /* Returns an array of Task objects stored in AsyncStorage. 
@@ -114,11 +89,13 @@ export const removeTask = async (inpTask) => {
 //    console.log(taskArray);
 
     for (var i = 0; i < taskArray.length; i++){
+      console.log(i);
+      console.log(taskArray[i]);
 //      console.log(inpTask.compareTasks(taskArray[i]));
       if (inpTask.compareTasks(taskArray[i])){
         console.log("Found and removing task...");
         taskArray.splice(i, 1);
-        i--;  
+        break;
       }      
     }
     var storedTasks = null;
@@ -207,4 +184,4 @@ export const clearTasks = async() => {
   }
 
 
-export default {componentDidMount, saveTask, getAllTasks, removeTask, clearTasks, getTotalTaskNum, addTotalTaskNum};
+export default {componentDidMount, saveTask, getAllTasks, removeTask, clearTasks};
