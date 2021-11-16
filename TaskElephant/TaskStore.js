@@ -95,7 +95,7 @@ export const removeTask = async (inpTask) => {
       if (inpTask.compareTasks(taskArray[i])){
         console.log("Found and removing task...");
         taskArray.splice(i, 1);
-        break;  
+        break;
       }      
     }
     var storedTasks = null;

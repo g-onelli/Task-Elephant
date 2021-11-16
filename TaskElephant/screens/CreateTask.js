@@ -109,7 +109,7 @@ export default function CreateTask({navigation}) {
 
 
   async function alarmTest(){
-//     Notifications.registerRemoteNotifications();
+ //     Notifications.registerRemoteNotifications();
   }
 
   return (

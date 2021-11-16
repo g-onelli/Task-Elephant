@@ -76,6 +76,7 @@ class ShowTasks extends React.Component{
       if (tasks == null){
         this.setState({tasks: taskArray})
         return taskArray;
+
       }
       console.log("Saved tasks: ");
       if (tasks.includes("\n")){
@@ -115,6 +116,8 @@ class ShowTasks extends React.Component{
       this.createSchedule(taskArray);
 
       this.setState({tasks: taskArray});
+
+      console.log(1);
       
       // console.log(taskArray[0].getBasePriority());
 
@@ -136,6 +139,7 @@ class ShowTasks extends React.Component{
   
 
   render(){
+    // console.log(3333333);
     return (
       
       <View style = {styles.container}>
