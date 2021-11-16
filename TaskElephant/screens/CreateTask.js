@@ -15,7 +15,7 @@ import TaskStore from '../TaskStore';
 
 export default function CreateTask({navigation}) {
 // [1,2] = useState is a variable declaration. 1 is the 'get' method, 2 is the 'set' method.    
-  const [textIn, setTextIn] = useState("Null");
+  const [textIn, setTextIn] = useState(null);
   const [energyIn, setEnergyIn] = useState(-1);
   const [timeIn, setTimeIn] = useState(-1);
   const [deadlineIn, setDeadlineIn] = useState(new Date(Date.now()));
@@ -32,6 +32,11 @@ export default function CreateTask({navigation}) {
 
    function initTask(title,energy,time,deadline,priority){
      //  "Basic Input sanitiation, if field does not match expected value throw an alert and return."
+    if (title == null || title.trim() == ""){
+      alert("Error: Title is not valid.");
+      return;
+    }
+
     if (energy < 0 || energy > 100 || isNaN(parseInt(energy))){
       alert("Error: " + energy + " not a valid energy cost value. [0 - 100]");
       return;
@@ -113,10 +118,10 @@ export default function CreateTask({navigation}) {
       <TextInput placeholder="Task title input here" 
       onChangeText={text => setTextIn(text)} style = {styles.textInput}/>
 
-      <TextInput placeholder="Task energy-cost input here" 
+      <TextInput placeholder="Task energy-cost input here [0-100]" 
       onChangeText={energy => setEnergyIn(energy)} style = {styles.textInput}/>
 
-      <TextInput placeholder="Task time-cost input here" 
+      <TextInput placeholder="Task time-cost input here [min]" 
       onChangeText={time => setTimeIn(time)} style = {styles.textInput}/>
 
       <Button title="Task deadline input here" onPress={() => setDeadlineWindowStatus(true)}/>

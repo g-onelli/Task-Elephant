@@ -11,7 +11,6 @@ export default function EnergyDay({navigation}){
 
   const saveEnergy = async () => {
     try{
-      var dayEnergy = await AsyncStorage.getItem("Day_Energy");
       await AsyncStorage.setItem("Day_Energy",parseInt(dailyEnergy).toString());
       console.log("Energy for the day set: " + parseInt(dailyEnergy));
     }
@@ -30,19 +29,14 @@ export default function EnergyDay({navigation}){
 
 
       <View style = {styles.container_slider}>
-          <Text style = {{padding:20}}>
+          <Text style = {{padding:20, marginLeft:25, marginRight:25}}>
               Enter your energy levels for the day here!
           </Text>
           <Text>{parseInt(dailyEnergy)}
           </Text>
             <Slider value={dailyEnergy} onValueChange={value => setDailyEnergy(value)} minimumValue={1} maximumValue={100}/>
-          
-          <Text style = {styles.name}>
-              Check
-          </Text>
-
-
-          <Button title = 'Create a task' onPress = {pressHandler} style = {styles.button}>
+          <Text> {" "}</Text>
+          <Button title = 'Continue to Tasks!' onPress = {pressHandler} style = {styles.button}>
           </Button>
 
           
@@ -64,8 +58,9 @@ const styles = StyleSheet.create({
     },
     container_slider:{
       flex: 1,
-      marginLeft: 100,
-      marginRight: 100,
+      marginTop:-100,
+      marginLeft: 75,
+      marginRight: 75,
       alignItems: 'stretch',
       justifyContent: 'center',
     },

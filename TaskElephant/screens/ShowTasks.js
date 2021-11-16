@@ -14,11 +14,14 @@ import {NavigationEvents} from 'react-navigation';
 
 class ShowTasks extends React.Component{
   state = {
-    tasks:[]
+    tasks:[],
+    schedule:[],
+    notSchedule:[]
   }
 
 
   sort(arr){
+//    var dayEnergy = await AsyncStorage.getItem("Day_Energy");
     let n = arr.length;
     for (let i =0; i< n-1; i++){
       for (let j = 0; j< n-i-1; j ++){
@@ -29,6 +32,33 @@ class ShowTasks extends React.Component{
         }
       }
     }
+  }
+
+  async createSchedule(arr){
+    var dayEnergy = await AsyncStorage.getItem("Day_Energy");
+    let newSchedule = [], newNotSchedule = [];
+    
+    
+    for (let i = 0; i < arr.length; i++){
+      if (arr[i].getEnergyCost() <= dayEnergy){
+        newSchedule.push(arr[i]);
+        dayEnergy -= arr[i].getEnergyCost();
+        if (dayEnergy < 0){
+          break;
+        }
+      }
+      else{
+        newNotSchedule.push(arr[i]);
+      }
+    }
+
+    console.log(newSchedule);    
+    this.setState({schedule:newSchedule})
+
+    console.log(newNotSchedule);
+    this.setState({notSchedule:newNotSchedule})
+
+
   }
 
   
@@ -44,6 +74,7 @@ class ShowTasks extends React.Component{
       // console.log(tasks);
       let taskArray = [];
       if (tasks == null){
+        this.setState({tasks: taskArray})
         return taskArray;
       }
       console.log("Saved tasks: ");
@@ -81,6 +112,7 @@ class ShowTasks extends React.Component{
       }
 
       this.sort(taskArray);
+      this.createSchedule(taskArray);
 
       this.setState({tasks: taskArray});
       
@@ -107,27 +139,35 @@ class ShowTasks extends React.Component{
     return (
       
       <View style = {styles.container}>
-      <NavigationEvents onDidFocus={() => this.componentDidMount()} />
-
+      <NavigationEvents onDidFocus={async () => await this.componentDidMount()} />
       {this.state.tasks.length === 0 ?
         <View style = {styles.empty}>
-        <Text style = {styles.startText}>You don't have any tasks yet</Text>
+          <Text style = {styles.startText}>You don't have any tasks yet</Text>
         </View>
         :
         <View style = {styles.content}>
-  
-          
-  
-          
+ 
   
           <View style = {styles.list}>
   
             <FlatList 
-              data = {this.state.tasks}
+              data = {this.state.schedule}
               renderItem={({item}) => (
-                <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingle", item)}}>
+                <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingle", item);}}>
+                  <Text style = {styles.scheduleItem}>
+                    {item.getTitle()} | Due {item.getDeadlineText()} ({item.getPriority()})
+                    {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
+                    {/* {typeof item} */}
+                  </Text>
+                </TouchableOpacity>
+              )}>{this.props.isFocused ? 'Focused' : 'Not focused'}</FlatList> 
+
+            <FlatList 
+              data = {this.state.notSchedule}
+              renderItem={({item}) => (
+                <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingle", item);}}>
                   <Text style = {styles.item}>
-                    {item.getTitle()}, {item.getPriority()}
+                    {item.getTitle()} | Due {item.getDeadlineText()} ({item.getPriority()})
                     {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                     {/* {typeof item} */}
                   </Text>
@@ -296,6 +336,7 @@ export default ShowTasks;
 
 const styles = StyleSheet.create({
   container: {
+    marginTop:0,
     flex:1,
     backgroundColor: "#fff",
   },
@@ -305,7 +346,6 @@ const styles = StyleSheet.create({
     padding:40
   },
   list:{
-    flex:1,
     marginTop:10
   },
 
@@ -331,7 +371,20 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
 
+  scheduleItem:{
+    padding:16,
+    marginTop:16,
+    borderColor: "#bbb",
+    borderWidth: 1,
+    borderStyle: "dashed",
+    borderRadius: 10,
+    textAlign:'center'
+  },  
+
   item:{
+    backgroundColor: "rgba(225,225,225,0.3)",
+    color: "rgba(0,0,0,0.5)",
+
     padding:16,
     marginTop:16,
     borderColor: "#bbb",

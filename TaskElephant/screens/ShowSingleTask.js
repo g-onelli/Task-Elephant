@@ -13,6 +13,12 @@ import { HeaderTitle } from 'react-navigation-stack';
 
 
 class ShowSingleTask extends React.Component{
+    
+    dateToString(date_miliseconds){
+        var date = new Date(date_miliseconds);
+        return (date.getMonth() + 1) + "/" + date.getDay() + "/" + date.getFullYear().toString().slice(-2) + " - " 
+          + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+        }
 
     render(){
         return (
@@ -20,23 +26,19 @@ class ShowSingleTask extends React.Component{
             <View style={styles.container}>
                 <Text style = {styles.text}>Title: {this.props.navigation.getParam('title')}</Text>
                 <Text style = {styles.text}>Energy Cost: {this.props.navigation.getParam('energyCost')}</Text>
-                <Text style = {styles.text}>Time Cost: {this.props.navigation.getParam('timeCost')}</Text>
-                <Text style = {styles.text}>Deadline: {this.props.navigation.getParam('deadline')}</Text>
+                <Text style = {styles.text}>Time Cost: {this.props.navigation.getParam('timeCost')/1000 /60}</Text>
+                <Text style = {styles.text}>Deadline: {this.dateToString(this.props.navigation.getParam('deadline'))}</Text>
                 <Text style = {styles.text}>Base Priority: {this.props.navigation.getParam('basePriority')}</Text>
-                <Text style = {styles.text}>Start Date: {this.props.navigation.getParam('startDate')}</Text>
                 
                 <View style = {styles.ButtonView}>
-                    <Button color = '#FE4643'onPress={() => {
-                        console.log("Deleting task");
-                        TaskStore.removeTask(new Task(
+                    <Button color = '#FE4643'onPress={() => {TaskStore.removeTask(new Task(
                         this.props.navigation.getParam('title'),
                         this.props.navigation.getParam('energyCost'),
                         this.props.navigation.getParam('timeCost'),
                         this.props.navigation.getParam('deadline'),
                         this.props.navigation.getParam('basePriority')));
-                    this.props.navigation.navigate('Show');
-
-                }} 
+                        this.props.navigation.goBack();
+                    }} 
                         title= 'Delete'>
                     </Button>
                 </View>
