@@ -4,8 +4,8 @@ import { StyleSheet, View, Text, Button, FlatList, TouchableOpacity, ScrollView,
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Task from '../Task';
-import TaskStore from '../TaskStore'
+import Task from '../objects/Task';
+import TaskStore from '../objects/TaskStore'
 import { StackRouter } from 'react-navigation';
 import {NavigationEvents} from 'react-navigation';
 import { HeaderTitle } from 'react-navigation-stack';

@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, Image, SafeAreaView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Navigator from './routes/Stack';
-import {clearTasks} from './TaskStore';
+import {clearTasks} from './objects/TaskStore';
 
 export default function App() {
 

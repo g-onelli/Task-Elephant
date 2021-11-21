@@ -8,9 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FlatList } from 'react-native-gesture-handler';
 import DatePicker from 'react-native-date-picker'
 
-import Task from '../Task';
+import Task from '../objects/Task';
 import TaskItem from '../components/TaskItem';
-import TaskStore from '../TaskStore';
+import TaskStore from '../objects/TaskStore';
 
 
 export default function CreateTask({navigation}) {
