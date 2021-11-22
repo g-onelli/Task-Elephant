@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "913936376356",
+    "project_id": "ssw-423-senior-design",
+    "storage_bucket": "ssw-423-senior-design.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913936376356:android:0a705aa38c26e229212eb1",
+        "android_client_info": {
+          "package_name": "com.ssw423.taskelephant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "913936376356-v19lrvg1gu0b8tqou2rdc7eohp1llhcp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ssw423.taskelephant",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "913936376356-pogf1f0nb78e9iqvvqhi8vm4unrpm2l0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOyAywpW-6ckNiyW3HdK93jBFZs_ANltY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913936376356-pogf1f0nb78e9iqvvqhi8vm4unrpm2l0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
