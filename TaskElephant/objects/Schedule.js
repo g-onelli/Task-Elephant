@@ -1,138 +1,245 @@
 import React, {useState} from 'react'
 
+
+
+import Task from './Task';
+
+
 // "Important note: A date-time 'second' has a value of 1000."
 
 class Schedule{
+
 	constructor(startTime = Date.now()){
-		this.title = title;
-		this.energyCost = energyCost;
-//		"Time Cost should be a positive integer of minutes."
-		this.timeCost = timeCost
-//		"Unless a prior start date is supplied, the start date will be Task creation date."
-		this.startDate = startDate;
-//		"Until a Date picker is implemented, this will be set to a 'default' deadline 1 week away."		
-		if (deadline == 'NaN') this.deadline = 'NaN';
-		else this.deadline = deadline;
+		let tempTime = new Date(startTime);
 
-//		"Priority is something that the user should not be able to directly set. Unsure yet how it will be calculated, will modify later."
-		this.basePriority = priority;
-		this.key = key;
+//		"Setting 'startTime' to 9:00 AM of current day by default, should be user-set config"		
+		tempTime.setHours(9,0);
+		this.startTime = tempTime.getTime();
+//		"Setting 'endTime' to 10:00 PM of current day by default, should be user-set config
+		tempTime.setHours(24,0);
+		this.endTime=tempTime.getTime();
+
+
+//		this.endTime = tempTime - (tempTime%dayTime) + 1000*60*60*22;
+
+//		"availableTime is an array of available timeblocks, timeblock = [start-time, end-time]"
+		this.availableTime = [[this.startTime,this.endTime]];
+
+//		"scheduledTasks is an array of scheduled tasks, scheduledTask = [task,start-time]"
+		this.scheduledTasks = [];
+		this.totalEnergy = 0;
+
+//		"Temporary fix for time blocks prior to current time, need to find fix"
+		console.log(this.availableTime);
+		this.checkTimeBlocks();
+		this.trimTimeBlock();
 
 	}
-
-		return this.title;
+	getStartTime(){
+		return this.startTime;
 	}
-	getEnergyCost(){
-		return this.energyCost;
-	}
-	getTimeCost(){
-//		"Due to timeCost being stored in miliseconds, it must be converted back to minutes.
-//		 Depending on API usage, may change to return miliseconds instead of minutes later."
-		return (this.timeCost / 1000 / 60);
-	}
-	getDeadline(){
-		return this.deadline;
-	}
-
-	getDeadlineText(){
-		var date = new Date(this.deadline);
-		return (date.getMonth() + 1) + "/" + date.getDay() + "/" + date.getFullYear().toString().slice(-2) + " - " 
+	getTimeText(date){
+		date = new Date(date);
+		return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().slice(-2) + " - " 
       + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
 	}
-
-	getBasePriority(){
-		return this.basePriority;
+	getStartTimeText(){
+		var date = new Date(this.startTime);
+		return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().slice(-2) + " - " 
+      + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+	}
+	setStartTime(time){
+		this.startTime = time;
+	}
+	getEndTime(){
+		return this.endTime;
+	}
+	getEndTimeText(){
+		var date = new Date(this.endTime);
+		return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().slice(-2) + " - " 
+      + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+	}
+	setEndTime(time){
+		this.endTime = time;
 	}
 
-	getPriority(){
-//		"c_XXX values are constants to be modified."
-		var priority = this.basePriority;
-//debug		console.log("basePriority: " + priority);
-		const timeElapsed = Date.now() - this.startDate;
+	insertTask(task){
+//	"Boolean function, returns true on successful task insertion otherwise false"
+//		Sanity check for duplicate tasks 
+		for (const scheduledTask of this.scheduledTasks){
+			if (task.compareTasks(scheduledTask[0])) {
+				alert("Error: Duplicate task inputted to schedule.");
+				return false;
+			}
+		}
 
-		if (this.deadline == 'NaN'){
-			const c_Day1 = 1000 * 60 * 60 * 24 * 2;
-			const c_Prio1 = 2
-			priority += Math.round(timeElapsed / c_Day1 * c_Prio1)
-			return priority; 
-		} 
+//		Search through available time blocks, if block is available insert task.
+		let timeCost = task.getTimeCost() * 1000 * 60 + 1000*60*10;
+		for (const timeBlock of this.availableTime){
+			let time = timeBlock[1] - timeBlock[0];
+			console.log(timeCost + " - " + time);
+			if (timeCost <= time){
+				
+				this.createAlarm(task,timeBlock[0]);
 
-		const totalTime = parseFloat((this.deadline - this.startDate).toFixed(2));
-		const timeRemaining = parseFloat((totalTime - timeElapsed).toFixed(2));
-
-
-		var elapsePriority = 0;
-		var timeCostPriority = 0;
-		const c_Prio2 = 8;
-		
-		if (timeRemaining <= 0) elapsePriority = c_Prio2;
-		else elapsePriority = Math.round((timeElapsed / totalTime) * c_Prio2)
-		
-
-
-		const c_Prio3 = 10
-		if (timeRemaining <= 0) timeCostPriority = c_Prio3 * 2
-		timeCostPriority = Math.round(c_Prio3 / ((timeRemaining) / this.timeCost / 2))
-		
-		if (elapsePriority > timeCostPriority) priority = priority + elapsePriority;
-		else priority = priority + timeCostPriority;
-
-//debug		console.log("totalTime: " + totalTime);
-//debug		console.log("timeElapsed: " + timeElapsed);
-//debug		console.log("timeRemaining: " + timeRemaining);
-
-//debug		console.log("timeCostPriority: " + timeCostPriority);
-//debug		console.log("elapsePriority: " + elapsePriority);
-		
-//debug		console.log("final priority: " + priority);
-
-		return priority;
-	}
-	getKey(){
-		return this.key;
+				this.scheduledTasks.push([task,timeBlock[0]]);
+				this.totalEnergy += task.getEnergyCost();
+				timeBlock[0] += time;
+				if (timeBlock[0] == timeBlock[1]){
+					this.availableTime.splice(this.availableTime.indexOf(timeBlock),1);
+				}
+				return true;
+			}
+		}
+		return false; 
 	}
 
-//	"Set methods should be used for editing values, either from user choice or by partial task completion."
-	setTitle(title){
-		this.title = title;
-	}
-	setEnergyCost(energyCost){
-		this.energyCost = energyCost;
-	}
-	setTimeCost(timeCost){
-		this.timeCost = timeCost;
-	}
-	setDeadline(deadline){
-		this.deadline = deadline
-	}
-	setBasePriority(basePriority){
-		this.basePriority = basePriority
-	}
-	setKey(key){
-		this.key = key;
+	completeTask(task){
+//	"Boolean function, returns true on successful task removal otherwise false"
+//	"Task completion implies time/energy was spent, meaning time/energy is not returned."
+		for (const scheduledTask of this.scheduledTasks){
+			if (task.compareTasks(scheduledTask[0])) {
+				
+				this.removeAlarm(scheduledTask[0],scheduledTask[1]);
+
+				this.scheduledTasks.splice(this.avaiableTime.indexOf(scheduledTask),1);
+				/*** Insert 'remove task from GoogleCalendar' function here ***/
+				return true;
+			}
+		}
+		alert("Error: Task not scheduled.");
+		return false;				
 	}
 
-// "Comparison methods for checking if two tasks match."
-	compareTasks(task){
-		/*console.log(this.title == task.title);
-		console.log(this.energyCost == task.energyCost);
-		console.log(this.timeCost == task.timeCost);
-		console.log(this.deadline == task.deadline);
-		console.log(this.basePriority == task.basePriority);*/
-		return(this.title  == task.title
-			&& this.energyCost == task.energyCost 
-			&& this.timeCost == task.timeCost 
-			&& this.deadline == task.deadline 
-			&& this.basePriority == task.basePriority)
+	deleteTask(task){
+//	"Boolean function, returns true on successful task removal otherwise false"
+		for (const scheduledTask of this.scheduledTasks){
+			if (task.compareTasks(scheduledTask[0])) {
+				let timeCost = task.getTimeCost() + 1000*60*10;
+				let taskStartTime = scheduledTask[1];
+
+//				"Add to front of adjacent time-block if possible"
+				let foundAdjacentTime = false;
+				for (var timeBlock of this.availableTime){
+					if (taskStartTime == timeBlock[0]){
+						timeBlock[0] -= timeCost;
+						foundAdjacentTime = true;
+						break;
+					}
+				}
+				if (!foundAdjacentTime){
+					this.availableTime.push([taskStartTime,taskStartTime+timeCost]);
+				}
+
+				this.removeAlarm(scheduledTask[0],scheduledTask[1]);
+
+				this.scheduledTasks.splice(this.availableTime.indexOf(scheduledTask),1);
+				/*** Insert 'remove task from GoogleCalendar' function here ***/
+
+				this.totalEnergy -= task.getEnergyCost();
+				return true;
+			}
+		}
+		alert("Error: Task not scheduled.");
+		return false;				
 	}
-	compareTaskKeys(task){
-		return (this.key == task.key);
+
+	initTaskAlarms(){
+//	"This should be run to ensure all alarms for this schedule are active."
+//		look for 'clear all' in package, else will need to iterate for removal
+
+		for (const schedeuledTask in this.scheduledTasks){
+			this.createAlarm(scheduledTask[0],scheduledTask[1]);
+		}		
 	}
-	compareKeys(key){
-		return (this.key == key);
+
+	async createAlarm(task,alarmTime){
+		/*** Insert alarm insertion here ***/
 	}
+
+	async removeAlarm(task,alarmTime = 0){
+		/*** Insert alarm removal here ***/
+
+		console.log("Alarm removal successful");
+
+	}
+
+	getSchedule(){
+//	"Reminder: scheduledTasks is in the form [Task,Start-Date]"		
+		return this.scheduledTasks;
+	}
+
+	getEnergyCost(){
+		return this.totalEnergy;
+	}
+
+	sortTimeBlocks(){
+//	"Ensure the time blocks are ordered such that the 'start' time is ascending."
+//	"This should happen naturally just by how time blocks are created, but this is just to make sure."
+
+//		Selection sort
+		for (var i = 1; i < this.availableTime.length-1; i++){
+			var currTime = this.availableTime[i];
+			for (var j = i -1; j >= 0; j--){
+				if (currTime[0] < this.availableTime[j][0]){
+					this.availableTime[j+1] = this.availableTime[j];
+				}
+				else if (this.availableTime[j][0] > currTime[0]){
+					this.availableTime[j+1] = currTime;
+					break;
+				}
+			}
+		}
+//debug checkTimeBlocks();
+
+	}
+	timeBlockSplice(){
+//	"Search through the time blocks to merge adjacent blocks."	
+		for (var i = this.availableTime.length-1; i>= 1; i--){
+			var timeBlock = this.avaiableTime[i];
+			var priorTimeBlock = this.avaiableTime[i-1];
+			
+			if (timeBlock[0] == priorTimeBlock[1]){
+				this.availableTime[i][0] = this.availableTime[i-1][0];
+				this.availableTime.splice(i-1,1);
+				continue;
+			}
+			else if (timeBlock[1] == priorTimeBlock[0]){
+				this.availableTime[i-1][0] = this.avaialableTime[i][0];
+				this.avialableTime.splice(i,1);
+				continue;
+			}
+		}
+	}
+	trimTimeBlock(){
+//	"Remove/Adjust time blocks that have a start-time before current time."
+		let currTime = Date.now() + 1000 * 60 * 5;
+		console.log("ii" +  currTime);
+		for (var i = this.availableTime.length-1; i >= 0; i--){
+			var timeBlock = this.availableTime[i];
+			if (currTime > timeBlock[0]){
+				if (currTime > timeBlock[1]){
+					this.availableTime.splice(i,1);
+				}
+				else{
+					this.availableTime[i][0] = currTime;
+					console.log("**" + this.availableTime[i][1]);
+				}
+			}  
+		}
+		this.checkTimeBlocks();	
+	}
+
+	checkTimeBlocks(){
+		var i = 1;
+		for(var timeBlock of this.availableTime){
+			console.log("Block " + i + ": " + this.getTimeText(timeBlock[0]) + " - " + this.getTimeText(timeBlock[1]));
+			i++;
+		}
+	}
+
 
 }
+export default Schedule;
 
-export default Task;
 

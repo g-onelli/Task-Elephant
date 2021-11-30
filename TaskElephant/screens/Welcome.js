@@ -26,7 +26,7 @@ export default function Welcome({navigation}){
 
   const debug_CurrentTime = () => {
     var date = new Date(Date.now());
-    return (date.getMonth() + 1) + "/" + date.getDay() + "/" + date.getFullYear().toString().slice(-2) + " - " 
+    return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().slice(-2) + " - " 
       + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
   }
     
