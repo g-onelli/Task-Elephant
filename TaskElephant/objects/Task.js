@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 // "Important note: A date-time 'second' has a value of 1000."
 
 class Task{
-	constructor(title,energyCost,timeCost,deadline,priority,key = "00000000",startDate = Date.now()){
+	constructor(title,energyCost,timeCost,deadline,priority,key = Math.random() * 100000,startDate = Date.now()){
 		this.title = title;
 		this.energyCost = energyCost;
 //		"Time Cost should be a positive integer of minutes."
@@ -37,7 +37,7 @@ class Task{
 
 	getDeadlineText(){
 		var date = new Date(this.deadline);
-		return (date.getMonth() + 1) + "/" + date.getDay() + "/" + date.getFullYear().toString().slice(-2) + " - " 
+		return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().slice(-2) + " - " 
       + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
 	}
 

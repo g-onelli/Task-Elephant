@@ -1468,9 +1468,15 @@
     fastq "^1.6.0"
 
 "@react-native-async-storage/async-storage@~1.15.0":
+<<<<<<< HEAD
   version "1.15.11"
   resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.15.11.tgz#da625b906529076414c32fd337d813b565149858"
   integrity sha512-l/I+PK+lh5M25QSdk44aX+UR63ian2d2CSx6WbydwU+RUZmKP7eOEPe+OeaTWgfOFSVtlEqEcP2AbW2YM7ukMA==
+=======
+  version "1.15.14"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.15.14.tgz#8165d3f78798b46e693169795b62e40142064273"
+  integrity sha512-eJF2horabXazwszCyyXDe4w7sBSWlB0WPA8akKXuN2n7WXKHYeQJPN41lS9OahrhSZuZwqftNFE9VWgPXA8wyA==
+>>>>>>> origin/main
   dependencies:
     merge-options "^3.0.4"
 
@@ -1594,6 +1600,7 @@
     sudo-prompt "^9.0.0"
     wcwidth "^1.0.1"
 
+<<<<<<< HEAD
 "@react-native-community/datetimepicker@^3.5.2":
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-3.5.2.tgz#8e6feb30f2620e5abdf565d5fe74c0c04edcf6ae"
@@ -1601,16 +1608,21 @@
   dependencies:
     invariant "^2.2.4"
 
+=======
+>>>>>>> origin/main
 "@react-native-community/masked-view@^0.1.11":
   version "0.1.11"
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.11.tgz#2f4c6e10bee0786abff4604e39a37ded6f3980ce"
   integrity sha512-rQfMIGSR/1r/SyN87+VD8xHHzDYeHaJq6elOSCAD+0iLagXkSI2pfA0LmSXP21uw5i3em7GkkRjfJ8wpqWXZNw==
 
+<<<<<<< HEAD
 "@react-native-google-signin/google-signin@^7.0.1":
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/@react-native-google-signin/google-signin/-/google-signin-7.0.1.tgz#a03f1a3e43ddb1bb092679bfdd6e38ff6ed819a1"
   integrity sha512-iG1OkFx1ohSupofWnlbV+Re74L2HF823SOL1KNl1gGDiVxzNKJTZm/wuaPuujzci4kr8GuwR9PRgxLShiAZwlg==
 
+=======
+>>>>>>> origin/main
 "@react-native-picker/picker@^2.1.0":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.2.1.tgz#32b9f540d8e88a73d8856f73cca88251cecb9614"
@@ -1694,9 +1706,15 @@
     "@types/istanbul-lib-report" "*"
 
 "@types/node@*":
+<<<<<<< HEAD
   version "16.11.9"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.9.tgz#879be3ad7af29f4c1a5c433421bf99fab7047185"
   integrity sha512-MKmdASMf3LtPzwLyRrFjtFFZ48cMf8jmX5VRYrDQiJa8Ybu5VAmkqBWqKU8fdCwD8ysw4mQ9nrEHvzg6gunR7A==
+=======
+  version "16.11.11"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.11.tgz#6ea7342dfb379ea1210835bada87b3c512120234"
+  integrity sha512-KB0sixD67CeecHC33MYn+eYARkqTheIRNuu97y2XMjR7Wu3XibO1vaY6VBV6O/a89SPI81cEUIYT87UqUWlZNw==
+>>>>>>> origin/main
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
@@ -2134,7 +2152,11 @@ braces@^3.0.1:
   dependencies:
     fill-range "^7.0.1"
 
+<<<<<<< HEAD
 browserslist@^4.17.5, browserslist@^4.17.6:
+=======
+browserslist@^4.17.5, browserslist@^4.18.1:
+>>>>>>> origin/main
   version "4.18.1"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.18.1.tgz#60d3920f25b6860eb917c6c7b185576f4d8b017f"
   integrity sha512-8ScCzdpPwR2wQh8IT82CA2VgDwjHyqMovPBZSNH54+tm4Jk2pCuv90gmAdH6J84OCRWi0b4gMe6O6XPXuJnjgQ==
@@ -2238,9 +2260,15 @@ camelcase@^5.0.0, camelcase@^5.3.1:
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
 caniuse-lite@^1.0.30001280:
+<<<<<<< HEAD
   version "1.0.30001282"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001282.tgz#38c781ee0a90ccfe1fe7fefd00e43f5ffdcb96fd"
   integrity sha512-YhF/hG6nqBEllymSIjLtR2iWDDnChvhnVJqp+vloyt2tEHFG1yBR+ac2B/rOw0qOK0m0lEXU2dv4E/sMk5P9Kg==
+=======
+  version "1.0.30001284"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001284.tgz#d3653929ded898cd0c1f09a56fd8ca6952df4fca"
+  integrity sha512-t28SKa7g6kiIQi6NHeOcKrOrGMzCRrXvlasPwWC26TH2QNdglgzQIRUuJ0cR3NeQPH+5jpuveeeSFDLm2zbkEw==
+>>>>>>> origin/main
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -2376,9 +2404,15 @@ color-name@^1.0.0, color-name@~1.1.4:
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
 color-string@^1.5.3, color-string@^1.6.0:
+<<<<<<< HEAD
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/color-string/-/color-string-1.6.0.tgz#c3915f61fe267672cb7e1e064c9d692219f6c312"
   integrity sha512-c/hGS+kRWJutUBEngKKmk4iH3sD59MBkoxVapS/0wgpCz2u7XsNloxknyvBhzwEs1IbV36D9PwqLPJ2DTu3vMA==
+=======
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/color-string/-/color-string-1.9.0.tgz#63b6ebd1bec11999d1df3a79a7569451ac2be8aa"
+  integrity sha512-9Mrz2AQLefkH1UvASKj6v6hj/7eWgjnT/cVsR8CumieLoT+g900exWeNogqtweI8dxloXN9BDQTYro1oWu/5CQ==
+>>>>>>> origin/main
   dependencies:
     color-name "^1.0.0"
     simple-swizzle "^0.2.2"
@@ -2504,11 +2538,19 @@ copy-descriptor@^0.1.0:
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
 core-js-compat@^3.18.0, core-js-compat@^3.19.1, core-js-compat@^3.8.0:
+<<<<<<< HEAD
   version "3.19.1"
   resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.19.1.tgz#fe598f1a9bf37310d77c3813968e9f7c7bb99476"
   integrity sha512-Q/VJ7jAF/y68+aUsQJ/afPOewdsGkDtcMb40J8MbuWKlK3Y+wtHq8bTHKPj2WKWLIqmS5JhHs4CzHtz6pT2W6g==
   dependencies:
     browserslist "^4.17.6"
+=======
+  version "3.19.2"
+  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.19.2.tgz#18066a3404a302433cb0aa8be82dd3d75c76e5c4"
+  integrity sha512-ObBY1W5vx/LFFMaL1P5Udo4Npib6fu+cMokeziWkA8Tns4FcDemKF5j9JvaI5JhdkW8EQJQGJN1EcrzmEwuAqQ==
+  dependencies:
+    browserslist "^4.18.1"
+>>>>>>> origin/main
     semver "7.0.0"
 
 core-js@^1.0.0:
@@ -2597,9 +2639,15 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
     ms "2.0.0"
 
 debug@^4.1.0, debug@^4.1.1, debug@^4.3.1:
+<<<<<<< HEAD
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.2.tgz#f0a49c18ac8779e31d4a0c6029dfb76873c7428b"
   integrity sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==
+=======
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
+  integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
+>>>>>>> origin/main
   dependencies:
     ms "2.1.2"
 
@@ -2682,9 +2730,15 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.3.896:
+<<<<<<< HEAD
   version "1.3.904"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.904.tgz#52a353994faeb0f2a9fab3606b4e0614d1af7b58"
   integrity sha512-x5uZWXcVNYkTh4JubD7KSC1VMKz0vZwJUqVwY3ihsW0bst1BXDe494Uqbg3Y0fDGVjJqA8vEeGuvO5foyH2+qw==
+=======
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.11.tgz#303c9deebbe90c68bf5c2c81a88a3bf4522c8810"
+  integrity sha512-2OhsaYgsWGhWjx2et8kaUcdktPbBGjKM2X0BReUCKcSCPttEY+hz2zie820JLbttU8jwL92+JJysWwkut3wZgA==
+>>>>>>> origin/main
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -5034,9 +5088,15 @@ react-is@^17.0.1:
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
 react-native-date-picker@^4.1.1:
+<<<<<<< HEAD
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-4.1.1.tgz#7f41b86e5b625c0c695686eea538677fe84fc4a6"
   integrity sha512-2KzwFZoPNmGCgDFP8FrrtIBrKMEzTkLG5Zq68CbyUxG7aFPmeP7ik//lSB0gPwfO9TKQyKFVqTod5jTp0PTnbw==
+=======
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-4.1.2.tgz#10360c3eca4b05617f6592d9246638fa4c2a82ae"
+  integrity sha512-9l4JPGEr9+l6Tmq2JyPm4jdkJCfdz6rz5fBpvtiFA7Wps33W4cMkwboYVZE/2GOaCxSpzWyZD+9jj2987qnjpQ==
+>>>>>>> origin/main
 
 react-native-gesture-handler@^1.10.3:
   version "1.10.3"
@@ -5580,9 +5640,15 @@ slice-ansi@^2.0.0:
     is-fullwidth-code-point "^2.0.0"
 
 slugify@^1.3.4:
+<<<<<<< HEAD
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.6.2.tgz#4cb97220a2278e1b86fb017c6da668e6a865354c"
   integrity sha512-XMtI8qD84LwCpthLMBHlIhcrj10cgA+U/Ot8G6FD6uFuWZtMfKK75JO7l81nzpFJsPlsW6LT+VKqWQJW3+6New==
+=======
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.6.3.tgz#325aec50871acfb17976f2d3cb09ee1e7ab563be"
+  integrity sha512-1MPyqnIhgiq+/0iDJyqSJHENdnH5MMIlgJIBxmkRMzTNKlS/QsN5dXsB+MdDq4E6w0g9jFA4XOTRkVDjDae/2w==
+>>>>>>> origin/main
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
@@ -6203,9 +6269,15 @@ ws@^1.1.0, ws@^1.1.5:
     ultron "1.0.x"
 
 ws@^7:
+<<<<<<< HEAD
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.5.tgz#8b4bc4af518cfabd0473ae4f99144287b33eb881"
   integrity sha512-BAkMFcAzl8as1G/hArkxOxq3G7pjUqQ3gzYbLL0/5zNkph70e+lCoxBGnm6AW1+/aiNeV4fnKqZ8m4GZewmH2w==
+=======
+  version "7.5.6"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.6.tgz#e59fc509fb15ddfb65487ee9765c5a51dec5fe7b"
+  integrity sha512-6GLgCqo2cy2A2rjCNFlxQS6ZljG/coZfZXclldI8FB/1G3CCI36Zd8xy2HrFVACi8tfk5XrgLQEk+P0Tnz9UcA==
+>>>>>>> origin/main
 
 xcode@^2.0.0:
   version "2.1.0"

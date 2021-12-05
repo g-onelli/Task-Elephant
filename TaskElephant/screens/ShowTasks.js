@@ -8,6 +8,7 @@ import Task from '../objects/Task';
 import TaskStore from '../objects/TaskStore'
 import { StackRouter } from 'react-navigation';
 import {NavigationEvents} from 'react-navigation';
+import Schedule from '../objects/Schedule';
 
 
 
@@ -25,16 +26,40 @@ class ShowTasks extends React.Component{
     let n = arr.length;
     for (let i =0; i< n-1; i++){
       for (let j = 0; j< n-i-1; j ++){
+//      "Sort by largest priority"
         if (arr[j].getPriority()< arr[j+1].getPriority()){
           let temp = arr[j];
           arr[j] = arr[j+1];
           arr[j+1] = temp;
+          continue;
+        }
+        if (arr[j].getPriority()> arr[j+1].getPriority()){
+          continue;
+        }
+
+//      "If priority tie sort by smallest time"
+        if (arr[j].getTimeCost()> arr[j+1].getTimeCost()){
+          let temp = arr[j];
+          arr[j] = arr[j+1];
+          arr[j+1] = temp;
+          continue;
+        }
+        if (arr[j].getTimeCost()< arr[j+1].getTimeCost()){
+          continue;
+        }
+
+//      "If time tie sort by smallest energy"
+        if (arr[j].getEnergyCost()> arr[j+1].getEnergyCost()){
+          let temp = arr[j];
+          arr[j] = arr[j+1];
+          arr[j+1] = temp;
+          continue;
         }
       }
     }
   }
 
-  async createSchedule(arr){
+  async createSchedule_old(arr){
     var dayEnergy = await AsyncStorage.getItem("Day_Energy");
     let newSchedule = [], newNotSchedule = [];
     
@@ -59,6 +84,34 @@ class ShowTasks extends React.Component{
     this.setState({notSchedule:newNotSchedule})
 
 
+  }
+
+  async createSchedule(){
+      var schedule = new Schedule();
+      var dayEnergy = await AsyncStorage.getItem("Day_Energy");
+      let newSchedule = []; newNotSchedule = [];
+      console.log("Start Time: " + schedule.getStartTimeText());
+      console.log("End Time: " + schedule.getEndTimeText());
+      
+      for (let i = 0; i < this.state.tasks.length; i++){
+        console.log(this.state.tasks[i]);
+        if (schedule.getEnergyCost() + this.state.tasks[i].getEnergyCost() > dayEnergy){
+          console.log("Task " + i + " increases schedule enrgy over day energy.");
+          continue;
+        }
+        console.log("Inserting task " + i);
+        var insertLog = await schedule.insertTask(this.state.tasks[i]);
+        if (insertLog){
+          newSchedule.push(this.state.tasks[i]);
+        }
+        else{
+          newNotSchedule.push(this.state.tasks[i]);
+        }
+      }
+
+      this.setState({schedule:newSchedule})
+      this.setState({notSchedule:newNotSchedule}) 
+      
   }
 
   
@@ -113,7 +166,7 @@ class ShowTasks extends React.Component{
       }
 
       this.sort(taskArray);
-      this.createSchedule(taskArray);
+//      this.createSchedule_old(taskArray);
 
       this.setState({tasks: taskArray});
 
@@ -143,12 +196,16 @@ class ShowTasks extends React.Component{
     return (
       
       <View style = {styles.container}>
+      <Button onPress={() => {this.createSchedule()}} 
+        title= 'Click here to generate a schedule.'>
+      </Button>
       <NavigationEvents onDidFocus={async () => await this.componentDidMount()} />
       {this.state.tasks.length === 0 ?
         <View style = {styles.empty}>
           <Text style = {styles.startText}>You don't have any tasks yet</Text>
         </View>
         :
+        this.state.schedule.length !== 0 || this.state.notSchedule.length !== 0 ?
         <View style = {styles.content}>
  
   
@@ -178,12 +235,30 @@ class ShowTasks extends React.Component{
                 </TouchableOpacity>
               )}>{this.props.isFocused ? 'Focused' : 'Not focused'}</FlatList> 
   
-          </View>
+          </View>  
+        </View>
+        :
+        <View style = {styles.content}>
+ 
   
-          
-          
+          <View style = {styles.list}>
   
-        </View>}
+            <FlatList 
+              data = {this.state.tasks}
+              renderItem={({item}) => (
+                <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingle", item);}}>
+                  <Text style = {styles.scheduleItem}>
+                    {item.getTitle()} | Due {item.getDeadlineText()} ({item.getPriority()})
+                    {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
+                    {/* {typeof item} */}
+                  </Text>
+                </TouchableOpacity>
+              )}>{this.props.isFocused ? 'Focused' : 'Not focused'}</FlatList> 
+  
+          </View>  
+        </View>
+      }
+
       </View>
     )
   }
