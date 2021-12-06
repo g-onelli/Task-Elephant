@@ -22,8 +22,14 @@ export default function EnergyDay({navigation}){
   const pressHandler = () => {
       saveEnergy();
       navigation.goBack();
-      navigation.navigate('Show');
+      navigation.navigate('ShowTasks');
   }
+
+  const pressHandler2 = () => {
+    saveEnergy();
+    navigation.goBack();
+    navigation.navigate('ShowEvents');
+}
 
   return (
 
@@ -37,6 +43,8 @@ export default function EnergyDay({navigation}){
             <Slider value={dailyEnergy} onValueChange={value => setDailyEnergy(value)} minimumValue={1} maximumValue={100}/>
           <Text> {" "}</Text>
           <Button title = 'Continue to Tasks!' onPress = {pressHandler} style = {styles.button}>
+          </Button>
+          <Button title = 'Continue to Events!' onPress = {pressHandler2} style = {styles.button}>
           </Button>
 
           

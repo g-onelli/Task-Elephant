@@ -3,12 +3,12 @@ import {StyleSheet, Text, View,Platform } from 'react-native';
 import {MaterialIcons} from  '@expo/vector-icons';
 
 
-export default function Header({navigation}){
+export default function EventHeader({navigation}){
 
 
 
     function press() {
-        navigation.navigate('CreateTasks');
+        navigation.navigate('CreateEvents');
     }
 
 
@@ -17,7 +17,7 @@ export default function Header({navigation}){
 
             <MaterialIcons name = 'add' size = {30} style = {styles.icon} onPress = {press}/>
             <View>
-                <Text style = {styles.headerText}>Your Tasks</Text>
+                <Text style = {styles.headerText}>Your Events</Text>
             </View>
         </View>
     )
