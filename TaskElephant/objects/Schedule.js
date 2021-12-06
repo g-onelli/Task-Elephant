@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 
 
 import Task from './Task';
-
+import Alarms from './Alarms';
 
 // "Important note: A date-time 'second' has a value of 1000."
 
@@ -81,7 +81,7 @@ class Schedule{
 			if (timeCost <= time){
 				
 				this.createAlarm(task,timeBlock[0]);
-
+				console.log("Task inserted");
 				this.scheduledTasks.push([task,timeBlock[0]]);
 				this.totalEnergy += task.getEnergyCost();
 				timeBlock[0] += time;
@@ -146,8 +146,8 @@ class Schedule{
 
 	initTaskAlarms(){
 //	"This should be run to ensure all alarms for this schedule are active."
-//		look for 'clear all' in package, else will need to iterate for removal
 
+		Alarms.clearAllScheduledNotifications();
 		for (const schedeuledTask in this.scheduledTasks){
 			this.createAlarm(scheduledTask[0],scheduledTask[1]);
 		}		
@@ -155,11 +155,15 @@ class Schedule{
 
 	async createAlarm(task,alarmTime){
 		/*** Insert alarm insertion here ***/
+		await Alarms.createScheduledNotification(task,alarmTime);
+
+//debug
+		Alarms.displayNotification(task);		
 	}
 
 	async removeAlarm(task,alarmTime = 0){
 		/*** Insert alarm removal here ***/
-
+		await Alarms.clearScheduledNotification(task);
 		console.log("Alarm removal successful");
 
 	}
