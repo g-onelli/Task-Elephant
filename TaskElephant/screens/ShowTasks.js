@@ -219,7 +219,7 @@ class ShowTasks extends React.Component{
             <FlatList 
               data = {this.state.schedule}
               renderItem={({item}) => (
-                <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingle", item);}}>
+                <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingleTask", item);}}>
                   <Text style = {styles.scheduleItem}>
                     {item.getTitle()} | Due {item.getDeadlineText()} ({item.getPriority()})
                     {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}

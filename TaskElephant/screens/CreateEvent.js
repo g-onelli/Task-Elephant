@@ -11,17 +11,19 @@ import DatePicker from 'react-native-date-picker'
 import Task from '../objects/Task';
 import TaskItem from '../components/TaskItem';
 import TaskStore from '../objects/TaskStore';
+import EventStore from '../objects/EventStore';
+import Event from '../objects/Event';
 
 
-export default function CreateTask({navigation}) {
+export default function CreateEvent({navigation}) {
 // [1,2] = useState is a variable declaration. 1 is the 'get' method, 2 is the 'set' method.    
   const [textIn, setTextIn] = useState(null);
-  const [energyIn, setEnergyIn] = useState(-1);
+//   const [energyIn, setEnergyIn] = useState(-1);
   const [timeIn, setTimeIn] = useState(-1);
-  const [deadlineIn, setDeadlineIn] = useState(new Date(Date.now()));
-  const [priorityIn, setPriorityIn] = useState(7);
+  const [startTimeIn, setStartTimeIn] = useState(new Date(Date.now()));
+//   const [priorityIn, setPriorityIn] = useState(7);
 
-  const [deadlineWindowStatus,setDeadlineWindowStatus] = useState(false);
+  const [startTimeWindowStatus,setStartTimeWindowStatus] = useState(false);
 
   const [tasks, setTasks] = useState([
     // {title:1, energyCost:2,timeCost:3, deadline:4,priority:5 ,key:"1"},
@@ -30,17 +32,17 @@ export default function CreateTask({navigation}) {
 
   ]);
 
-   function initTask(title,energy,time,deadline,priority){
+   function initEvent(title,time,startTime){
      //  "Basic Input sanitiation, if field does not match expected value throw an alert and return."
     if (title == null || title.trim() == ""){
       alert("Error: Title is not valid.");
       return;
     }
 
-    if (energy < 0 || energy > 100 || isNaN(parseInt(energy))){
-      alert("Error: " + energy + " not a valid energy cost value. [0 - 100]");
-      return;
-    }
+    // if (energy < 0 || energy > 100 || isNaN(parseInt(energy))){
+    //   alert("Error: " + energy + " not a valid energy cost value. [0 - 100]");
+    //   return;
+    // }
 
 //  "Time cost value must be limited, or we'll run into issues regarding 
 //    time cost values too large to fit in a schedule, or possibly even a day.  "
@@ -49,38 +51,40 @@ export default function CreateTask({navigation}) {
       return;
     }
 
-    if (isNaN(deadline.getTime()) && deadline != "NaN"){
-      alert("Error: " + deadline + " not a valid date.");
+    if (isNaN(startTime.getTime()) && startTime != "NaN"){
+      alert("Error: " + startTime + " not a valid date.");
     }
 
-    if (deadline != "NaN" && deadline.getTime() < Date.now()){
+    if (startTime != "NaN" && startTime.getTime() < Date.now()){
       alert("Error: Deadline is set before present time.")
       return;
     }
 
-    if (deadline == "NaN") priority += 1;
-    else deadline = deadline.getTime();
+    // if (deadline == "NaN") priority += 1;
+    // else deadline = deadline.getTime();
+
+    startTime = startTime.getTime();
 
 
 //  "Time Cost should be a positive integer of minutes."    
     time *=  1000 * 60;
 
-    return new Task(title,energy,time,deadline,priority);
+    return new Event(title,time,startTime);
    }
 
-   async function onPressButton(title,energy,time,deadline,priority) {
+   async function onPressButton(title,time,startTime) {
 
-    var testTask = initTask(title,energy,time,deadline,priority);
-    if (testTask == null) return;
-    let allTasks = await TaskStore.getAllTasks();
-    testTask.setKey((allTasks.length+1).toString());
+    var testEvent = initEvent(title,time,startTime);
+    if (testEvent == null) return;
+    let allEvents = await EventStore.getAllEvents();
+    testEvent.setKey((allEvents.length+1).toString());
 
     // alert(testTask.getTitle() + " " + testTask.getEnergyCost() + " " 
     //         + testTask.getTimeCost() + " " + testTask.getDeadline() + " " + priority);
-    await TaskStore.saveTask(testTask);
+    await EventStore.saveEvent(testEvent);
     // console.log(await getAllTasks());
 
-    navigation.navigate("ShowTasks");
+    navigation.navigate("ShowEvents");
 
     // setTasks((prevTasks) =>{
     //   return [
@@ -115,33 +119,33 @@ export default function CreateTask({navigation}) {
   return (
     <View style={styles.container}>
       
-      <TextInput placeholder="Task title input here" 
+      <TextInput placeholder="Event title input here" 
       onChangeText={text => setTextIn(text)} style = {styles.textInput}/>
 
-      <TextInput placeholder="Task energy-cost input here [0-100]" 
-      onChangeText={energy => setEnergyIn(energy)} style = {styles.textInput}/>
+      {/* <TextInput placeholder="Task energy-cost input here [0-100]" 
+      onChangeText={energy => setEnergyIn(energy)} style = {styles.textInput}/> */}
 
-      <TextInput placeholder="Task time-cost input here [min]" 
+      <TextInput placeholder="Event time-cost input here [min]" 
       onChangeText={time => setTimeIn(time)} style = {styles.textInput}/>
 
-      <Button title="Task deadline input here" onPress={() => setDeadlineWindowStatus(true)}/>
-      <DatePicker modal open={deadlineWindowStatus} date={deadlineIn} onConfirm={(date) => {setDeadlineWindowStatus(false); setDeadlineIn(new Date(date))}}
+      <Button title="Event startTime input here" onPress={() => setStartTimeWindowStatus(true)}/>
+      <DatePicker modal open={startTimeWindowStatus} date={startTimeIn} onConfirm={(date) => {setStartTimeWindowStatus(false); setStartTimeIn(new Date(date))}}
       onCancel={() => {setDeadlineWindowStatus(false)}}/>
 
       <Text> 
-        {"Task deadline: " + displayDate(deadlineIn)} 
+        {"Task StartTime: " + displayDate(startTimeIn)} 
       </Text>
 
-      <Picker prompt={"Task priority input here"} selectedValue={priorityIn} 
+      {/* <Picker prompt={"Task priority input here"} selectedValue={priorityIn} 
         style={styles.defaultPicker} onValueChange={(itemValue,itemIndex) => setPriorityIn(itemValue)}> 
         <Picker.Item label="High" value = {7}/>
         <Picker.Item label="Medium" value = {3}/>
         <Picker.Item label="Low" value = {1}/>
-      </Picker>
+      </Picker> */}
 
       <View style = {styles.buttonView}>
-        <Button onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn); alarmTest();}} 
-        title= 'Click here to display generated task.'>
+        <Button onPress={() => {onPressButton(textIn,timeIn,startTimeIn); alarmTest();}} 
+        title= 'Click here to display generated event.'>
         </Button>
 
       </View>
