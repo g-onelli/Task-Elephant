@@ -3,7 +3,9 @@ import React, {useState} from 'react'
 
 
 import Task from './Task';
+import TaskStore from './TaskStore'
 import Alarms from './Alarms';
+import Log from './Log.js';
 
 // "Important note: A date-time 'second' has a value of 1000."
 
@@ -104,6 +106,9 @@ class Schedule{
 
 				this.scheduledTasks.splice(this.avaiableTime.indexOf(scheduledTask),1);
 				/*** Insert 'remove task from GoogleCalendar' function here ***/
+				if (this.scheduledTasks == []){
+					Log.addCompletedSchedules();
+				}
 				return true;
 			}
 		}

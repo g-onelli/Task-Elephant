@@ -7,7 +7,8 @@ import notifee, {AndroidImportance,EventType,TimestampTrigger, TriggerType} from
 import NotificationSounds, { playSampleSound , stopSampleSound}  from 'react-native-notification-sounds';
 
 import Navigator from './routes/Stack';
-import {clearTasks} from './objects/TaskStore';  
+import {clearTasks} from './objects/TaskStore';
+import {clearAllLogs} from './objects/Log';  
 
 export default function App() {
 /*
@@ -54,8 +55,9 @@ async function displayNotification() {
 //  "Temporary 'Set to initial state' code, remove for production"
   clearTasks();
 
-//  "Debug to verify that notifications work."
+//  "Debug functions"
 //  displayNotification();
+//  clearAllLogs();
 
 
 

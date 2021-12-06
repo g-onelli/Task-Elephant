@@ -9,6 +9,7 @@ import TaskStore from '../objects/TaskStore'
 import { StackRouter } from 'react-navigation';
 import {NavigationEvents} from 'react-navigation';
 import { HeaderTitle } from 'react-navigation-stack';
+import Log from '../objects/Log.js';
 
 
 
@@ -38,6 +39,7 @@ class ShowSingleTask extends React.Component{
                         this.props.navigation.getParam('deadline'),
                         this.props.navigation.getParam('basePriority')));
                         this.props.navigation.goBack();
+                        Log.addDeletedTask();
                     }} 
                         title= 'Delete'>
                     </Button>

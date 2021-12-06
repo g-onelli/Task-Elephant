@@ -9,7 +9,7 @@ import TaskStore from '../objects/TaskStore'
 import { StackRouter } from 'react-navigation';
 import {NavigationEvents} from 'react-navigation';
 import Schedule from '../objects/Schedule';
-
+import Log from '../objects/Log.js';
 
 
 
@@ -111,6 +111,8 @@ class ShowTasks extends React.Component{
 
       this.setState({schedule:newSchedule})
       this.setState({notSchedule:newNotSchedule}) 
+      Log.addCreatedSchedules();
+      Log.addNumTasksInSchedule(newSchedule.length);
       
   }
 

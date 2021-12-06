@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, View, Text,Button } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Log from '../objects/Log';
 
 export default function Welcome({navigation}){
 
@@ -23,6 +24,61 @@ export default function Welcome({navigation}){
   const pressHandler = () => {
       navigation.navigate('EnergyDay');
   }
+["taskLifetimes","createdSchedules","completedSchedules",
+                    "numTasksInSchedule","deletedTasks","createdTasks","weeklyCreatedTasks"]
+  const debugNav = async() => {
+//  "Need to later create some cleaner method of initalizing this..."
+    var taskLifetimes = await Log.getLogJSON("taskLifetimes");
+    console.log("taskLifetimes|" + taskLifetimes);
+    var createdSchedules = await Log.getLog("createdSchedules");
+    console.log("createdSchedules|" + createdSchedules);
+    var completedSchedules = await Log.getLog("completedSchedules");
+    console.log("completedSchedules|" + completedSchedules);
+    var numTasksInSchedule = await Log.getLogJSON("numTasksInSchedule");
+    console.log("numTasksInSchedule|" + numTasksInSchedule);
+    var deletedTasks = await Log.getLog("deletedTasks");
+    console.log("deletedTasks|" + deletedTasks);
+    var createdTasks = await Log.getLog("createdTasks");
+    console.log("createdTasks|" + createdTasks);
+    var weeklyCreatedTasks = await Log.getLogJSON("weeklyCreatedTasks");
+    console.log("weeklyCreatedTasks|" + weeklyCreatedTasks);
+
+    var avgLifetime = 0;
+    if (taskLifetimes != null){
+      for (var lifeTime in taskLifetimes){
+        avgLifetime += parseInt(lifeTime);
+      }
+
+      avgLifetime = avgLifetime / taskLifetimes.length / 1000 / 60;  
+    }
+
+    var avgTasksScheduled = 0;
+    if (numTasksInSchedule != null){
+      for (var tasks in numTasksInSchedule){
+        avgTasksScheduled += parseInt(tasks);
+      }
+      console.log(avgTasksScheduled + "/" + numTasksInSchedule.length);
+      avgTasksScheduled = avgTasksScheduled / numTasksInSchedule.length;  
+    }
+    
+    var avgWeeklyTasks = 0;
+    if (weeklyCreatedTasks != null){
+      for (var tasks in weeklyCreatedTasks){
+        avgWeeklyTasks += parseInt(tasks);
+      }
+
+      avgWeeklyTasks = avgWeeklyTasks / weeklyCreatedTasks.length;  
+    }
+    
+    alert("Avg. Task Lifetime: " + avgLifetime + "\n" +
+          "Created Schedules: " + createdSchedules + "\n"+
+          "Completed Schedules: " + completedSchedules + "\n" +
+          "Avg. Tasks in a Schedule: " + avgTasksScheduled + "\n" +
+          "Tasks Created: " + createdTasks + "\n" +
+          "Tasks Deleted: " + deletedTasks + "\n" +
+          "Avg. Tasks Created Weekly: " + avgWeeklyTasks
+            );
+  }
 
   const debug_CurrentTime = () => {
     var date = new Date(Date.now());
@@ -37,6 +93,10 @@ export default function Welcome({navigation}){
 
 
       <View style = {styles.container}>
+
+          <Button title = 'debug' onPress = {debugNav} style = {styles.button1}>
+          </Button>
+          
           <Text style = {
               {
                   padding:20
@@ -51,8 +111,8 @@ export default function Welcome({navigation}){
 
 
           <Button title = 'Start!' onPress = {pressHandler} style = {styles.button}>
-
           </Button>
+
 
           
 
@@ -77,7 +137,6 @@ const styles = StyleSheet.create({
         fontSize:35,
     },
 
-
     button:{
         marginTop : 190,
 
@@ -85,7 +144,15 @@ const styles = StyleSheet.create({
         // padding: 50,
         height:280
     },
-
+    button1:{
+        alignSelf: 'flex-end',
+        marginTop : 200,
+        //position : 'absolute',
+        //padding: 50,
+        //height:10,
+        width:10,
+        fontSize:10
+    },
 
   });
 

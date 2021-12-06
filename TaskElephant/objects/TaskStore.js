@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Task from './Task';
-
+import Log from './Log.js';
 /*
  * TaskStore contains functions regarding the use of the AsyncStorage for storing tasks. 
  * Either use default import (import TaskStore from './TaskStore', TaskStore.function())
@@ -26,6 +26,7 @@ export const saveTask = async (inpTask) => {
  //     console.log("Saved tasks: " + tasks);
       await AsyncStorage.setItem("Tasks",tasks);
       console.log("Tasks set");
+      Log.addCreatedTasks();
     }
     catch(error){
       console.log(error);
