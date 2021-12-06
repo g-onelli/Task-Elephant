@@ -2,10 +2,14 @@ import { createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import Welcome from '../screens/Welcome';
 import CreateTask from '../screens/CreateTask';
+import CreateEvent from '../screens/CreateEvent';
 import EnergyDay from "../screens/EnergyDay";
-import Show from "../screens/ShowTasks";
+import ShowTasks from "../screens/ShowTasks";
+import ShowEvents from "../screens/ShowEvents";
 import Header from "../components/header";
-import ShowSingle from "../screens/ShowSingleTask";
+import EventHeader from '../components/EventHeader';
+import ShowSingleTask from "../screens/ShowSingleTask";
+import ShowSingleEvent from '../screens/ShowSingleEvent';
 import React from 'react';
 
 
@@ -18,8 +22,8 @@ const screens = {
         }
     },
 
-    Show: {
-        screen: Show,
+    ShowTasks: {
+        screen: ShowTasks,
         navigationOptions:({navigation}) =>{
             return {
                 headerTitle: () => <Header navigation = {navigation}/>
@@ -28,17 +32,41 @@ const screens = {
         }
     },
 
-    Create:{
+    ShowEvents:{
+        screen: ShowEvents,
+        navigationOptions:({navigation}) =>{
+            return {
+                headerTitle: () => <EventHeader navigation = {navigation}/>
+                // title: 'Your events'
+            }
+        }
+    },
+
+    CreateTasks:{
         screen: CreateTask,
         navigationOptions:{
             title: 'New Task'
         }
     },
 
-    ShowSingle: {
-        screen: ShowSingle,
+    CreateEvents:{
+        screen: CreateEvent,
+        navigationOptions:{
+            title: 'New Event'
+        }
+    },
+
+    ShowSingleTask: {
+        screen: ShowSingleTask,
         navigationOptions:{
             title: 'View Task'
+        }
+    },
+
+    ShowSingleEvent: {
+        screen: ShowSingleEvent,
+        navigationOptions:{
+            title: 'View Event'
         }
     },
 
