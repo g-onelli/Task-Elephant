@@ -11,7 +11,7 @@ import Log from './Log.js';
 
 class Schedule{
 
-	constructor(startTime = Date.now()){
+	constructor(startTime = Date.now(), scheduledTasks = [], availableTime = [], totalEnergy = 0){
 		let tempTime = new Date(startTime);
 
 //		"Setting 'startTime' to 9:00 AM of current day by default, should be user-set config"		
@@ -25,11 +25,17 @@ class Schedule{
 //		this.endTime = tempTime - (tempTime%dayTime) + 1000*60*60*22;
 
 //		"availableTime is an array of available timeblocks, timeblock = [start-time, end-time]"
-		this.availableTime = [[this.startTime,this.endTime]];
+		if (availableTime == []){
+			this.availableTime = [[this.startTime,this.endTime]];	
+		}
+		else{
+			this.availableTime = availableTime;
+		}
+		
 
 //		"scheduledTasks is an array of scheduled tasks, scheduledTask = [task,start-time]"
-		this.scheduledTasks = [];
-		this.totalEnergy = 0;
+		this.scheduledTasks = scheduledTasks;
+		this.totalEnergy = totalEnergy;
 
 //		"Temporary fix for time blocks prior to current time, need to find fix"
 		console.log(this.availableTime);
@@ -246,9 +252,9 @@ class Schedule{
 			i++;
 		}
 	}
-
-
 }
+
+
 export default Schedule;
 
 

@@ -51,12 +51,43 @@ async function displayNotification() {
     });
   }
 
+useEffect(() => {
+    return notifee.onForegroundEvent(({ type, detail }) => {
+      switch (type) {
+        case EventType.DISMISSED:
+          console.log('User dismissed notification', detail.notification);
+          break;
+        case EventType.PRESS:
+          console.log('User pressed notification', detail.notification);
+          break;
+      }
+    });
+  }, []);
+
+notifee.onBackgroundEvent(async ({ type, detail }) => {
+  const { notification, pressAction } = detail;
+  console.log(type);
+  if (type == EventType.PRESSED || type == EventType.DISMISSED){
+    // User has at least acknowledged notification
+    
+  }
+
+  // Check if the user pressed the "Mark as read" action
+  if (type === EventType.ACTION_PRESS && pressAction.id === 'mark-as-read') {
+    // Update external API
+
+
+    // Remove the notification
+    await notifee.cancelNotification(notification.id);
+  }
+});
+
 
 //  "Temporary 'Set to initial state' code, remove for production"
   clearTasks();
 
 //  "Debug functions"
-//  displayNotification();
+  displayNotification();
 //  clearAllLogs();
 
 
