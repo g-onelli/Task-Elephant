@@ -128,7 +128,7 @@ export default function CreateEvent({navigation}) {
       <TextInput placeholder="Event time-cost input here [min]" 
       onChangeText={time => setTimeIn(time)} style = {styles.textInput}/>
 
-      <Button title="Event startTime input here" onPress={() => setStartTimeWindowStatus(true)}/>
+      <Button color='#73a2f3' title="Event startTime input here" onPress={() => setStartTimeWindowStatus(true)}/>
       <DatePicker modal open={startTimeWindowStatus} date={startTimeIn} onConfirm={(date) => {setStartTimeWindowStatus(false); setStartTimeIn(new Date(date))}}
       onCancel={() => {setDeadlineWindowStatus(false)}}/>
 
@@ -144,7 +144,7 @@ export default function CreateEvent({navigation}) {
       </Picker> */}
 
       <View style = {styles.buttonView}>
-        <Button onPress={() => {onPressButton(textIn,timeIn,startTimeIn); alarmTest();}} 
+        <Button color='#73a2f3' onPress={() => {onPressButton(textIn,timeIn,startTimeIn); alarmTest();}} 
         title= 'Click here to display generated event.'>
         </Button>
 

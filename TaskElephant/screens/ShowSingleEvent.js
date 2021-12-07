@@ -11,6 +11,7 @@ import EventStore from '../objects/EventStore';
 import { StackRouter } from 'react-navigation';
 import {NavigationEvents} from 'react-navigation';
 import { HeaderTitle } from 'react-navigation-stack';
+import colorChoice from '../stylePages/Colors';
 
 
 
@@ -31,7 +32,7 @@ class ShowSingleEvent extends React.Component{
                 <Text style = {styles.text}>Start time: {this.dateToString(this.props.navigation.getParam('startTime'))}</Text>
                 
                 <View style = {styles.ButtonView}>
-                    <Button color = '#FE4643'onPress={() => {EventStore.removeEvent(new Event(
+                    <Button color='#73a2f3' onPress={() => {EventStore.removeEvent(new Event(
                         this.props.navigation.getParam('title'),
                         this.props.navigation.getParam('timeCost'),
                         this.props.navigation.getParam('startTime')));
