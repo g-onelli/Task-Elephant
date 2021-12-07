@@ -198,7 +198,7 @@ class ShowTasks extends React.Component{
     return (
       
       <View style = {styles.container}>
-      <Button onPress={() => {this.createSchedule()}} 
+      <Button color='#73a2f3' onPress={() => {this.createSchedule()}} 
         title= 'Click here to generate a schedule.'>
       </Button>
       <NavigationEvents onDidFocus={async () => await this.componentDidMount()} />
