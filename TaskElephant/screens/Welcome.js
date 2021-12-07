@@ -1,9 +1,11 @@
 import React from 'react';
 
-import { StyleSheet, View, Text,Button } from 'react-native';
+import { StyleSheet, View, Text,Button,Image } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Log from '../objects/Log';
+import colorChoice from '../stylePages/Colors';
+import loginStyle from '../stylePages/loginCSS';
 
 export default function Welcome({navigation}){
 
@@ -92,25 +94,26 @@ export default function Welcome({navigation}){
   return (
 
 
-      <View style = {styles.container}>
+      <View style = {loginStyle.container}>
 
-          <Button title = 'debug' onPress = {debugNav} style = {styles.button1}>
-          </Button>
-          
           <Text style = {
               {
-                  padding:20
+                  padding:10,
+                  paddingBottom:0,
+                  marginBottom:0,
+                  fontSize:30
               }
           }>
               Welcome to
           </Text>
-
-          <Text style = {styles.name}>
+          <Image style={{width:200,height:200}} source={require('../assets/FinalLogo.png')}/>
+          <Text style = {loginStyle.name}>
               Task Elephant
           </Text>
-
-
-          <Button title = 'Start!' onPress = {pressHandler} style = {styles.button}>
+          <Button color='#73a2f3' title = 'debug' onPress = {debugNav} style = {loginStyle.button1}>
+          </Button>
+          <Text>{'\n'}</Text>
+          <Button color='#73a2f3' title = 'Start!' onPress = {pressHandler} style = {loginStyle.button}>
           </Button>
 
 
@@ -123,7 +126,7 @@ export default function Welcome({navigation}){
 
 
 
-const styles = StyleSheet.create({
+/*const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
@@ -154,7 +157,7 @@ const styles = StyleSheet.create({
         fontSize:10
     },
 
-  });
+  });*/
 
 
 // const styles = StyleSheet.create({
