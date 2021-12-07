@@ -11,6 +11,7 @@ import DatePicker from 'react-native-date-picker'
 import Task from '../objects/Task';
 import TaskItem from '../components/TaskItem';
 import TaskStore from '../objects/TaskStore';
+import colorChoice from '../stylePages/Colors';
 
 
 export default function CreateTask({navigation}) {
@@ -123,11 +124,11 @@ export default function CreateTask({navigation}) {
 
       <TextInput placeholder="Task time-cost input here [min]" 
       onChangeText={time => setTimeIn(time)} style = {styles.textInput}/>
-
-      <Button title="Task deadline input here" onPress={() => setDeadlineWindowStatus(true)}/>
+      <Text>{"\n"}</Text>
+      <Button color='#73a2f3' title="Task deadline input here" onPress={() => setDeadlineWindowStatus(true)}/>
       <DatePicker modal open={deadlineWindowStatus} date={deadlineIn} onConfirm={(date) => {setDeadlineWindowStatus(false); setDeadlineIn(new Date(date))}}
       onCancel={() => {setDeadlineWindowStatus(false)}}/>
-
+      <Text>{"\n"}</Text>
       <Text> 
         {"Task deadline: " + displayDate(deadlineIn)} 
       </Text>
@@ -140,7 +141,7 @@ export default function CreateTask({navigation}) {
       </Picker>
 
       <View style = {styles.buttonView}>
-        <Button onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn); alarmTest();}} 
+        <Button color='#73a2f3' onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn); alarmTest();}} 
         title= 'Click here to display generated task.'>
         </Button>
 
@@ -186,13 +187,14 @@ const styles = StyleSheet.create({
     borderWidth:1,
     padding:10,
     margin:10,
-    width: Platform.OS === 'ios' ? 400 : 375
+    width: Platform.OS === 'ios' ? 400 : 375,
+    borderRadius:10
     
   },
 
   buttonView:{
     marginTop:125,
-    fontSize:40
+    fontSize:40,
   },
   
   defaultPicker:{
