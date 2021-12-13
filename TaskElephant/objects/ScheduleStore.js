@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Task from './Task';
+import Schedule from './Schedule';
 import Log from './Log.js';
 /*
  * TaskStore contains functions regarding the use of the AsyncStorage for storing tasks. 
@@ -17,9 +18,9 @@ export const saveSchedule = async (inpSchedule) => {
     */
     try{
       const input = JSON.stringify(inpSchedule);
-//      console.log("JSON: " + input);
+      console.log("JSON: " + input);
 
-      await AsyncStorage.setItem("Schedule",tasks);
+      await AsyncStorage.setItem("Schedule",input);
       console.log("Schedule set");
     }
     catch(error){
@@ -32,13 +33,28 @@ export const getSavedSchedule = async () => {
         Outputs: null / Schedule 
     */
     try{
-      const data = await AsyncStorage.getItem("Schedule");
+      var data = await AsyncStorage.getItem("Schedule");
+      console.log("Retrieved: " + data);
       if (data == null){
         return null;
       }
       else{
-        data = JSON.parse(data)
-        return new Schedule(data.startTime, data.scheduledTasks, data.availableTime, data.totalEnergy);
+        data = JSON.parse(data);
+        var schedule = [];
+        for (var scheduledTask of data.scheduledTasks){
+          var tempTask = scheduledTask[0];
+          tempTask = new Task(
+            tempTask["title"],
+            tempTask["energyCost"],
+            tempTask["timeCost"],
+            tempTask["deadline"],
+            tempTask["basePriority"],
+            tempTask["key"],
+            tempTask["startDate"]
+          )
+          schedule.push([tempTask,scheduledTask[1]]);
+        }
+        return new Schedule(data.startTime, schedule, data.availableTime, data.totalEnergy);
       }
     }
     catch(error){
@@ -46,5 +62,18 @@ export const getSavedSchedule = async () => {
     }
 }
 
+export const clearSchedule = async() => {
+      /* Removes all Task objects stored in AsyncStorage. Run to reset stored data between sessions. 
+        Inputs: None
+        Outputs: None
+    */
+      try{
+          await AsyncStorage.removeItem("Schedule");
+          console.log("Schedule Reset");
+      }
+      catch(error){
+          console.log(error)
+      }
+  }
 
-export default {getSavedSchedule,saveSchedule};
+export default {getSavedSchedule,saveSchedule,clearSchedule};

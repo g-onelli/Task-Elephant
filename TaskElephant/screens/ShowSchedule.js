@@ -9,57 +9,56 @@ import TaskStore from '../objects/TaskStore'
 import { StackRouter } from 'react-navigation';
 import {NavigationEvents} from 'react-navigation';
 import Schedule from '../objects/Schedule';
-
+import ScheduleStore from '../objects/ScheduleStore';
+import EventStore from '../objects/EventStore';
+import Log from '../objects/Log';
 
 
 
 class ShowSchedule extends React.Component{
   state = {
-    // tasks:[],
-    // schedule:[],
+    tasks:[],
+    scheduleToday:[],
     // notSchedule:[]
-
-    scheduleToday:[]
   }
 
 
-//   sort(arr){
-// //    var dayEnergy = await AsyncStorage.getItem("Day_Energy");
-//     let n = arr.length;
-//     for (let i =0; i< n-1; i++){
-//       for (let j = 0; j< n-i-1; j ++){
-// //      "Sort by largest priority"
-//         if (arr[j].getPriority()< arr[j+1].getPriority()){
-//           let temp = arr[j];
-//           arr[j] = arr[j+1];
-//           arr[j+1] = temp;
-//           continue;
-//         }
-//         if (arr[j].getPriority()> arr[j+1].getPriority()){
-//           continue;
-//         }
+   sort(arr){
+     let n = arr.length;
+     for (let i =0; i< n-1; i++){
+       for (let j = 0; j< n-i-1; j ++){
+//      "Sort by largest priority"
+         if (arr[j].getPriority()< arr[j+1].getPriority()){
+           let temp = arr[j];
+           arr[j] = arr[j+1];
+           arr[j+1] = temp;
+           continue;
+         }
+         if (arr[j].getPriority()> arr[j+1].getPriority()){
+           continue;
+         }
 
-// //      "If priority tie sort by smallest time"
-//         if (arr[j].getTimeCost()> arr[j+1].getTimeCost()){
-//           let temp = arr[j];
-//           arr[j] = arr[j+1];
-//           arr[j+1] = temp;
-//           continue;
-//         }
-//         if (arr[j].getTimeCost()< arr[j+1].getTimeCost()){
-//           continue;
-//         }
+//      "If priority tie sort by smallest time"
+         if (arr[j].getTimeCost()> arr[j+1].getTimeCost()){
+           let temp = arr[j];
+           arr[j] = arr[j+1];
+           arr[j+1] = temp;
+           continue;
+         }
+         if (arr[j].getTimeCost()< arr[j+1].getTimeCost()){
+           continue;
+         }
 
-// //      "If time tie sort by smallest energy"
-//         if (arr[j].getEnergyCost()> arr[j+1].getEnergyCost()){
-//           let temp = arr[j];
-//           arr[j] = arr[j+1];
-//           arr[j+1] = temp;
-//           continue;
-//         }
-//       }
-//     }
-//   }
+//      "If time tie sort by smallest energy"
+         if (arr[j].getEnergyCost()> arr[j+1].getEnergyCost()){
+           let temp = arr[j];
+           arr[j] = arr[j+1];
+           arr[j+1] = temp;
+           continue;
+         }
+       }
+     }
+   }
 
 //   async createSchedule_old(arr){
 //     var dayEnergy = await AsyncStorage.getItem("Day_Energy");
@@ -88,35 +87,53 @@ class ShowSchedule extends React.Component{
 
 //   }
 
-//   async createSchedule(){
-//       var schedule = new Schedule();
-//       var dayEnergy = await AsyncStorage.getItem("Day_Energy");
-//       let newSchedule = []; newNotSchedule = [];
-//       console.log("Start Time: " + schedule.getStartTimeText());
-//       console.log("End Time: " + schedule.getEndTimeText());
+   async createSchedule(){
+       var schedule = new Schedule();
+       var dayEnergy = await AsyncStorage.getItem("Day_Energy");
+       let newSchedule = [];
+       console.log("Start Time: " + schedule.getStartTimeText());
+       console.log("End Time: " + schedule.getEndTimeText());
       
-//       for (let i = 0; i < this.state.tasks.length; i++){
-//         console.log(this.state.tasks[i]);
-//         if (schedule.getEnergyCost() + this.state.tasks[i].getEnergyCost() > dayEnergy){
-//           console.log("Task " + i + " increases schedule enrgy over day energy.");
-//           continue;
-//         }
-//         console.log("Inserting task " + i);
-//         var insertLog = await schedule.insertTask(this.state.tasks[i]);
-//         if (insertLog){
-//           newSchedule.push(this.state.tasks[i]);
-//         }
-//         else{
-//           newNotSchedule.push(this.state.tasks[i]);
-//         }
-//       }
 
-//       this.setState({schedule:newSchedule})
-//       this.setState({notSchedule:newNotSchedule}) 
-      
-//   }
 
-  
+//    "Event insertion"
+      var eventArray = await EventStore.getAllEvents();
+      for (let i = 0; i < eventArray.length; i++){
+        schedule.insertEvent(eventArray[i]);
+        console.log("event inserted - " + i);
+      }
+//    "Task insertion"
+      var taskArray = await TaskStore.getAllTasks();
+      this.sort(taskArray);
+
+       for (let i = 0; i < taskArray.length; i++){
+         console.log(taskArray[i]);
+         if (schedule.getEnergyCost() + taskArray[i].getEnergyCost() > dayEnergy){
+           console.log("Task " + i + " increases schedule enrgy over day energy.");
+           continue;
+         }
+         console.log("Inserting task " + i);
+         var insertLog = await schedule.insertTask(taskArray[i]);
+         
+         if (insertLog){
+           newSchedule.push(taskArray[i]);
+           console.log("Task inserted");
+         }
+         else{
+           console.log(insertLog);
+         }
+       }
+       schedule.initTaskAlarms();
+       ScheduleStore.saveSchedule(schedule);
+       this.setState({scheduleToday:schedule.getScheduledTasks()})
+       Log.addCreatedSchedules();
+   }
+
+  getTimeText(date){
+    date = new Date(date);
+    return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().slice(-2) + " - " 
+      + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+  }
 
 
   async componentDidMount() {
@@ -126,12 +143,16 @@ class ShowSchedule extends React.Component{
     try{
 
     //   get Schedule from Async Storage; which is an array of schedule objects
-      let scheduleArray = [] 
-      
+      let scheduleArray = await ScheduleStore.getSavedSchedule();
+      if (scheduleArray == null){
+        this.setState({scheduleToday : []});
+      }
+      else{
+      //   we don't need to sort this one.
+        this.setState({scheduleToday: scheduleArray.getScheduledTasks()});  
+      }
 
-    //   we don't need to sort this one.
-      this.setState({scheduleToday: scheduleArray});
-
+    
       console.log(1);
       
       // console.log(taskArray[0].getBasePriority());
@@ -141,10 +162,11 @@ class ShowSchedule extends React.Component{
     catch(error){
       console.log(error)
     }
+//    this.setState({scheduleToday: []});
 
     this.props.navigation.addListener('focus', () => {
       // do something
-      this.setState({tasks: taskArray});
+      this.setState({scheduleToday: scheduleArray});
     });
   }
 
@@ -158,9 +180,9 @@ class ShowSchedule extends React.Component{
     return (
       
       <View style = {styles.container}>
-      {/* <Button onPress={() => {this.createSchedule()}} 
+      { <Button onPress={() => {this.createSchedule()}} 
         title= 'Click here to generate a schedule.'>
-      </Button> */}
+      </Button> }
       <NavigationEvents onDidFocus={async () => await this.componentDidMount()} />
       {this.state.scheduleToday.length === 0 ?
         <View style = {styles.empty}>
@@ -177,7 +199,7 @@ class ShowSchedule extends React.Component{
               renderItem={({item}) => (
                 
                 <Text style = {styles.scheduleItem}>
-                {item.getTitle()} | Starts {item.getStartTime()}
+                {item[0].getTitle()} | Starts {this.getTimeText(item[1])}
                 {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                 {/* {typeof item} */}
                 </Text>

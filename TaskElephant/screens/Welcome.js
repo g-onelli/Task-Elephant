@@ -45,7 +45,7 @@ export default function Welcome({navigation}){
 
     var avgLifetime = 0;
     if (taskLifetimes != null){
-      for (var lifeTime in taskLifetimes){
+      for (var lifeTime of taskLifetimes){
         avgLifetime += parseInt(lifeTime);
       }
 
@@ -54,7 +54,7 @@ export default function Welcome({navigation}){
 
     var avgTasksScheduled = 0;
     if (numTasksInSchedule != null){
-      for (var tasks in numTasksInSchedule){
+      for (var tasks of numTasksInSchedule){
         avgTasksScheduled += parseInt(tasks);
       }
       console.log(avgTasksScheduled + "/" + numTasksInSchedule.length);
@@ -63,7 +63,7 @@ export default function Welcome({navigation}){
     
     var avgWeeklyTasks = 0;
     if (weeklyCreatedTasks != null){
-      for (var tasks in weeklyCreatedTasks){
+      for (var tasks of weeklyCreatedTasks){
         avgWeeklyTasks += parseInt(tasks);
       }
 

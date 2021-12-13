@@ -1,3 +1,4 @@
+import Task from "./Task";
 import notifee, {AndroidImportance,EventType,TimestampTrigger, TriggerType} from '@notifee/react-native';
 import NotificationSounds, { playSampleSound , stopSampleSound}  from 'react-native-notification-sounds';
 
@@ -13,6 +14,7 @@ export async function createScheduledNotification(task,taskTime) {
       timestamp: taskTime, // fire at 11:10am (10 minutes before meeting)
     };
 
+    taskTime = new Date(taskTime);
 
     const channelId = await notifee.createChannel({
       id: 'taskelephant',
@@ -25,7 +27,7 @@ export async function createScheduledNotification(task,taskTime) {
     await notifee.createTriggerNotification(
       {
         title: 'Time to start task!',
-        body: task.getTitle(),
+        body: task.getTitle() + " | " + ("0" + taskTime.getHours()).slice(-2) + ":" + ("0" + taskTime.getMinutes()).slice(-2),
         data: {
           task: JSON.stringify(task),
         },
@@ -37,7 +39,8 @@ export async function createScheduledNotification(task,taskTime) {
     );
   }
 
-export async function displayNotification(task) {
+export async function displayNotification(task,taskTime = Date.now()) {
+    
     const soundsList = await NotificationSounds.getNotifications('ringtone');
 //    console.log(soundsList[0].url)
 //    playSampleSound(soundsList[0]);
@@ -51,10 +54,12 @@ export async function displayNotification(task) {
       importance: AndroidImportance.HIGH,
     });
 
+    taskTime = new Date(taskTime);
+
     // Display a notification
     await notifee.displayNotification({
       title: 'Time to start task!',
-      body: task.getTitle(),
+      body: task.getTitle() + " | " + ("0" + taskTime.getHours()).slice(-2) + ":" + ("0" + taskTime.getMinutes()).slice(-2),
       data: {
         task: JSON.stringify(task),
       },
@@ -89,7 +94,7 @@ export async function displayNotification(task) {
       for (var notification of notifications){
         var notifTask = JSON.parse(notification.data.task);
         if (task.compareKey(notifTask.key)){
-          await cancelTriggerNotification(notification.id);
+          await notifee.cancelTriggerNotification(notification.id);
           return true;
         }
       }
@@ -104,7 +109,7 @@ export async function displayNotification(task) {
 
   export async function clearAllScheduledNotifications(){
     try{
-      await cancelTriggerNotifications(await getTriggerNotificationIds());
+      await notifee.cancelTriggerNotifications(await notifee.getTriggerNotificationIds());
     }
     catch(e){
       console.log(e);

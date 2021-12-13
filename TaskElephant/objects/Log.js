@@ -81,6 +81,7 @@ export const addLifetime = async (lifetime) => {
   }
   taskLifetimes.push(lifetime);
   setLogJSON(taskLifetimes,"taskLifetimes");
+  console.log("Action Logged");
 }
 
 export const addCreatedSchedules = async() => {
@@ -90,6 +91,7 @@ export const addCreatedSchedules = async() => {
   }
   createdSchedules += 1;
   setLog(createdSchedules.toString(), "createdSchedules");
+  console.log("Action Logged");
 }
 
 export const addCompletedSchedules = async() => {
@@ -99,6 +101,7 @@ export const addCompletedSchedules = async() => {
   }
   completedSchedules += 1;
   setLog(completedSchedules.toString(), "completedSchedules"); 
+  console.log("Action Logged");
 }
 
 export const addNumTasksInSchedule = async (numTasks) => {
@@ -108,15 +111,17 @@ export const addNumTasksInSchedule = async (numTasks) => {
   }
   numTasksInSchedule.push(numTasks);
   setLogJSON(numTasksInSchedule,"numTasksInSchedule");
+  console.log("Action Logged");
 }
 
 export const addDeletedTask = async() => {
-  var deletedTasks = parseInt(await getLog("createdSchedules"));
+  var deletedTasks = parseInt(await getLog("deletedTasks"));
   if (deletedTasks == null){
     deletedTasks = 0;
   }
   deletedTasks += 1;
   setLog(deletedTasks.toString(), "deletedTasks");
+  console.log("Action Logged");
 }
 
 export const addCreatedTasks = async() => {
@@ -126,6 +131,7 @@ export const addCreatedTasks = async() => {
   }
   createdTasks += 1;
   setLog(createdTasks.toString(), "createdTasks");
+  console.log("Action Logged");
 }
 
 export const addWeeklyCreatedTasks = async () => {
@@ -144,6 +150,7 @@ export const addWeeklyCreatedTasks = async () => {
   }
   weeklyCreatedTasks.push(totalTasks-week_totalTasks);
   setLogJSON(weeklyCreatedTasks,"weeklyCreatedTasks");
+  console.log("Action Logged");
 }
 
 export default {clearLog,clearAllLogs,getLog,setLog,getLogJSON,setLogJSON,addLifetime,addCreatedSchedules,addCompletedSchedules,addNumTasksInSchedule,addDeletedTask,addCreatedTasks,addWeeklyCreatedTasks};

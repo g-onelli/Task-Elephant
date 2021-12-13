@@ -104,7 +104,7 @@ export default function CreateEvent({navigation}) {
     /* "Dates need to be converted from their milisecond data variant to a quick, readable format.
      *  Take a Date object and convert it to MM/DD/YY-HH:MM format.                               "
      */
-    return (date.getMonth()+1) + "/" + date.getDay() + "/" + date.getFullYear().toString().slice(-2) + " - " 
+    return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear().toString().slice(-2) + " - " 
       + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
   }
  
@@ -130,7 +130,7 @@ export default function CreateEvent({navigation}) {
 
       <Button title="Event startTime input here" onPress={() => setStartTimeWindowStatus(true)}/>
       <DatePicker modal open={startTimeWindowStatus} date={startTimeIn} onConfirm={(date) => {setStartTimeWindowStatus(false); setStartTimeIn(new Date(date))}}
-      onCancel={() => {setDeadlineWindowStatus(false)}}/>
+      onCancel={() => {setStartTimeWindowStatus(false)}}/>
 
       <Text> 
         {"Task StartTime: " + displayDate(startTimeIn)} 

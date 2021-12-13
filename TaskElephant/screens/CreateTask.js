@@ -11,6 +11,7 @@ import DatePicker from 'react-native-date-picker'
 import Task from '../objects/Task';
 import TaskItem from '../components/TaskItem';
 import TaskStore from '../objects/TaskStore';
+import Log from '../objects/Log';
 
 
 export default function CreateTask({navigation}) {
@@ -78,6 +79,7 @@ export default function CreateTask({navigation}) {
     // alert(testTask.getTitle() + " " + testTask.getEnergyCost() + " " 
     //         + testTask.getTimeCost() + " " + testTask.getDeadline() + " " + priority);
     await TaskStore.saveTask(testTask);
+
     // console.log(await getAllTasks());
 
     navigation.navigate("ShowTasks");
@@ -100,7 +102,7 @@ export default function CreateTask({navigation}) {
     /* "Dates need to be converted from their milisecond data variant to a quick, readable format.
      *  Take a Date object and convert it to MM/DD/YY-HH:MM format.                               "
      */
-    return (date.getMonth()+1) + "/" + date.getDay() + "/" + date.getFullYear().toString().slice(-2) + " - " 
+    return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear().toString().slice(-2) + " - " 
       + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
   }
  

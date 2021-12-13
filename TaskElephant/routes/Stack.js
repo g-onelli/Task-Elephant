@@ -6,6 +6,7 @@ import CreateEvent from '../screens/CreateEvent';
 import EnergyDay from "../screens/EnergyDay";
 import ShowTasks from "../screens/ShowTasks";
 import ShowEvents from "../screens/ShowEvents";
+import ShowSchedule from "../screens/ShowSchedule";
 import Header from "../components/header";
 import EventHeader from '../components/EventHeader';
 import ShowSingleTask from "../screens/ShowSingleTask";
@@ -39,6 +40,14 @@ const screens = {
                 headerTitle: () => <EventHeader navigation = {navigation}/>
                 // title: 'Your events'
             }
+        }
+    },
+
+    ShowSchedule: {
+        screen: ShowSchedule,
+        
+        navigationOptions:{
+            title: 'Your Schedule'
         }
     },
 

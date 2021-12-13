@@ -201,8 +201,8 @@ class ShowTasks extends React.Component{
     return (
       
       <View style = {styles.container}>
-      <Button onPress={() => {this.createSchedule()}} 
-        title= 'Click here to generate a schedule.'>
+      <Button onPress={() => {this.props.navigation.navigate("ShowSchedule")}} 
+        title= 'Click here to view schedule.'>
       </Button>
       <NavigationEvents onDidFocus={async () => await this.componentDidMount()} />
       {this.state.tasks.length === 0 ?
@@ -251,7 +251,7 @@ class ShowTasks extends React.Component{
             <FlatList 
               data = {this.state.tasks}
               renderItem={({item}) => (
-                <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingle", item);}}>
+                <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingleTask", item);console.log("Nav Attempted");}}>
                   <Text style = {styles.scheduleItem}>
                     {item.getTitle()} | Due {item.getDeadlineText()} ({item.getPriority()})
                     {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}

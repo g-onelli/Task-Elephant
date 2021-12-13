@@ -40,7 +40,7 @@ export const getAllTasks = async() => {
     */
     try{
       var tasks = await AsyncStorage.getItem("Tasks");
-//      console.log(tasks);
+      console.log(tasks);
       let taskArray = [];
       if (tasks == null){
         return taskArray;

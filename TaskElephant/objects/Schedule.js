@@ -18,14 +18,15 @@ class Schedule{
 		tempTime.setHours(9,0);
 		this.startTime = tempTime.getTime();
 //		"Setting 'endTime' to 10:00 PM of current day by default, should be user-set config
-		tempTime.setHours(24,0);
+		tempTime.setHours(22,0);
 		this.endTime=tempTime.getTime();
 
 
 //		this.endTime = tempTime - (tempTime%dayTime) + 1000*60*60*22;
 
 //		"availableTime is an array of available timeblocks, timeblock = [start-time, end-time]"
-		if (availableTime == []){
+//		console.log(availableTime);
+		if (availableTime.length == 0){
 			this.availableTime = [[this.startTime,this.endTime]];	
 		}
 		else{
@@ -70,6 +71,9 @@ class Schedule{
 	setEndTime(time){
 		this.endTime = time;
 	}
+	getScheduledTasks(){
+		return this.scheduledTasks;
+	}
 
 	insertTask(task){
 //	"Boolean function, returns true on successful task insertion otherwise false"
@@ -77,30 +81,77 @@ class Schedule{
 		for (const scheduledTask of this.scheduledTasks){
 			if (task.compareTasks(scheduledTask[0])) {
 				alert("Error: Duplicate task inputted to schedule.");
+				console.log("Error: Duplicate task inputted to schedule.");
 				return false;
 			}
 		}
 
 //		Search through available time blocks, if block is available insert task.
 		let timeCost = task.getTimeCost() * 1000 * 60 + 1000*60*10;
+		console.log(this.availableTime);
 		for (const timeBlock of this.availableTime){
 			let time = timeBlock[1] - timeBlock[0];
 			console.log(timeCost + " - " + time);
 			if (timeCost <= time){
 				
-				this.createAlarm(task,timeBlock[0]);
 				console.log("Task inserted");
 				this.scheduledTasks.push([task,timeBlock[0]]);
 				this.totalEnergy += task.getEnergyCost();
-				timeBlock[0] += time;
+				timeBlock[0] += timeCost;
 				if (timeBlock[0] == timeBlock[1]){
 					this.availableTime.splice(this.availableTime.indexOf(timeBlock),1);
 				}
+				console.log(this.scheduledTasks);
+				Alarms.displayNotification(task,timeBlock[0]);
+				this.initTaskAlarms();
 				return true;
 			}
 		}
 		return false; 
 	}
+
+	insertEvent(event){
+		let eventStart = event.getStartTime();
+		let eventEnd = event.getTimeCost() * 1000 * 60 + eventStart;
+		if (eventEnd < Date.now()){
+			return;
+		}
+		console.log(this.availableTime);
+		for (var i = this.availableTime.length-1; i>= 0; i--){
+			var timeBlock = this.availableTime[i];
+			let time = timeBlock[1] - timeBlock[0];
+			
+			// Event overlaps with end of timeBlcok
+			let cond1 = (timeBlock[1] > eventStart && timeBlock[0] < eventStart);
+			// Event overlaps with start of timeBlock
+			let cond2 = (timeBlock[0] < eventEnd && timeBlock[1] > eventEnd)
+			// Event is inside timeBlock
+			let cond3 = (cond1 && cond2);
+			console.log("Conditions:");
+			console.log(cond1);
+			console.log(cond2);
+			console.log(cond3);
+			if (cond3){
+				var newTimeBlock = [timeBlock[0],eventStart];
+				var newTimeBlock2 = [timeBlock[1],eventEnd]; 
+				this.availableTime.splice(i,1);
+				this.availableTime.push(newTimeBlock,newTimeBlock2);
+				continue;
+			} 
+			if (cond1){
+				this.availableTime[i][1]=eventStart;
+				continue; 
+			} 
+			if (cond2){
+				this.availableTime[i][0]=eventEnd;
+				continue;
+			} 
+
+		}
+		console.log(this.availableTime);
+		this.sortTimeBlocks(); 
+	}
+	
 
 	completeTask(task){
 //	"Boolean function, returns true on successful task removal otherwise false"
@@ -110,7 +161,7 @@ class Schedule{
 				
 				this.removeAlarm(scheduledTask[0],scheduledTask[1]);
 
-				this.scheduledTasks.splice(this.avaiableTime.indexOf(scheduledTask),1);
+				this.scheduledTasks.splice(this.availableTime.indexOf(scheduledTask),1);
 				/*** Insert 'remove task from GoogleCalendar' function here ***/
 				if (this.scheduledTasks == []){
 					Log.addCompletedSchedules();
@@ -159,7 +210,8 @@ class Schedule{
 //	"This should be run to ensure all alarms for this schedule are active."
 
 		Alarms.clearAllScheduledNotifications();
-		for (const schedeuledTask in this.scheduledTasks){
+		for (const scheduledTask of this.scheduledTasks){
+//			console.log("ScheduledTask: " + scheduledTask[0] + "  -  " + scheduledTask[1]);
 			this.createAlarm(scheduledTask[0],scheduledTask[1]);
 		}		
 	}
@@ -169,7 +221,7 @@ class Schedule{
 		await Alarms.createScheduledNotification(task,alarmTime);
 
 //debug
-		Alarms.displayNotification(task);		
+				
 	}
 
 	async removeAlarm(task,alarmTime = 0){
@@ -229,7 +281,7 @@ class Schedule{
 	trimTimeBlock(){
 //	"Remove/Adjust time blocks that have a start-time before current time."
 		let currTime = Date.now() + 1000 * 60 * 5;
-		console.log("ii" +  currTime);
+//		console.log("ii" +  currTime);
 		for (var i = this.availableTime.length-1; i >= 0; i--){
 			var timeBlock = this.availableTime[i];
 			if (currTime > timeBlock[0]){
@@ -238,7 +290,7 @@ class Schedule{
 				}
 				else{
 					this.availableTime[i][0] = currTime;
-					console.log("**" + this.availableTime[i][1]);
+//					console.log("**" + this.availableTime[i][1]);
 				}
 			}  
 		}

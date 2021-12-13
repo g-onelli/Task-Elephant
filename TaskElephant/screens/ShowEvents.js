@@ -101,33 +101,7 @@ class ShowEvents extends React.Component{
   
     }
   
-    async createSchedule(){
-        var schedule = new Schedule();
-        var dayEnergy = await AsyncStorage.getItem("Day_Energy");
-        let newSchedule = []; newNotSchedule = [];
-        console.log("Start Time: " + schedule.getStartTimeText());
-        console.log("End Time: " + schedule.getEndTimeText());
-        
-        for (let i = 0; i < this.state.tasks.length; i++){
-          console.log(this.state.tasks[i]);
-          if (schedule.getEnergyCost() + this.state.tasks[i].getEnergyCost() > dayEnergy){
-            console.log("Task " + i + " increases schedule enrgy over day energy.");
-            continue;
-          }
-          console.log("Inserting task " + i);
-          var insertLog = await schedule.insertTask(this.state.tasks[i]);
-          if (insertLog){
-            newSchedule.push(this.state.tasks[i]);
-          }
-          else{
-            newNotSchedule.push(this.state.tasks[i]);
-          }
-        }
-  
-        this.setState({schedule:newSchedule})
-        this.setState({notSchedule:newNotSchedule}) 
-        
-    }
+
   
     
   
@@ -210,8 +184,8 @@ class ShowEvents extends React.Component{
       return (
         
         <View style = {styles.container}>
-        <Button onPress={() => {this.createSchedule()}} 
-          title= 'Click here to generate a schedule.'>
+        <Button onPress={() => {this.props.navigation.navigate("ShowSchedule")}} 
+          title= 'Click here to view schedule.'>
         </Button>
         <NavigationEvents onDidFocus={async () => await this.componentDidMount()} />
         {this.state.events.length === 0 ?

@@ -8,7 +8,9 @@ import NotificationSounds, { playSampleSound , stopSampleSound}  from 'react-nat
 
 import Navigator from './routes/Stack';
 import {clearTasks} from './objects/TaskStore';
-import {clearAllLogs} from './objects/Log';  
+import {clearAllLogs} from './objects/Log';
+import {clearSchedule} from './objects/ScheduleStore';  
+import {clearEvents} from './objects/EventStore';
 
 export default function App() {
 /*
@@ -69,7 +71,10 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
   console.log(type);
   if (type == EventType.PRESSED || type == EventType.DISMISSED){
     // User has at least acknowledged notification
-    
+    console.log("Event Noticed");
+
+    //TODO: Delete task stored in Data from TaskStore and Schedule
+
   }
 
   // Check if the user pressed the "Mark as read" action
@@ -85,10 +90,13 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
 
 //  "Temporary 'Set to initial state' code, remove for production"
   clearTasks();
+  clearSchedule();
+  clearEvents();
+//  clearAllLogs();
 
 //  "Debug functions"
-  displayNotification();
-//  clearAllLogs();
+//  displayNotification();
+
 
 
 
