@@ -33,6 +33,20 @@ export async function createScheduledNotification(task,taskTime) {
         },
         android: {
           channelId,
+          actions:[
+            {
+              title: "Finished the task!",
+              pressAction:{
+                id: 'finish',
+              },
+            },
+            {
+              title: "I'll finish it later.",
+              pressAction:{
+                id: "delay",
+              },
+            },
+          ]
         },
       },
       trigger,
@@ -57,16 +71,32 @@ export async function displayNotification(task,taskTime = Date.now()) {
     taskTime = new Date(taskTime);
 
     // Display a notification
-    await notifee.displayNotification({
-      title: 'Time to start task!',
-      body: task.getTitle() + " | " + ("0" + taskTime.getHours()).slice(-2) + ":" + ("0" + taskTime.getMinutes()).slice(-2),
-      data: {
-        task: JSON.stringify(task),
+    await notifee.displayNotification(
+      {
+        title: 'Time to start task!',
+        body: task.getTitle() + " | " + ("0" + taskTime.getHours()).slice(-2) + ":" + ("0" + taskTime.getMinutes()).slice(-2),
+        data: {
+          task: JSON.stringify(task),
+        },
+        android: {
+          channelId,
+          actions:[
+            {
+              title: "Finished now!",
+              pressAction:{
+                id: 'finish',
+              },
+            },
+            {
+              title: "I'll finish it later.",
+              pressAction:{
+                id: "delay",
+              },
+            },
+          ]
+        },
       },
-      android: {
-        channelId,
-      },
-    });
+    );
   }  
 
   export async function clearNotification(task){

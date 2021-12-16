@@ -7,10 +7,11 @@ import notifee, {AndroidImportance,EventType,TimestampTrigger, TriggerType} from
 import NotificationSounds, { playSampleSound , stopSampleSound}  from 'react-native-notification-sounds';
 
 import Navigator from './routes/Stack';
-import {clearTasks} from './objects/TaskStore';
+import {clearTasks,getAllTasks,removeTask} from './objects/TaskStore';
 import {clearAllLogs} from './objects/Log';
 import {clearSchedule} from './objects/ScheduleStore';  
 import {clearEvents} from './objects/EventStore';
+import Task from './objects/Task';
 
 export default function App() {
 /*
@@ -55,13 +56,34 @@ async function displayNotification() {
 
 useEffect(() => {
     return notifee.onForegroundEvent(({ type, detail }) => {
+//    console.log(type);
+//    console.log("EventType.PRESS" + EventType.PRESS);
+//    console.log("EventType.ACTION_PRESS" + EventType.ACTION_PRESS)
+    const { notification, pressAction } = detail;
       switch (type) {
         case EventType.DISMISSED:
-          console.log('User dismissed notification', detail.notification);
+          console.log('User dismissed notification', notification);
           break;
         case EventType.PRESS:
-          console.log('User pressed notification', detail.notification);
+          console.log('User pressed notification', notification);
           break;
+        case EventType.ACTION_PRESS:
+          console.log(pressAction.id);
+          if (pressAction.id == 'finish'){
+            var storedTask = JSON.parse(notification.data.task);
+            storedTask = new Task(
+              storedTask["title"],
+              storedTask["energyCost"],
+              storedTask["timeCost"],
+              storedTask["deadline"],
+              storedTask["basePriority"],
+              storedTask["key"],
+              storedTask["startDate"]
+            );
+            removeTask(storedTask);
+          }
+          notifee.cancelNotification(notification.id);
+
       }
     });
   }, []);
@@ -73,13 +95,25 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
     // User has at least acknowledged notification
     console.log("Event Noticed");
 
-    //TODO: Delete task stored in Data from TaskStore and Schedule
 
   }
-
+  if (type === EventType.ACTION_PRESS){
+    console.log(pressAction);
+  }
   // Check if the user pressed the "Mark as read" action
-  if (type === EventType.ACTION_PRESS && pressAction.id === 'mark-as-read') {
+  if (type === EventType.ACTION_PRESS && pressAction.id === 'finish') {
     // Update external API
+    var storedTask = JSON.parse(notification.data.task);
+    storedTask = new Task(
+          storedTask["title"],
+          storedTask["energyCost"],
+          storedTask["timeCost"],
+          storedTask["deadline"],
+          storedTask["basePriority"],
+          storedTask["key"],
+          storedTask["startDate"]
+        );
+    removeTask(storedTask);
 
 
     // Remove the notification
@@ -89,7 +123,7 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
 
 
 //  "Temporary 'Set to initial state' code, remove for production"
-  clearTasks();
+//  clearTasks();
   clearSchedule();
   clearEvents();
 //  clearAllLogs();

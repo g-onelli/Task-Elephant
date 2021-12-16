@@ -74,7 +74,7 @@ export default function CreateTask({navigation}) {
     var testTask = initTask(title,energy,time,deadline,priority);
     if (testTask == null) return;
     let allTasks = await TaskStore.getAllTasks();
-    testTask.setKey((allTasks.length+1).toString());
+//    testTask.setKey((allTasks.length+1).toString());
 
     // alert(testTask.getTitle() + " " + testTask.getEnergyCost() + " " 
     //         + testTask.getTimeCost() + " " + testTask.getDeadline() + " " + priority);
