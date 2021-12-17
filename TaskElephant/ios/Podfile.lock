@@ -226,6 +226,8 @@ PODS:
   - React-jsinspector (0.63.4)
   - react-native-date-picker (4.1.1):
     - React-Core
+  - react-native-notification-sounds (0.5.3):
+    - React
   - react-native-safe-area-context (3.2.0):
     - React-Core
   - React-RCTActionSheet (0.63.4):
@@ -295,6 +297,11 @@ PODS:
   - RNCPicker (2.1.0):
     - React-Core
   - RNGestureHandler (1.10.3):
+    - React-Core
+  - RNNotifee (4.0.0):
+    - React-Core
+    - RNNotifee/NotifeeCore (= 4.0.0)
+  - RNNotifee/NotifeeCore (4.0.0):
     - React-Core
   - RNReanimated (2.2.4):
     - DoubleConversion
@@ -369,6 +376,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
+  - react-native-notification-sounds (from `../node_modules/react-native-notification-sounds`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -384,6 +392,7 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
@@ -453,6 +462,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
+  react-native-notification-sounds:
+    :path: "../node_modules/react-native-notification-sounds"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-RCTActionSheet:
@@ -483,6 +494,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-picker/picker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNNotifee:
+    :path: "../node_modules/@notifee/react-native"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -528,6 +541,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
   react-native-date-picker: 414fe8f73392bae030dc4efec39d743b5c5de283
+  react-native-notification-sounds: ca3b60a37bd15dc8761393d04b1b7fd384a6cbf4
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
@@ -543,6 +557,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPicker: f7a40b21b915b7a187624d52f52b7bc2f73ea413
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
+  RNNotifee: 985579266661b4f678dd7d6994cee74a022aedec
   RNReanimated: e5040efc7c90da0b190a6525fcfc7e1e75973b21
   RNScreens: 21b73c94c9117e1110a79ee0ee80c93ccefed8ce
   UMAppLoader: 21af63390e55c82e037fb9752d93114a80ecf16e
