@@ -5,46 +5,62 @@ import {AppRegistry, StyleSheet, View, Text,Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Slider} from '@miblanchard/react-native-slider';
 
-export default function EnergyDay({navigation}){
+export default class EnergyDay extends React.Component{
 
-  const [dailyEnergy, setDailyEnergy] = useState(0);
+  state = {
+    energy:0
+  }
 
-  const saveEnergy = async () => {
+  setDisplayEnergy = async() => {
     try{
-      await AsyncStorage.setItem("Day_Energy",parseInt(dailyEnergy).toString());
-      console.log("Energy for the day set: " + parseInt(dailyEnergy));
+      var energy = await AsyncStorage.getItem("Day_Energy");
+      return parseInt(energy);
     }
     catch(error){
       console.log(error);
     }
   }
 
-  const pressHandler = () => {
-      saveEnergy();
-      navigation.goBack();
-      navigation.navigate('ShowTasks');
+  saveEnergy = async () => {
+    try{
+      await AsyncStorage.setItem("Day_Energy",parseInt(this.state.energy).toString());
+      console.log("Energy for the day set: " + parseInt(this.state.energy));
+    }
+    catch(error){
+      console.log(error);
+    }
   }
 
-  const pressHandler2 = () => {
-    saveEnergy();
-    navigation.goBack();
-    navigation.navigate('ShowEvents');
-}
+  pressHandler = () => {
+      this.saveEnergy();
+      this.props.navigation.navigate('ShowTasks');
+  }
 
-  return (
+  pressHandler2 = () => {
+    this.saveEnergy();
+    this.props.navigation.navigate('ShowEvents');
+  }
 
+  async componentDidMount(){
+    this.setState({energy:await this.setDisplayEnergy()});
+  }
+
+
+
+  render() {return (
+      
 
       <View style = {styles.container_slider}>
           <Text style = {{padding:20, marginLeft:25, marginRight:25}}>
               Enter your energy levels for the day here!
           </Text>
-          <Text>{parseInt(dailyEnergy)}
+          <Text>{parseInt(this.state.energy)}
           </Text>
-            <Slider value={dailyEnergy} onValueChange={value => setDailyEnergy(value)} minimumValue={1} maximumValue={100}/>
+            <Slider value={this.state.energy} onValueChange={value => this.setState({energy: value})} minimumValue={1} maximumValue={100}/>
           <Text> {" "}</Text>
-          <Button title = 'Continue to Tasks!' onPress = {pressHandler} style = {styles.button}>
+          <Button title = 'Continue to Tasks!' onPress = {this.pressHandler} style = {styles.button}>
           </Button>
-          <Button title = 'Continue to Events!' onPress = {pressHandler2} style = {styles.button}>
+          <Button title = 'Continue to Events!' onPress = {this.pressHandler2} style = {styles.button}>
           </Button>
 
           
@@ -54,7 +70,7 @@ export default function EnergyDay({navigation}){
   )
         
 
-}
+}}
 
 
 const styles = StyleSheet.create({

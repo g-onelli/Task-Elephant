@@ -243,10 +243,9 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'center'
 
-    position:'absolute',
     justifyContent:'center',
     alignItems: 'center',
-    top: 0, left: 0, 
+    top: '40%', left: 0, 
     right: 0, bottom: 0, 
     
   },
