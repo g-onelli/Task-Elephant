@@ -105,7 +105,10 @@ class ShowSchedule extends React.Component{
 //    "Task insertion"
       var taskArray = await TaskStore.getAllTasks();
       this.sort(taskArray);
-
+      if (taskArray.length == 0){
+        alert("Error: No tasks to create a schedule. Congrats!");
+        return;
+      }
        for (let i = 0; i < taskArray.length; i++){
          console.log(taskArray[i]);
          if (schedule.getEnergyCost() + taskArray[i].getEnergyCost() > dayEnergy){
@@ -123,9 +126,15 @@ class ShowSchedule extends React.Component{
            console.log(insertLog);
          }
        }
+       if (schedule.getScheduledTasks().length == 0){
+         alert("Error: Unable to create schedule using current time or energy. \n" +
+                 "Valid Time: 9:00AM - 10:00PM\n" +
+                 "Energy: " + dayEnergy);
+         return;
+       }
        schedule.initTaskAlarms();
        ScheduleStore.saveSchedule(schedule);
-       this.setState({scheduleToday:schedule.getScheduledTasks()})
+       this.setState({scheduleToday:schedule.getScheduledTasks()});
        Log.addCreatedSchedules();
    }
 
@@ -197,8 +206,14 @@ class ShowSchedule extends React.Component{
             <FlatList 
               data = {this.state.scheduleToday}
               renderItem={({item}) => (
-                
+                item[2]?
                 <Text style = {styles.scheduleItem}>
+                {item[0].getTitle()} | Starts {this.getTimeText(item[1])}
+                {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
+                {/* {typeof item} */}
+                </Text>
+                :
+                <Text style = {styles.item}>
                 {item[0].getTitle()} | Starts {this.getTimeText(item[1])}
                 {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                 {/* {typeof item} */}

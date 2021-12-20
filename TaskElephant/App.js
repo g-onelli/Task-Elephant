@@ -9,7 +9,8 @@ import NotificationSounds, { playSampleSound , stopSampleSound}  from 'react-nat
 import Navigator from './routes/Stack';
 import {clearTasks,getAllTasks,removeTask} from './objects/TaskStore';
 import {clearAllLogs} from './objects/Log';
-import {clearSchedule} from './objects/ScheduleStore';  
+import ScheduleStore from './objects/ScheduleStore';  
+import Schedule from './objects/Schedule';
 import {clearEvents} from './objects/EventStore';
 import Task from './objects/Task';
 
@@ -70,6 +71,7 @@ useEffect(() => {
         case EventType.ACTION_PRESS:
           console.log(pressAction.id);
           if (pressAction.id == 'finish'){
+            
             var storedTask = JSON.parse(notification.data.task);
             storedTask = new Task(
               storedTask["title"],
@@ -80,7 +82,7 @@ useEffect(() => {
               storedTask["key"],
               storedTask["startDate"]
             );
-            removeTask(storedTask);
+            ScheduleStore.completeTask(storedTask);
           }
           notifee.cancelNotification(notification.id);
 
@@ -113,7 +115,7 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
           storedTask["key"],
           storedTask["startDate"]
         );
-    removeTask(storedTask);
+    ScheduleStore.completeTask(storedTask);
 
 
     // Remove the notification
@@ -124,7 +126,7 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
 
 //  "Temporary 'Set to initial state' code, remove for production"
 //  clearTasks();
-  clearSchedule();
+  ScheduleStore.clearSchedule();
   clearEvents();
 //  clearAllLogs();
 

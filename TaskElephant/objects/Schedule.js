@@ -11,7 +11,8 @@ import Log from './Log.js';
 
 class Schedule{
 
-	constructor(startTime = Date.now(), scheduledTasks = [], availableTime = [], totalEnergy = 0){
+	constructor(startTime = Date.now(), scheduledTasks = [], availableTime = [], totalEnergy = 0, 
+			completedTasks = [], scheduledEvents = [], key = Math.round(Math.random() * 1000000)){
 		let tempTime = new Date(startTime);
 
 //		"Setting 'startTime' to 9:00 AM of current day by default, should be user-set config"		
@@ -36,7 +37,17 @@ class Schedule{
 
 //		"scheduledTasks is an array of scheduled tasks, scheduledTask = [task,start-time]"
 		this.scheduledTasks = scheduledTasks;
+
+//		"completedTasks is an array of completed tasks, completedTask = [task,start-time]"
+//		"Think of this as ShowTasks's 'notSchedule' for greyed out tasks."		
+		this.completedTasks = completedTasks;
+
+//		"scheduledEvents is an array of events, no start-time should be necessary."
+		this.scheduledEvents = scheduledEvents;
+
 		this.totalEnergy = totalEnergy;
+
+		this.key = key;
 
 //		"Temporary fix for time blocks prior to current time, need to find fix"
 		console.log(this.availableTime);
@@ -95,7 +106,7 @@ class Schedule{
 			if (timeCost <= time){
 				
 				console.log("Task inserted");
-				this.scheduledTasks.push([task,timeBlock[0]]);
+				this.scheduledTasks.push([task,timeBlock[0],true]);
 				this.totalEnergy += task.getEnergyCost();
 				timeBlock[0] += timeCost;
 				if (timeBlock[0] == timeBlock[1]){
@@ -115,6 +126,9 @@ class Schedule{
 		let eventEnd = event.getTimeCost() * 1000 * 60 + eventStart;
 		if (eventEnd < Date.now()){
 			return;
+		}
+		if (!this.scheduledEvents.includes(event)){
+			this.scheduledEvents.push(event);
 		}
 		console.log(this.availableTime);
 		for (var i = this.availableTime.length-1; i>= 0; i--){
@@ -157,15 +171,22 @@ class Schedule{
 //	"Boolean function, returns true on successful task removal otherwise false"
 //	"Task completion implies time/energy was spent, meaning time/energy is not returned."
 		for (const scheduledTask of this.scheduledTasks){
+			if (!scheduledTask[2]) {continue;}
 			if (task.compareTasks(scheduledTask[0])) {
 				
 				this.removeAlarm(scheduledTask[0],scheduledTask[1]);
-
-				this.scheduledTasks.splice(this.availableTime.indexOf(scheduledTask),1);
-				/*** Insert 'remove task from GoogleCalendar' function here ***/
-				if (this.scheduledTasks == []){
+				scheduledTask[2] = false;
+//				this.scheduledTasks.splice(this.availableTime.indexOf(scheduledTask),1);
+				
+				var scheduledCount = 0;
+				for (const task of this.ScheduledTasks){
+					if (task[2]){scheduledCount+= 1;}
+				}
+				if (scheduledCount == 0){
 					Log.addCompletedSchedules();
 				}
+
+				TaskStore.removeTask(scheduledTask[0]);
 				return true;
 			}
 		}

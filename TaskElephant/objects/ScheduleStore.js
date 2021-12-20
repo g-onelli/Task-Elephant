@@ -52,10 +52,25 @@ export const getSavedSchedule = async () => {
             tempTask["key"],
             tempTask["startDate"]
           )
-          schedule.push([tempTask,scheduledTask[1]]);
+          schedule.push([tempTask,scheduledTask[1],scheduledTask[2]]);
         }
         return new Schedule(data.startTime, schedule, data.availableTime, data.totalEnergy);
       }
+    }
+    catch(error){
+      console.log(error);
+    }
+}
+
+export const completeTask = async(task) => {
+    try{
+      var schedule = await getSavedSchedule();
+      if (schedule == null){
+        console.log("Schedule empty");
+        return;
+      } 
+      schedule.completeTask(task);
+      saveSchedule(schedule);
     }
     catch(error){
       console.log(error);
@@ -76,4 +91,4 @@ export const clearSchedule = async() => {
       }
   }
 
-export default {getSavedSchedule,saveSchedule,clearSchedule};
+export default {getSavedSchedule,saveSchedule,clearSchedule, completeTask};
