@@ -17,7 +17,7 @@ class Task{
 //		"Priority is something that the user should not be able to directly set. Unsure yet how it will be calculated, will modify later."
 		this.basePriority = priority;
 		this.key = key.toString();
-		console.log("Key test-"+this.key);
+//		console.log("Key test-"+this.key);
 
 	}
 
@@ -44,6 +44,10 @@ class Task{
 
 	getBasePriority(){
 		return this.basePriority;
+	}
+
+	getStartDate(){
+		return this.startDate;
 	}
 
 	getPriority(){

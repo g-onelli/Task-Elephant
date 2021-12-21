@@ -70,13 +70,13 @@ export default function Welcome({navigation}){
       avgWeeklyTasks = avgWeeklyTasks / weeklyCreatedTasks.length;  
     }
     
-    alert("Avg. Task Lifetime: " + avgLifetime + "\n" +
+    alert("Avg. Task Lifetime: " + avgLifetime.toFixed(2) + "\n" +
           "Created Schedules: " + createdSchedules + "\n"+
           "Completed Schedules: " + completedSchedules + "\n" +
-          "Avg. Tasks in a Schedule: " + avgTasksScheduled + "\n" +
+          "Avg. Tasks in a Schedule: " + avgTasksScheduled.toFixed(2) + "\n" +
           "Tasks Created: " + createdTasks + "\n" +
           "Tasks Deleted: " + deletedTasks + "\n" +
-          "Avg. Tasks Created Weekly: " + avgWeeklyTasks
+          "Avg. Tasks Created Weekly: " + avgWeeklyTasks.toFixed(2)
             );
   }
 
@@ -86,7 +86,7 @@ export default function Welcome({navigation}){
       + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
   }
     
-
+  Log.checkWeek();
   console.log(debug_CurrentTime());
   getAllTasks();
   return (

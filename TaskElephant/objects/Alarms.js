@@ -19,7 +19,7 @@ export async function createScheduledNotification(task,taskTime) {
     const channelId = await notifee.createChannel({
       id: 'taskelephant',
       name: 'Task-Elephant Channel',
-      sound: 'default',
+//      sound: 'default',
       importance: AndroidImportance.HIGH,
     });
 
@@ -64,7 +64,7 @@ export async function displayNotification(task,taskTime = Date.now()) {
     const channelId = await notifee.createChannel({
       id: 'taskelephant',
       name: 'Task-Elephant Channel',
-      sound: 'default',
+//      sound: 'default',
       importance: AndroidImportance.HIGH,
     });
 
@@ -102,10 +102,10 @@ export async function displayNotification(task,taskTime = Date.now()) {
   export async function clearNotification(task){
 //  "This specifically clears a notification from the notifications menu, not scheduled notifications."
     try{
-      var notifications = getDisplayedNotifcations();
+      var notifications = await notifee.getDisplayedNotifcations();
       for (var notification of notifications){
-        var notifTask = JSON.parse(notification.data.task);
-        if (task.compareKey(notifTask.key)){
+        var notifTask = JSON.parse(notification.notification.data.task);
+        if (task.compareKeys(notifTask.key)){
           await cancelNotification(notification.id);
           return true;
         } 
@@ -120,11 +120,21 @@ export async function displayNotification(task,taskTime = Date.now()) {
   export async function clearScheduledNotification(task){
 //  "This specifically clears a notification that was scheduled to trigger, not a displayed notification."
     try{
-      var notifications = getTriggerNotifications();
+      var notifications = await notifee.getTriggerNotifications();
+      console.log(notifications);
+      console.log("Hello!");
       for (var notification of notifications){
+        notification = notification.notification;
+//        console.log(notification.data);
         var notifTask = JSON.parse(notification.data.task);
-        if (task.compareKey(notifTask.key)){
+//        console.log(notifTask.key + " | " + task.getKey());
+        if (task.compareKeys(notifTask.key)){
+
           await notifee.cancelTriggerNotification(notification.id);
+          console.log(notification.id);
+          console.log(true);
+          var temp = await notifee.getTriggerNotifications();
+          console.log(temp);
           return true;
         }
       }
@@ -139,7 +149,12 @@ export async function displayNotification(task,taskTime = Date.now()) {
 
   export async function clearAllScheduledNotifications(){
     try{
-      await notifee.cancelTriggerNotifications(await notifee.getTriggerNotificationIds());
+      console.log("Clearing notifications:")
+      var sample = await notifee.getTriggerNotificationIds();
+      console.log("Pre clear:" + sample);
+      await notifee.cancelTriggerNotifications(sample);
+      var sample = await notifee.getTriggerNotificationIds();
+      console.log("Post clear:" + sample);
     }
     catch(e){
       console.log(e);

@@ -132,7 +132,7 @@ class ShowSchedule extends React.Component{
                  "Energy: " + dayEnergy);
          return;
        }
-       schedule.initTaskAlarms();
+       await schedule.initTaskAlarms();
        ScheduleStore.saveSchedule(schedule);
        this.setState({scheduleToday:schedule.getScheduledTasks()});
        Log.addCreatedSchedules();
@@ -158,6 +158,7 @@ class ShowSchedule extends React.Component{
       }
       else{
       //   we don't need to sort this one.
+        await scheduleArray.initTaskAlarms();
         this.setState({scheduleToday: scheduleArray.getScheduledTasks()});  
       }
 
@@ -207,11 +208,13 @@ class ShowSchedule extends React.Component{
               data = {this.state.scheduleToday}
               renderItem={({item}) => (
                 item[2]?
+                <TouchableOpacity onPress = {async () => {await ScheduleStore.completeTask(item[0]); await this.componentDidMount()}}>
                 <Text style = {styles.scheduleItem}>
                 {item[0].getTitle()} | Starts {this.getTimeText(item[1])}
                 {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                 {/* {typeof item} */}
                 </Text>
+                </TouchableOpacity>
                 :
                 <Text style = {styles.item}>
                 {item[0].getTitle()} | Starts {this.getTimeText(item[1])}

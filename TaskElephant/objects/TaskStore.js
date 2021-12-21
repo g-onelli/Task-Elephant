@@ -95,7 +95,11 @@ export const removeTask = async (inpTask) => {
 //      console.log(inpTask.compareTasks(taskArray[i]));
       if (inpTask.compareTasks(taskArray[i])){
         console.log("Found and removing task...");
+//        console.log("Adding lifetime...");
+        await Log.addLifetime((Date.now() - parseInt(taskArray[i].getStartDate())));
+//        console.log("Lifetime added");
         taskArray.splice(i, 1);
+
         break;
       }      
     }

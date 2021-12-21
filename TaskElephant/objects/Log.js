@@ -153,4 +153,34 @@ export const addWeeklyCreatedTasks = async () => {
   console.log("Action Logged");
 }
 
-export default {clearLog,clearAllLogs,getLog,setLog,getLogJSON,setLogJSON,addLifetime,addCreatedSchedules,addCompletedSchedules,addNumTasksInSchedule,addDeletedTask,addCreatedTasks,addWeeklyCreatedTasks};
+export const checkWeek = async () => {
+//  "Should fire every time the app is open, checking if it is the end of a week."
+  var dateNow = new Date(Date.now());
+  var endWeek = await AsyncStorage.getItem("endWeek");
+  if (endWeek == null){
+    endWeek = new Date(Date.now());
+    endWeek.setDate(endWeek.getDate() + (6 - endWeek.getDay()))
+    endWeek.setHours(24);
+    endWeek.setMinutes(0,0,0);
+//    console.log("Set: " + endWeek);
+    AsyncStorage.setItem("endWeek",endWeek.getTime().toString());
+    return;
+  } 
+  endWeek = new Date(parseInt(endWeek));
+
+
+//  console.log(endWeek.toString());
+//  console.log(endWeek.getTime() + " | " + dateNow.getTime());
+  if (endWeek.getTime() < dateNow.getTime()){
+    addWeeklyCreatedTasks();
+    endWeek.setDate(endWeek.getDate() + 7);
+    AsyncStorage.setItem("endWeek",endWeek);
+  }
+  //console.log(endWeek);
+//  console.log(endWeek.toString());
+}
+
+export default {clearLog,clearAllLogs,getLog,setLog,getLogJSON,setLogJSON,
+  addLifetime,addCreatedSchedules,addCompletedSchedules,
+  addNumTasksInSchedule,addDeletedTask,addCreatedTasks,
+  addWeeklyCreatedTasks,checkWeek};

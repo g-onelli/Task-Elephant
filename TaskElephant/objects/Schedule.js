@@ -51,7 +51,7 @@ class Schedule{
 
 //		"Temporary fix for time blocks prior to current time, need to find fix"
 		console.log(this.availableTime);
-		this.checkTimeBlocks();
+//		this.checkTimeBlocks();
 		this.trimTimeBlock();
 
 	}
@@ -112,9 +112,11 @@ class Schedule{
 				if (timeBlock[0] == timeBlock[1]){
 					this.availableTime.splice(this.availableTime.indexOf(timeBlock),1);
 				}
-				console.log(this.scheduledTasks);
+//				console.log(this.scheduledTasks);
+
+			//	"Test code to show notification early"
 				Alarms.displayNotification(task,timeBlock[0]);
-				this.initTaskAlarms();
+
 				return true;
 			}
 		}
@@ -179,9 +181,11 @@ class Schedule{
 //				this.scheduledTasks.splice(this.availableTime.indexOf(scheduledTask),1);
 				
 				var scheduledCount = 0;
-				for (const task of this.ScheduledTasks){
+				console.log("Fail");
+				for (const task of this.scheduledTasks){
 					if (task[2]){scheduledCount+= 1;}
 				}
+
 				if (scheduledCount == 0){
 					Log.addCompletedSchedules();
 				}
@@ -227,18 +231,21 @@ class Schedule{
 		return false;				
 	}
 
-	initTaskAlarms(){
+	async initTaskAlarms(){
 //	"This should be run to ensure all alarms for this schedule are active."
 
-		Alarms.clearAllScheduledNotifications();
+		await Alarms.clearAllScheduledNotifications();
 		for (const scheduledTask of this.scheduledTasks){
 //			console.log("ScheduledTask: " + scheduledTask[0] + "  -  " + scheduledTask[1]);
-			this.createAlarm(scheduledTask[0],scheduledTask[1]);
+			if (scheduledTask[2]){
+				this.createAlarm(scheduledTask[0],scheduledTask[1]);	
+			}
 		}		
 	}
 
 	async createAlarm(task,alarmTime){
 		/*** Insert alarm insertion here ***/
+//		console.log("Alarm created at " + new Date(alarmTime));
 		await Alarms.createScheduledNotification(task,alarmTime);
 
 //debug
@@ -247,8 +254,9 @@ class Schedule{
 
 	async removeAlarm(task,alarmTime = 0){
 		/*** Insert alarm removal here ***/
+//		console.log("Alarm removed");
 		await Alarms.clearScheduledNotification(task);
-		console.log("Alarm removal successful");
+//		console.log("Alarm removal successful");
 
 	}
 

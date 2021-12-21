@@ -63,13 +63,13 @@ useEffect(() => {
     const { notification, pressAction } = detail;
       switch (type) {
         case EventType.DISMISSED:
-          console.log('User dismissed notification', notification);
+          console.log('User dismissed notification');
           break;
         case EventType.PRESS:
-          console.log('User pressed notification', notification);
+          console.log('User pressed notification');
           break;
         case EventType.ACTION_PRESS:
-          console.log(pressAction.id);
+//          console.log(pressAction.id);
           if (pressAction.id == 'finish'){
             
             var storedTask = JSON.parse(notification.data.task);
@@ -92,7 +92,7 @@ useEffect(() => {
 
 notifee.onBackgroundEvent(async ({ type, detail }) => {
   const { notification, pressAction } = detail;
-  console.log(type);
+//  console.log(type);
   if (type == EventType.PRESSED || type == EventType.DISMISSED){
     // User has at least acknowledged notification
     console.log("Event Noticed");
@@ -100,7 +100,7 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
 
   }
   if (type === EventType.ACTION_PRESS){
-    console.log(pressAction);
+//    console.log(pressAction);
   }
   // Check if the user pressed the "Mark as read" action
   if (type === EventType.ACTION_PRESS && pressAction.id === 'finish') {
@@ -123,11 +123,10 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
   }
 });
 
-
 //  "Temporary 'Set to initial state' code, remove for production"
 //  clearTasks();
-  ScheduleStore.clearSchedule();
-  clearEvents();
+//  ScheduleStore.clearSchedule();
+//  clearEvents();
 //  clearAllLogs();
 
 //  "Debug functions"

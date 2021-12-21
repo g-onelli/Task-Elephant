@@ -33,7 +33,6 @@ class ShowSingleTask extends React.Component{
                 
                 <View style = {styles.ButtonView}>
                     <Button color = '#FE4643'onPress={() => {
-                        Log.addLifetime(Date.now() - this.props.navigation.getParam('startDate'));
                         TaskStore.removeTask(new Task(
                         this.props.navigation.getParam('title'),
                         this.props.navigation.getParam('energyCost'),
