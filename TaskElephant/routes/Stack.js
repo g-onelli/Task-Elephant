@@ -1,5 +1,5 @@
 import { createStackNavigator} from 'react-navigation-stack';
-import {createAppContainer} from 'react-navigation';
+// import {createAppContainer} from 'react-navigation';
 import Welcome from '../screens/Welcome';
 import CreateTask from '../screens/CreateTask';
 import CreateEvent from '../screens/CreateEvent';
@@ -23,61 +23,61 @@ const screens = {
         }
     },
 
-    ShowTasks: {
-        screen: ShowTasks,
-        navigationOptions:({navigation}) =>{
-            return {
-                headerTitle: () => <Header navigation = {navigation}/>
-                // title: 'Your tasks'
-            }
-        }
-    },
+    // ShowTasks: {
+    //     screen: ShowTasks,
+    //     navigationOptions:({navigation}) =>{
+    //         return {
+    //             headerTitle: () => <Header navigation = {navigation}/>
+    //             // title: 'Your tasks'
+    //         }
+    //     }
+    // },
 
-    ShowEvents:{
-        screen: ShowEvents,
-        navigationOptions:({navigation}) =>{
-            return {
-                headerTitle: () => <EventHeader navigation = {navigation}/>
-                // title: 'Your events'
-            }
-        }
-    },
+    // ShowEvents:{
+    //     screen: ShowEvents,
+    //     navigationOptions:({navigation}) =>{
+    //         return {
+    //             headerTitle: () => <EventHeader navigation = {navigation}/>
+    //             // title: 'Your events'
+    //         }
+    //     }
+    // },
 
-    ShowSchedule: {
-        screen: ShowSchedule,
+    // ShowSchedule: {
+    //     screen: ShowSchedule,
         
-        navigationOptions:{
-            title: 'Your Schedule'
-        }
-    },
+    //     navigationOptions:{
+    //         title: 'Your Schedule'
+    //     }
+    // },
 
-    CreateTasks:{
-        screen: CreateTask,
-        navigationOptions:{
-            title: 'New Task'
-        }
-    },
+    // CreateTasks:{
+    //     screen: CreateTask,
+    //     navigationOptions:{
+    //         title: 'New Task'
+    //     }
+    // },
 
-    CreateEvents:{
-        screen: CreateEvent,
-        navigationOptions:{
-            title: 'New Event'
-        }
-    },
+    // CreateEvents:{
+    //     screen: CreateEvent,
+    //     navigationOptions:{
+    //         title: 'New Event'
+    //     }
+    // },
 
-    ShowSingleTask: {
-        screen: ShowSingleTask,
-        navigationOptions:{
-            title: 'View Task'
-        }
-    },
+    // ShowSingleTask: {
+    //     screen: ShowSingleTask,
+    //     navigationOptions:{
+    //         title: 'View Task'
+    //     }
+    // },
 
-    ShowSingleEvent: {
-        screen: ShowSingleEvent,
-        navigationOptions:{
-            title: 'View Event'
-        }
-    },
+    // ShowSingleEvent: {
+    //     screen: ShowSingleEvent,
+    //     navigationOptions:{
+    //         title: 'View Event'
+    //     }
+    // },
 
     EnergyDay: {
         screen: EnergyDay,
@@ -91,8 +91,9 @@ const screens = {
 
 const HomeStack = createStackNavigator(screens);
 
-export default createAppContainer(HomeStack);
+// export default createAppContainer(HomeStack);
 
+export default HomeStack;
 
 
 
