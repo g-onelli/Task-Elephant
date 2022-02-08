@@ -6,7 +6,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import notifee, {AndroidImportance,EventType,TimestampTrigger, TriggerType} from '@notifee/react-native';
 import NotificationSounds, { playSampleSound , stopSampleSound}  from 'react-native-notification-sounds';
 
-import Navigator from './routes/Stack';
+// import Navigator from './routes/Stack';
+import Navigator from './routes/drawer';
+
+
+
 import {clearTasks,getAllTasks,removeTask} from './objects/TaskStore';
 import {clearAllLogs} from './objects/Log';
 import ScheduleStore from './objects/ScheduleStore';  
