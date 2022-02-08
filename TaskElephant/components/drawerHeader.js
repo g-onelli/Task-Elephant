@@ -3,13 +3,8 @@ import {StyleSheet, Text, View,Platform } from 'react-native';
 import {MaterialIcons} from  '@expo/vector-icons';
 
 
-export default function Header({navigation}){
+export default function DrawerHeader({navigation, title}){
 
-
-
-    function press() {
-        navigation.navigate('CreateTasks');
-    }
 
 
     function press2(){
@@ -19,10 +14,12 @@ export default function Header({navigation}){
     return (
         <View style = {styles.header}>
 
-            <MaterialIcons name = 'add' size = {30} style = {styles.addIcon} onPress = {press}/>
+        
             <MaterialIcons name = 'menu' size = {30} style = {styles.menuIcon} onPress={press2}/>
+
+
             <View>
-                <Text style = {styles.headerText}>Your Tasks</Text>
+                <Text style = {styles.headerText}>{title}</Text>
             </View>
         </View>
     )
@@ -42,16 +39,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: Platform.OS === 'ios'? '500' : '600'
     },
-    addIcon:{
-        position:'absolute',
-        right: Platform.OS === 'ios'? -80 : 0,
-        color: Platform.OS === 'ios'? '#007AFF' : '#2D312E'
-        
-        // '#4A74EF'
-    },
+    
 
     menuIcon: {
-        position:'absolute',
+        position: 'absolute',
         left: Platform.OS === 'ios'? -80 : 0,
         color: Platform.OS === 'ios'? '#007AFF' : '#2D312E'
     }

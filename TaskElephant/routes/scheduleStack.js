@@ -7,7 +7,7 @@ import EnergyDay from "../screens/EnergyDay";
 import ShowTasks from "../screens/ShowTasks";
 import ShowEvents from "../screens/ShowEvents";
 import ShowSchedule from "../screens/ShowSchedule";
-import Header from "../components/header";
+import DrawerHeader from "../components/drawerHeader";
 import EventHeader from '../components/EventHeader';
 import ShowSingleTask from "../screens/ShowSingleTask";
 import ShowSingleEvent from '../screens/ShowSingleEvent';
@@ -18,8 +18,15 @@ const screens = {
     ShowSchedule: {
         screen: ShowSchedule,
         
-        navigationOptions:{
-            title: 'Your Schedule'
+        // navigationOptions:{
+        //     title: 'Your Schedule'
+        // }
+
+        navigationOptions:({navigation}) =>{
+            return {
+                headerTitle: () => <DrawerHeader navigation = {navigation} title = 'Your Schedule'/>
+                
+            }
         }
     }
 }
