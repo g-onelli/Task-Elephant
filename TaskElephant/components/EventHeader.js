@@ -11,11 +11,16 @@ export default function EventHeader({navigation}){
         navigation.navigate('CreateEvents');
     }
 
+    function press2(){
+        navigation.openDrawer();
+    }
+
 
     return (
         <View style = {styles.header}>
 
-            <MaterialIcons name = 'add' size = {30} style = {styles.icon} onPress = {press}/>
+            <MaterialIcons name = 'add' size = {30} style = {styles.addIcon} onPress = {press}/>
+            <MaterialIcons name = 'menu' size = {30} style = {styles.menuIcon} onPress={press2}/>
             <View>
                 <Text style = {styles.headerText}>Your Events</Text>
             </View>
@@ -37,11 +42,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: Platform.OS === 'ios'? '500' : '600'
     },
-    icon:{
+    addIcon:{
         position:'absolute',
-        right: Platform.OS === 'ios'? -100 : 0,
+        right: Platform.OS === 'ios'? -80 : 0,
         color: Platform.OS === 'ios'? '#007AFF' : '#2D312E'
         
         // '#4A74EF'
+    },
+
+    menuIcon: {
+        position:'absolute',
+        left: Platform.OS === 'ios'? -80 : 0,
+        color: Platform.OS === 'ios'? '#007AFF' : '#2D312E'
     }
 });
