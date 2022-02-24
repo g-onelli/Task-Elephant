@@ -11,17 +11,22 @@ import Log from './Log.js';
 
 class Schedule{
 
-	constructor(startTime = Date.now(), scheduledTasks = [], availableTime = [], totalEnergy = 0, 
+	constructor(startTime = 0, endTime = 0, scheduledTasks = [], availableTime = [], totalEnergy = 0, 
 			completedTasks = [], scheduledEvents = [], key = Math.round(Math.random() * 1000000)){
-		let tempTime = new Date(startTime);
+		if (startTime == 0){
+			startTime = new Date(Date.now());
+	//		"Setting 'startTime' to 9:00 AM of current day by default, should be user-set config"		
+			startTime.setHours(9,0);
+		}
 
-//		"Setting 'startTime' to 9:00 AM of current day by default, should be user-set config"		
-		tempTime.setHours(9,0);
-		this.startTime = tempTime.getTime();
-//		"Setting 'endTime' to 10:00 PM of current day by default, should be user-set config
-		tempTime.setHours(22,0);
-		this.endTime=tempTime.getTime();
+		this.startTime = startTime;
 
+		if (endTime == 0){
+			endTime = new Date(Date.now());
+	//		"Setting 'startTime' to 9:00 AM of current day by default, should be user-set config"		
+			endTime.setHours(22,0);
+		}
+		this.endTime = endTime;
 
 //		this.endTime = tempTime - (tempTime%dayTime) + 1000*60*60*22;
 
@@ -51,7 +56,7 @@ class Schedule{
 
 //		"Temporary fix for time blocks prior to current time, need to find fix"
 		console.log(this.availableTime);
-//		this.checkTimeBlocks();
+		this.checkTimeBlocks();
 		this.trimTimeBlock();
 
 	}

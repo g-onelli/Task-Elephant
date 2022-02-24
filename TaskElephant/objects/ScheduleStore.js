@@ -54,7 +54,7 @@ export const getSavedSchedule = async () => {
           )
           schedule.push([tempTask,scheduledTask[1],scheduledTask[2]]);
         }
-        return new Schedule(data.startTime, schedule, data.availableTime, data.totalEnergy);
+        return new Schedule(data.startTime, data.endTime, schedule, data.availableTime, data.totalEnergy);
       }
     }
     catch(error){

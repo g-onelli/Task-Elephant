@@ -32,7 +32,9 @@ const styles = StyleSheet.create({
         height:'100%',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: Platform.OS === 'ios'? 'center' : 'flex-start'
+//        justifyContent: Platform.OS === 'ios'? 'center' : 'flex-start'
+        padding: 40
+//        justifyContent: 'center'
     },
 
     headerText:{

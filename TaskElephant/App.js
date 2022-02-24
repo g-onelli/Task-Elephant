@@ -8,6 +8,7 @@ import NotificationSounds, { playSampleSound , stopSampleSound}  from 'react-nat
 
 // import Navigator from './routes/Stack';
 import Navigator from './routes/drawer';
+import {myDrawer} from './routes/drawer';
 
 
 
@@ -17,6 +18,7 @@ import ScheduleStore from './objects/ScheduleStore';
 import Schedule from './objects/Schedule';
 import {clearEvents} from './objects/EventStore';
 import Task from './objects/Task';
+import Config from './objects/ConfigStore';
 
 export default function App() {
 /*
@@ -34,6 +36,13 @@ useEffect(() => {
   console.log(appState);
 });
 */
+
+async function initStartUp(){
+  var startDay = await Config.getConfig("startDay");
+  if (startDay == null){
+    await Config.initConfig();
+  }
+}
 
 async function displayNotification() {
     const soundsList = await NotificationSounds.getNotifications('ringtone');
@@ -127,6 +136,8 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
   }
 });
 
+
+
 //  "Temporary 'Set to initial state' code, remove for production"
 //  clearTasks();
 //  ScheduleStore.clearSchedule();
@@ -136,7 +147,7 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
 //  "Debug functions"
 //  displayNotification();
 
-
+initStartUp();
 
 
     
@@ -144,7 +155,7 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
 
   return (
     <Navigator>
-      
+        
     </Navigator>
   );
 }

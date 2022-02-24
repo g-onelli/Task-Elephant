@@ -11,6 +11,7 @@ import DrawerHeader from "../components/drawerHeader";
 import EventHeader from '../components/EventHeader';
 import ShowSingleTask from "../screens/ShowSingleTask";
 import ShowSingleEvent from '../screens/ShowSingleEvent';
+import Config from '../screens/Config';
 import React from 'react';
 
 

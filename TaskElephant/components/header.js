@@ -35,12 +35,14 @@ const styles = StyleSheet.create({
         height:'100%',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: Platform.OS === 'ios'? 'center' : 'flex-start'
+        justifyContent: Platform.OS === 'ios'? 'center' : 'flex-start',
+        padding: 40
     },
 
     headerText:{
         fontSize: 18,
-        fontWeight: Platform.OS === 'ios'? '500' : '600'
+        fontWeight: Platform.OS === 'ios'? '500' : '600',
+        
     },
     addIcon:{
         position:'absolute',
@@ -52,7 +54,8 @@ const styles = StyleSheet.create({
 
     menuIcon: {
         position:'absolute',
-        left: Platform.OS === 'ios'? -80 : 0,
+//        left: Platform.OS === 'ios'? -80 : 0,
+
         color: Platform.OS === 'ios'? '#007AFF' : '#2D312E'
     }
 

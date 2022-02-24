@@ -11,6 +11,7 @@ import {NavigationEvents} from 'react-navigation';
 import Schedule from '../objects/Schedule';
 import ScheduleStore from '../objects/ScheduleStore';
 import EventStore from '../objects/EventStore';
+import ConfigStore from '../objects/ConfigStore';
 import Log from '../objects/Log';
 
 
@@ -88,7 +89,22 @@ class ShowSchedule extends React.Component{
 //   }
 
    async createSchedule(){
-       var schedule = new Schedule();
+       var startDay = await ConfigStore.getConfig("startDay");
+       var endDay = await ConfigStore.getConfig("endDay");
+
+       if (startDay == null){
+         startDay = "9";
+       }
+       if (endDay == null){
+         endDay = "22";
+       }
+
+       var temp = new Date(Date.now());
+       startDay = temp.setHours(parseInt(startDay),0);
+       endDay = temp.setHours(parseInt(endDay),0);
+
+
+       var schedule = new Schedule(startDay, endDay);
        var dayEnergy = await AsyncStorage.getItem("Day_Energy");
        let newSchedule = [];
        console.log("Start Time: " + schedule.getStartTimeText());
