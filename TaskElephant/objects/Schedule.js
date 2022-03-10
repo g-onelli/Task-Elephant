@@ -12,16 +12,18 @@ import Log from './Log.js';
 class Schedule{
 
 	constructor(startTime = Date.now(), scheduledTasks = [], availableTime = [], totalEnergy = 0, 
-			completedTasks = [], scheduledEvents = [], key = Math.round(Math.random() * 1000000)){
+			completedTasks = [], scheduledEvents = [], combinedSchedule = [],key = Math.round(Math.random() * 1000000)){
 		let tempTime = new Date(startTime);
 
 //		"Setting 'startTime' to 9:00 AM of current day by default, should be user-set config"		
 		tempTime.setHours(9,0);
 		this.startTime = tempTime.getTime();
-//		"Setting 'endTime' to 10:00 PM of current day by default, should be user-set config
-		tempTime.setHours(22,0);
-		this.endTime=tempTime.getTime();
 
+		console.log(`9 am converted: ${this.startTime}`);
+//		"Setting 'endTime' to 10:00 PM of current day by default, should be user-set config
+		tempTime.setHours(24,0);
+		this.endTime=tempTime.getTime();
+		console.log(`12 am converted: ${this.endTime}`);
 
 //		this.endTime = tempTime - (tempTime%dayTime) + 1000*60*60*22;
 
@@ -41,6 +43,8 @@ class Schedule{
 //		"completedTasks is an array of completed tasks, completedTask = [task,start-time]"
 //		"Think of this as ShowTasks's 'notSchedule' for greyed out tasks."		
 		this.completedTasks = completedTasks;
+
+		this.combinedSchedule = combinedSchedule;
 
 //		"scheduledEvents is an array of events, no start-time should be necessary."
 		this.scheduledEvents = scheduledEvents;
@@ -86,6 +90,20 @@ class Schedule{
 		return this.scheduledTasks;
 	}
 
+	getScheduledEvents(){
+		// console.log(`size of schedule event: ${this.scheduledEvents.length}`);
+		return this.scheduledEvents;
+	}
+
+	getCombinedSchedule(){
+		return this.combinedSchedule;
+	}
+
+
+	getFullSchedule(){
+
+	}
+
 	insertTask(task){
 //	"Boolean function, returns true on successful task insertion otherwise false"
 //		Sanity check for duplicate tasks 
@@ -99,14 +117,29 @@ class Schedule{
 
 //		Search through available time blocks, if block is available insert task.
 		let timeCost = task.getTimeCost() * 1000 * 60 + 1000*60*10;
-		console.log(this.availableTime);
+		console.log("available time (at tasks):" + this.availableTime);
 		for (const timeBlock of this.availableTime){
 			let time = timeBlock[1] - timeBlock[0];
 			console.log(timeCost + " - " + time);
 			if (timeCost <= time){
 				
 				console.log("Task inserted");
-				this.scheduledTasks.push([task,timeBlock[0],true]);
+				// this.scheduledTasks.push([task,timeBlock[0],true]);
+
+				let newTask = {
+					thing: task,
+					type: "task",
+					startTime: timeBlock[0],
+					status: true,
+					key: Math.random() * 1000000
+				}
+
+				this.scheduledTasks.push(newTask);
+
+				this.combinedSchedule.push(newTask);
+
+
+
 				this.totalEnergy += task.getEnergyCost();
 				timeBlock[0] += timeCost;
 				if (timeBlock[0] == timeBlock[1]){
@@ -123,53 +156,74 @@ class Schedule{
 		return false; 
 	}
 
+	// trying to implement this the same way as insertTask
 	insertEvent(event){
 		let eventStart = event.getStartTime();
 		let eventEnd = event.getTimeCost() * 1000 * 60 + eventStart;
+
+		let eventTitle = event.getTitle();
 		if (eventEnd < Date.now()){
+			console.log(`event ${eventTitle} has already ended`);
 			return;
 		}
 		if (!this.scheduledEvents.includes(event)){
-			this.scheduledEvents.push(event);
-		}
-		console.log(this.availableTime);
-		for (var i = this.availableTime.length-1; i>= 0; i--){
-			var timeBlock = this.availableTime[i];
-			let time = timeBlock[1] - timeBlock[0];
-			
-			// Event overlaps with end of timeBlcok
-			let cond1 = (timeBlock[1] > eventStart && timeBlock[0] < eventStart);
-			// Event overlaps with start of timeBlock
-			let cond2 = (timeBlock[0] < eventEnd && timeBlock[1] > eventEnd)
-			// Event is inside timeBlock
-			let cond3 = (cond1 && cond2);
-			console.log("Conditions:");
-			console.log(cond1);
-			console.log(cond2);
-			console.log(cond3);
-			if (cond3){
-				var newTimeBlock = [timeBlock[0],eventStart];
-				var newTimeBlock2 = [timeBlock[1],eventEnd]; 
-				this.availableTime.splice(i,1);
-				this.availableTime.push(newTimeBlock,newTimeBlock2);
-				continue;
-			} 
-			if (cond1){
-				this.availableTime[i][1]=eventStart;
-				continue; 
-			} 
-			if (cond2){
-				this.availableTime[i][0]=eventEnd;
-				continue;
-			} 
 
+			// this.scheduledEvents.push([event,0,true]);
+			
+
+
+			let newEvent = {
+				thing: event,
+				type: "event",
+				startTime: Date.now(),//need to be changed
+				status: true,
+				key: Math.random() * 1000000
+			}
+
+			this.scheduledEvents.push(newEvent);
+			this.combinedSchedule.push(newEvent);
+			console.log("FINISHED PUSHING EVENT");
 		}
-		console.log(this.availableTime);
-		this.sortTimeBlocks(); 
+		return;
+		// console.log("available time for event: " + this.availableTime);
+		// for (var i = this.availableTime.length-1; i>= 0; i--){
+		// 	var timeBlock = this.availableTime[i];
+		// 	let time = timeBlock[1] - timeBlock[0];
+			
+		// 	// Event overlaps with end of timeBlcok
+		// 	let cond1 = (timeBlock[1] > eventStart && timeBlock[0] < eventStart);
+		// 	// Event overlaps with start of timeBlock
+		// 	let cond2 = (timeBlock[0] < eventEnd && timeBlock[1] > eventEnd)
+		// 	// Event is inside timeBlock
+		// 	let cond3 = (cond1 && cond2);
+		// 	console.log("Conditions:");
+		// 	console.log(cond1);
+		// 	console.log(cond2);
+		// 	console.log(cond3);
+		// 	if (cond3){
+		// 		var newTimeBlock = [timeBlock[0],eventStart];
+		// 		var newTimeBlock2 = [timeBlock[1],eventEnd]; 
+		// 		this.availableTime.splice(i,1);
+		// 		this.availableTime.push(newTimeBlock,newTimeBlock2);
+		// 		continue;
+		// 	} 
+		// 	if (cond1){
+		// 		this.availableTime[i][1]=eventStart;
+		// 		continue; 
+		// 	} 
+		// 	if (cond2){
+		// 		this.availableTime[i][0]=eventEnd;
+		// 		continue;
+		// 	} 
+
+		// }
+		// console.log(this.availableTime);
+		// console.log("scheduled events: " + this.scheduledEvents[0].getTitle());
+		// this.sortTimeBlocks(); 
 	}
 	
 
-	completeTask(task){
+	completeTask_old(task){
 //	"Boolean function, returns true on successful task removal otherwise false"
 //	"Task completion implies time/energy was spent, meaning time/energy is not returned."
 		for (const scheduledTask of this.scheduledTasks){
@@ -191,6 +245,45 @@ class Schedule{
 				}
 
 				TaskStore.removeTask(scheduledTask[0]);
+				return true;
+			}
+		}
+		alert("Error: Task not scheduled.");
+		return false;				
+	}
+
+	completeTask(task){
+		//	"Boolean function, returns true on successful task removal otherwise false"
+		//	"Task completion implies time/energy was spent, meaning time/energy is not returned."
+
+		for (const scheduledItem of this.combinedSchedule){
+			console.log("complete task function activated2");
+			if (!scheduledItem.status) {continue;}
+			else if(scheduledItem.type == "event"){
+				continue;
+			}
+			else if (task.compareTasks(scheduledItem.thing)) {//
+
+
+				console.log("complete task function activated");
+				
+				this.removeAlarm(scheduledItem.thing,scheduledItem.startTime);
+
+				scheduledItem.status = false;
+
+//				this.scheduledTasks.splice(this.availableTime.indexOf(scheduledTask),1);
+				
+				// var scheduledCount = 0;
+				// console.log("Fail");
+				// for (const task of this.scheduledTasks){
+				// 	if (task.status){scheduledCount+= 1;}
+				// }
+
+				// if (scheduledCount == 0){
+				// 	Log.addCompletedSchedules();
+				// }
+
+				TaskStore.removeTask(scheduledItem.thing);
 				return true;
 			}
 		}

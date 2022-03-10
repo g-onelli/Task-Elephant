@@ -32,6 +32,7 @@ export const getSavedSchedule = async () => {
         Inputs: 
         Outputs: null / Schedule 
     */
+    
     try{
       var data = await AsyncStorage.getItem("Schedule");
       console.log("Retrieved: " + data);
@@ -42,7 +43,8 @@ export const getSavedSchedule = async () => {
         data = JSON.parse(data);
         var schedule = [];
         for (var scheduledTask of data.scheduledTasks){
-          var tempTask = scheduledTask[0];
+          var tempTask = scheduledTask.thing;
+          console.log(tempTask);
           tempTask = new Task(
             tempTask["title"],
             tempTask["energyCost"],
@@ -52,7 +54,14 @@ export const getSavedSchedule = async () => {
             tempTask["key"],
             tempTask["startDate"]
           )
-          schedule.push([tempTask,scheduledTask[1],scheduledTask[2]]);
+          console.log(tempTask);
+          schedule.push({
+            thing: tempTask,
+            type: scheduledTask.type,
+            startTime: scheduledTask.startTime,
+            status: scheduledTask.status,
+            key:scheduledTask.key
+          });
         }
         return new Schedule(data.startTime, schedule, data.availableTime, data.totalEnergy);
       }
@@ -77,6 +86,35 @@ export const completeTask = async(task) => {
     }
 }
 
+export const completeItem = async(item) => {
+  try{
+    var schedule = await getSavedSchedule();
+    if (schedule == null){
+      console.log("Schedule empty");
+      return;
+    } 
+
+    if(item.type == "task"){
+      console.log("trying to activate completetask");
+      schedule.completeTask(item.thing);
+    }
+    else if(item.type == "event"){
+      schedule.completeEvent(item.thing);
+    }
+    
+    saveSchedule(schedule);
+  }
+  catch(error){
+    console.log(error);
+  }
+}
+
+
+
+
+
+
+
 export const clearSchedule = async() => {
       /* Removes all Task objects stored in AsyncStorage. Run to reset stored data between sessions. 
         Inputs: None
@@ -91,4 +129,4 @@ export const clearSchedule = async() => {
       }
   }
 
-export default {getSavedSchedule,saveSchedule,clearSchedule, completeTask};
+export default {getSavedSchedule,saveSchedule,clearSchedule, completeTask,completeItem};

@@ -82,6 +82,7 @@ export const removeTask = async (inpTask) => {
         Inputs: inpTask (Task)
         Outputs: None
     */
+   console.log("remove task activated");
     var taskArray = await getAllTasks();
     if (taskArray.length == 0){
       console.log("Remove- No tasks stored.")

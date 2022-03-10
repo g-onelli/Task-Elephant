@@ -87,7 +87,7 @@ class ShowSchedule extends React.Component{
 
 //   }
 
-   async createSchedule(){
+  async createSchedule(){
        var schedule = new Schedule();
        var dayEnergy = await AsyncStorage.getItem("Day_Energy");
        let newSchedule = [];
@@ -98,34 +98,41 @@ class ShowSchedule extends React.Component{
 
 //    "Event insertion"
       var eventArray = await EventStore.getAllEvents();
+
+      console.log("finished fetching schedules from async storage.");
+
+      console.log(`number of events: ${eventArray.length}`);
+
       for (let i = 0; i < eventArray.length; i++){
         schedule.insertEvent(eventArray[i]);
         console.log("event inserted - " + i);
       }
-//    "Task insertion"
+
+      
+  //  "Task insertion"
       var taskArray = await TaskStore.getAllTasks();
       this.sort(taskArray);
       if (taskArray.length == 0){
         alert("Error: No tasks to create a schedule. Congrats!");
         return;
       }
-       for (let i = 0; i < taskArray.length; i++){
-         console.log(taskArray[i]);
-         if (schedule.getEnergyCost() + taskArray[i].getEnergyCost() > dayEnergy){
-           console.log("Task " + i + " increases schedule enrgy over day energy.");
-           continue;
-         }
-         console.log("Inserting task " + i);
-         var insertLog = await schedule.insertTask(taskArray[i]);
-         
-         if (insertLog){
-           newSchedule.push(taskArray[i]);
-           console.log("Task inserted");
-         }
-         else{
-           console.log(insertLog);
-         }
-       }
+      for (let i = 0; i < taskArray.length; i++){
+        console.log(taskArray[i]);
+        if (schedule.getEnergyCost() + taskArray[i].getEnergyCost() > dayEnergy){
+          console.log("Task " + i + " increases schedule enrgy over day energy.");
+          continue;
+        }
+        console.log("Inserting task " + i);
+        var insertLog = await schedule.insertTask(taskArray[i]);
+        
+        if (insertLog){
+          newSchedule.push(taskArray[i]);
+          console.log("Task inserted");
+        }
+        else{
+          console.log(insertLog);
+        }
+      }
        if (schedule.getScheduledTasks().length == 0){
          alert("Error: Unable to create schedule using current time or energy. \n" +
                  "Valid Time: 9:00AM - 10:00PM\n" +
@@ -133,10 +140,18 @@ class ShowSchedule extends React.Component{
          return;
        }
        await schedule.initTaskAlarms();
-       ScheduleStore.saveSchedule(schedule);
-       this.setState({scheduleToday:schedule.getScheduledTasks()});
-       Log.addCreatedSchedules();
-   }
+      ScheduleStore.saveSchedule(schedule);
+
+      this.setState({scheduleToday:schedule.getScheduledTasks()});
+      // this.setState({scheduleToday: schedule.getScheduledEvents()});
+      // this.setState({scheduleToday: schedule.getCombinedSchedule()});
+
+      console.log(`schedule is not empty: ${this.state.scheduleToday.length == 0}`);
+      
+
+
+      Log.addCreatedSchedules();
+  }
 
   getTimeText(date){
     date = new Date(date);
@@ -146,8 +161,6 @@ class ShowSchedule extends React.Component{
 
 
   async componentDidMount() {
-
-
 
     try{
 
@@ -160,6 +173,9 @@ class ShowSchedule extends React.Component{
       //   we don't need to sort this one.
         await scheduleArray.initTaskAlarms();
         this.setState({scheduleToday: scheduleArray.getScheduledTasks()});  
+        // this.setState({scheduleToday: scheduleArray.getScheduledEvents});
+        // this.setState({scheduleToday: scheduleArray.getCombinedSchedule()});
+        
       }
 
     
@@ -207,17 +223,19 @@ class ShowSchedule extends React.Component{
             <FlatList 
               data = {this.state.scheduleToday}
               renderItem={({item}) => (
-                item[2]?
-                <TouchableOpacity onPress = {async () => {await ScheduleStore.completeTask(item[0]); await this.componentDidMount()}}>
+                item.status?
+                <TouchableOpacity onPress = {async () => {await ScheduleStore.completeTask(item); await this.createSchedule()}}>
                 <Text style = {styles.scheduleItem}>
-                {item[0].getTitle()} | Starts {this.getTimeText(item[1])}
+                  {item.thing.title} | Starts {this.getTimeText(item.startTime)}
+                {/* {item[0].getTitle()} | Starts {this.getTimeText(item[1])} */}
                 {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                 {/* {typeof item} */}
                 </Text>
                 </TouchableOpacity>
                 :
                 <Text style = {styles.item}>
-                {item[0].getTitle()} | Starts {this.getTimeText(item[1])}
+                  {item.thing.title} | Starts {this.getTimeText(item.startTime)}
+                {/* {item[0].getTitle()} | Starts {this.getTimeText(item[1])} */}
                 {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                 {/* {typeof item} */}
                 </Text>
