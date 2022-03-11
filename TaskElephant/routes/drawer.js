@@ -26,7 +26,7 @@ const RootDrawerNavigator = createDrawerNavigator({
         screen: scheduleStack
     },
     Config:{
-        screen:configStack
+        screen: configStack
     }
 });
    

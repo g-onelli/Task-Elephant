@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     },
     addIcon:{
         position:'absolute',
-        right: Platform.OS === 'ios'? -80 : 0,
+        right: Platform.OS === 'ios'? 0 : 0,
         color: Platform.OS === 'ios'? '#007AFF' : '#2D312E'
         
         // '#4A74EF'
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
     menuIcon: {
         position:'absolute',
-        left: Platform.OS === 'ios'? -80 : 0,
+        left: Platform.OS === 'ios'? 0 : 0,
         color: Platform.OS === 'ios'? '#007AFF' : '#2D312E'
     }
 });

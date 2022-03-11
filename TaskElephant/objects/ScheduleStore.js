@@ -44,13 +44,13 @@ export const getSavedSchedule = async () => {
         for (var scheduledTask of data.scheduledTasks){
           var tempTask = scheduledTask[0];
           tempTask = new Task(
-            tempTask["title"],
-            tempTask["energyCost"],
-            tempTask["timeCost"],
-            tempTask["deadline"],
-            tempTask["basePriority"],
-            tempTask["key"],
-            tempTask["startDate"]
+            tempTask.title,
+            tempTask.energyCost,
+            tempTask.timeCost,
+            tempTask.deadline,
+            tempTask.basePriority,
+            tempTask.key,
+            tempTask.startDate
           )
           schedule.push([tempTask,scheduledTask[1],scheduledTask[2]]);
         }
