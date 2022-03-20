@@ -32,9 +32,9 @@ const styles = StyleSheet.create({
         height:'100%',
         flexDirection: 'row',
         alignItems: 'center',
-//        justifyContent: Platform.OS === 'ios'? 'center' : 'flex-start'
-        padding: 40
-//        justifyContent: 'center'
+       justifyContent: Platform.OS === 'ios'? 'center' : 'flex-start',
+        padding: 10,
+       justifyContent: 'center'
     },
 
     headerText:{
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 
     menuIcon: {
         position: 'absolute',
-        left: Platform.OS === 'ios'? 0 : 0,
+        left: Platform.OS === 'ios'? -70 : 0,
         color: Platform.OS === 'ios'? '#007AFF' : '#2D312E'
     }
 
