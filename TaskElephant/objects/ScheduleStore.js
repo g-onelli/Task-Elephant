@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Task from './Task';
+import Event from './Event';
 import Schedule from './Schedule';
 import Log from './Log.js';
 /*
@@ -40,9 +41,14 @@ export const getSavedSchedule = async () => {
       }
       else{
         data = JSON.parse(data);
-        var schedule = [];
-        for (var scheduledTask of data.scheduledTasks){
-          var tempTask = scheduledTask[0];
+        var taskSchedule = [];
+        let eventSchedule = [];
+        let newOverallSchedule = [];
+        
+        for (let scheduledTask of data.scheduledTasks){
+          let tempTask = scheduledTask.content;
+          // console.log("temptask: " + tempTask.title);
+          //this is to make sure item.getTitle() will work in ShowSchedule.js
           tempTask = new Task(
             tempTask.title,
             tempTask.energyCost,
@@ -52,9 +58,55 @@ export const getSavedSchedule = async () => {
             tempTask.key,
             tempTask.startDate
           )
-          schedule.push([tempTask,scheduledTask[1],scheduledTask[2]]);
+
+
+          // taskSchedule.push([tempTask,scheduledTask[1],scheduledTask[2]]);
+
+          let tempTaskItem = {
+            content: tempTask,
+            type: "task",
+            startTime: scheduledTask.startTime,
+            status: scheduledTask.status,
+            key: scheduledTask.key
+          }
+          taskSchedule.push(tempTaskItem);
+
+          newOverallSchedule.push(tempTaskItem);
         }
-        return new Schedule(data.startTime, data.endTime, schedule, data.availableTime, data.totalEnergy);
+
+
+        for(let scheduledEvent of data.scheduledEvents){
+          let tempEvent = scheduledEvent.content;
+
+          // console.log("tempevent: " + tempEvent.startTime);
+
+          tempEvent = new Event(
+            tempEvent.title,
+            tempEvent.timeCost,
+            tempEvent.startTime,
+            tempEvent.key,
+            tempEvent.startDate
+          );
+
+          let tempEventItem = {
+            content: tempEvent,
+            type: "event",
+            startTime: scheduledEvent.startTime,
+            status: scheduledEvent.status,
+            key: scheduledEvent.key
+          }
+
+          eventSchedule.push(tempEventItem);
+          newOverallSchedule.push(tempEventItem);
+        }
+
+
+        
+
+
+
+        return new Schedule(data.startTime, data.endTime, taskSchedule, data.availableTime, data.totalEnergy
+          ,data.completeTasks, eventSchedule, newOverallSchedule);
       }
     }
     catch(error){
@@ -62,19 +114,51 @@ export const getSavedSchedule = async () => {
     }
 }
 
+
+export const completeScheduleItem = async (item) => {
+
+  if(item.type === "task"){
+    await completeTask(item.content);
+  }
+  else{
+    await completeEvent(item.content);
+  }
+
+  
+}
+
 export const completeTask = async(task) => {
+
+    
     try{
       var schedule = await getSavedSchedule();
+      
       if (schedule == null){
         console.log("Schedule empty");
         return;
       } 
+     
       schedule.completeTask(task);
       saveSchedule(schedule);
     }
     catch(error){
       console.log(error);
     }
+}
+
+export const completeEvent = async(event) => {
+  try{
+    let schedule = await getSavedSchedule();
+    if (schedule == null){
+      console.log("Schedule empty");
+      return;
+    } 
+    schedule.completeEvent(event);
+    saveSchedule(schedule);
+  }
+  catch(e){
+    console.log(e);
+  }
 }
 
 export const clearSchedule = async() => {
@@ -91,4 +175,4 @@ export const clearSchedule = async() => {
       }
   }
 
-export default {getSavedSchedule,saveSchedule,clearSchedule, completeTask};
+export default {getSavedSchedule,saveSchedule,clearSchedule, completeTask, completeScheduleItem, completeEvent};

@@ -25,7 +25,7 @@ const screens = {
         
         navigationOptions:({navigation}) =>{
             return {
-                headerTitle: () => <DrawerHeader navigation = {navigation} title = 'Config'/>
+                headerTitle: () => <DrawerHeader navigation = {navigation} title = 'Config screen'/>
                 // title: 'Your tasks'
             }
         }
