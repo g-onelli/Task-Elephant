@@ -61,6 +61,22 @@ class ShowSchedule extends React.Component{
      }
    }
 
+
+   sortStartTime(arr){
+     let n = arr.length;
+
+     for(let i = 0; i< n;  i ++){
+       for(let j = 0; j< n-i-1; j++){
+          if(arr[j].startTime > arr[j+1].startTime){
+            let temp = arr[j];
+            arr[j] = arr[j+1];
+            arr[j+1] = temp;
+          }
+       }
+     }
+
+   }
+
 //   async createSchedule_old(arr){
 //     var dayEnergy = await AsyncStorage.getItem("Day_Energy");
 //     let newSchedule = [], newNotSchedule = [];
@@ -154,7 +170,21 @@ class ShowSchedule extends React.Component{
       await schedule.initTaskAlarms();
       ScheduleStore.saveSchedule(schedule);
       // this.setState({scheduleToday:schedule.getScheduledTasks()});
-      this.setState({scheduleToday:schedule.getOverallSchedule()});
+
+      
+
+
+
+
+      let sortedSchedule = schedule.getOverallSchedule();
+
+
+      
+
+      this.sortStartTime(sortedSchedule);
+
+      // this.sortStartTime(schedule.getOverallSchedule);
+      this.setState({scheduleToday: sortedSchedule});
       Log.addCreatedSchedules();
    }
 
@@ -184,7 +214,19 @@ class ShowSchedule extends React.Component{
       //   we don't need to sort this one.
         await scheduleArray.initTaskAlarms();
         // this.setState({scheduleToday: scheduleArray.getScheduledTasks()});  
-        this.setState({scheduleToday: scheduleArray.getOverallSchedule()});  
+
+
+
+
+        let sortedSchedule = scheduleArray.getOverallSchedule();
+
+        this.sortStartTime(sortedSchedule);
+
+
+        // this.sortStartTime(scheduleArray.getOverallSchedule);
+        this.setState({scheduleToday: sortedSchedule});
+
+        // this.setState({scheduleToday: scheduleArray.getOverallSchedule()});  
       }
 
     
@@ -201,7 +243,13 @@ class ShowSchedule extends React.Component{
 
     this.props.navigation.addListener('focus', () => {
       // do something
-      this.setState({scheduleToday: scheduleArray});
+      // this.sortStartTime(scheduleArray.getOverallSchedule);
+
+      let sortedSchedule = scheduleArray.getOverallSchedule();
+
+      this.sortStartTime(sortedSchedule);
+      this.setState({scheduleToday:sortedSchedule});
+      // this.setState({scheduleToday: scheduleArray});
     });
   }
 

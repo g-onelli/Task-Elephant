@@ -270,15 +270,15 @@ class Schedule{
 					Log.addCompletedSchedules();
 				}
 
-				for( let scheduleItem of this.overallSchedule){
-					if(scheduleItem.type === "event"){
-						continue;
-					}
-					if(task.compareTasks(scheduleItem.content)){
-						scheduleItem.status = false;
-						break;
-					}
-				}
+				// for( let scheduleItem of this.overallSchedule){
+				// 	if(scheduleItem.type === "event"){
+				// 		continue;
+				// 	}
+				// 	if(task.compareTasks(scheduleItem.content)){
+				// 		scheduleItem.status = false;
+				// 		break;
+				// 	}
+				// }
 				
 
 				TaskStore.removeTask(scheduledTask.content);
@@ -305,24 +305,30 @@ class Schedule{
 				continue;
 			}
 
-			
 
+
+			// for( let scheduleItem of this.overallSchedule){
+			// 	if(scheduleItem.type === "task"){
+			// 		continue;
+			// 	}
+			// 	if(event.compareEvents(scheduleItem.content)){
+			// 		scheduleItem.status = false;
+			// 		break;
+			// 	}
+			// }
+
+			
+			
 			if(event.compareEvents(scheduledEvent.content)){
+				console.log("at complete event: got here.");
 				scheduledEvent.status = false;
 
 				EventStore.removeEvent(scheduledEvent.content);
+				console.log("delete event succeeded");
 				return true;
 			}
 
-			for( let scheduleItem of this.overallSchedule){
-				if(scheduleItem.type === "task"){
-					continue;
-				}
-				if(event.compareEvents(scheduleItem.content)){
-					scheduleItem.status = false;
-					break;
-				}
-			}
+			
 		}
 
 		alert("Error: Event not scheduled.");
