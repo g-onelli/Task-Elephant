@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 // "Important note: A date-time 'second' has a value of 1000."
 
 class Event{
-	constructor(title,timeCost,startTime,key = Math.random() * 100000,startDate = Date.now()){
+	constructor(title,timeCost,startTime,key,startDate = Date.now()){
 		this.title = title;
 		// this.energyCost = energyCost;
 //		"Time Cost should be a positive integer of minutes."
@@ -18,7 +18,7 @@ class Event{
 
 //		"Priority is something that the user should not be able to directly set. Unsure yet how it will be calculated, will modify later."
 		// this.basePriority = priority;
-		this.key = key;
+		this.key = Math.random() * 100000;
 
 	}
 
