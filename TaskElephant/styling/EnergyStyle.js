@@ -25,7 +25,7 @@ const energyCSS = StyleSheet.create({
         padding:10, 
         textAlign:'center',
         //backgroundColor:'rgba(255,255,255,.2)'
-        fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
+        //fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
     },
 
     Slider:{
