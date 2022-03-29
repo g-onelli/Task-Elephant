@@ -203,7 +203,7 @@ class Schedule{
 			if (cond3){
 				var newTimeBlock = [timeBlock[0],eventStart];
 				// var newTimeBlock2 = [timeBlock[1],eventEnd]; 
-				let newTimeBlock2 = [eventEnd,timeBlock[1]];
+				let newTimeBlock2 = [eventEnd+ (10*60*1000),timeBlock[1]];
 
 
 				this.availableTime.splice(i,1);

@@ -18,7 +18,7 @@ class Event{
 
 //		"Priority is something that the user should not be able to directly set. Unsure yet how it will be calculated, will modify later."
 		// this.basePriority = priority;
-		this.key = Math.random() * 100000;
+		this.key = Math.round(Math.random() * 100000).toString();
 
 	}
 
