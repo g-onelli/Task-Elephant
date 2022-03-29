@@ -34,7 +34,7 @@ const eventShowStyle = StyleSheet.create({
   startText: {
     color: '#000',
     fontSize: 18,
-    fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
+    //fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
     letterSpacing: 2,
     textTransform:'capitalize',
   },
