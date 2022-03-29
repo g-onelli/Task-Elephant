@@ -4,6 +4,8 @@ import {AppRegistry, StyleSheet, View, Text,Button } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Slider} from '@miblanchard/react-native-slider';
+import CustomButton from '../components/customButton';
+import energyCSS from '../styling/EnergyStyle';
 
 export default class EnergyDay extends React.Component{
 
@@ -50,61 +52,27 @@ export default class EnergyDay extends React.Component{
   render() {return (
       
 
-      <View style = {styles.container_slider}>
-          <Text style = {{padding:20, marginLeft:25, marginRight:25}}>
+      <View style={energyCSS.container}>
+        <View style = {energyCSS.container_slider}>
+          <Text style = {energyCSS.name}>
               Enter your energy levels for the day here!
           </Text>
           <Text>{parseInt(this.state.energy)}
           </Text>
-            <Slider value={this.state.energy} onValueChange={value => this.setState({energy: value})} minimumValue={1} maximumValue={100}/>
+            <Slider value={this.state.energy} minimumTrackTintColor= 'rgb(250,131,50)' onValueChange={value => this.setState({energy: value})} minimumValue={1} maximumValue={100}/>
           <Text> {" "}</Text>
-          <Button title = 'Continue to Tasks!' onPress = {this.pressHandler} style = {styles.button}>
-          </Button>
-          <Button title = 'Continue to Events!' onPress = {this.pressHandler2} style = {styles.button}>
-          </Button>
+          <CustomButton title = 'Continue to Tasks!' onPress = {this.pressHandler}/>
+          <CustomButton title = 'Continue to Events!' onPress = {this.pressHandler2}/>
 
           
 
 
       </View>
+      </View>
   )
         
 
 }}
-
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    container_slider:{
-      flex: 1,
-      marginTop:-100,
-      marginLeft: 75,
-      marginRight: 75,
-      alignItems: 'stretch',
-      justifyContent: 'center',
-    },
-    name : {
-        // padding: 70,
-        marginBottom:180,
-        fontSize:35,
-    },
-
-
-    button:{
-        marginTop : 190,
-
-        // position : 'absolute',
-        // padding: 50,
-        height:280
-    },
-
-
-  });
 
 
 // const styles = StyleSheet.create({

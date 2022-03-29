@@ -1,9 +1,11 @@
 import React from 'react';
 
-import { StyleSheet, View, Text,Button } from 'react-native';
+import { StyleSheet, View, Text,Button, Image } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Log from '../objects/Log';
+import CustomButton from '../components/customButton';
+import welcomeStyle from '../styling/HomeScreen';
 
 export default function Welcome({navigation}){
 
@@ -31,24 +33,21 @@ export default function Welcome({navigation}){
   return (
 
 
-      <View style = {styles.container}>
+      <View style = {welcomeStyle.container}>
 
           
-          <Text style = {
-              {
-                  padding:20
-              }
-          }>
+          <Text style = {welcomeStyle.topSentence}>
               Welcome to
           </Text>
-
-          <Text style = {styles.name}>
+          <Image source={require("../assets/FinalLogo.png")} style={{width:200,height:200,margin:0,padding:0}}/>
+          <Text style = {welcomeStyle.name}>
               Task Elephant
           </Text>
 
 
-          <Button title = 'Start!' onPress = {pressHandler} style = {styles.button}>
-          </Button>
+         {/* <Button title = 'Start!' onPress = {pressHandler} style = {styles.button}>
+          </Button>*/}
+          <CustomButton title="Start!" onPress={pressHandler}/>
 
 
           

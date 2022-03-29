@@ -13,7 +13,8 @@ import TaskItem from '../components/TaskItem';
 import TaskStore from '../objects/TaskStore';
 import EventStore from '../objects/EventStore';
 import Event from '../objects/Event';
-
+import CustomButton from '../components/customButton';
+import eventStyle from '../styling/EventCreation';
 
 export default function CreateEvent({navigation}) {
 // [1,2] = useState is a variable declaration. 1 is the 'get' method, 2 is the 'set' method.    
@@ -117,36 +118,35 @@ export default function CreateEvent({navigation}) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={eventStyle.container}>
       
-      <TextInput placeholder="Event title input here" 
-      onChangeText={text => setTextIn(text)} style = {styles.textInput}/>
+      <TextInput placeholder="What is this event?" 
+      onChangeText={text => setTextIn(text)} style = {eventStyle.textInput}/>
 
       {/* <TextInput placeholder="Task energy-cost input here [0-100]" 
-      onChangeText={energy => setEnergyIn(energy)} style = {styles.textInput}/> */}
+      onChangeText={energy => setEnergyIn(energy)} style = {eventStyle.textInput}/> */}
 
-      <TextInput placeholder="Event time-cost input here [min]" 
-      onChangeText={time => setTimeIn(time)} style = {styles.textInput}/>
+      <TextInput placeholder="How long is the event? [min]" 
+      onChangeText={time => setTimeIn(time)} style = {eventStyle.textInput}/>
 
-      <Button title="Event startTime input here" onPress={() => setStartTimeWindowStatus(true)}/>
+      <CustomButton title="When does the event start?" onPress={() => setStartTimeWindowStatus(true)}/>
       <DatePicker modal open={startTimeWindowStatus} date={startTimeIn} onConfirm={(date) => {setStartTimeWindowStatus(false); setStartTimeIn(new Date(date))}}
       onCancel={() => {setStartTimeWindowStatus(false)}}/>
 
-      <Text> 
-        {"Task StartTime: " + displayDate(startTimeIn)} 
+      <Text style={eventStyle.Text}> 
+        {"The event starts: " + displayDate(startTimeIn)} 
       </Text>
 
       {/* <Picker prompt={"Task priority input here"} selectedValue={priorityIn} 
-        style={styles.defaultPicker} onValueChange={(itemValue,itemIndex) => setPriorityIn(itemValue)}> 
+        style={eventStyle.defaultPicker} onValueChange={(itemValue,itemIndex) => setPriorityIn(itemValue)}> 
         <Picker.Item label="High" value = {7}/>
         <Picker.Item label="Medium" value = {3}/>
         <Picker.Item label="Low" value = {1}/>
       </Picker> */}
 
-      <View style = {styles.buttonView}>
-        <Button onPress={() => {onPressButton(textIn,timeIn,startTimeIn); alarmTest();}} 
-        title= 'Click here to display generated event.'>
-        </Button>
+      <View style = {eventStyle.buttonView}>
+        <CustomButton onPress={() => {onPressButton(textIn,timeIn,startTimeIn); alarmTest();}} 
+        title= 'Generate Event'/>
 
       </View>
 

@@ -40,8 +40,9 @@ const styles = StyleSheet.create({
     },
 
     headerText:{
-        fontSize: 18,
-        fontWeight: Platform.OS === 'ios'? '500' : '600'
+        fontSize: 22,
+        fontWeight: Platform.OS === 'ios'? '500' : '600',
+        marginLeft:Platform.OS === 'ios'? 0 : 40,
     },
     addIcon:{
         position:'absolute',

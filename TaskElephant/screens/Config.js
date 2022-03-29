@@ -7,6 +7,8 @@ import Log from '../objects/Log';
 import {Slider} from '@miblanchard/react-native-slider';
 import ConfigStore from '../objects/ConfigStore';
 import {NavigationEvents} from 'react-navigation';
+import CustomButton from '../components/customButton';
+import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 export default class Config extends React.Component{
 
@@ -187,7 +189,7 @@ export default class Config extends React.Component{
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor:'rgba(115,162,243,.3)',
       alignItems: 'flex-start',
       justifyContent: 'flex-start',
     },
@@ -206,7 +208,9 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       width: '100%'/*Platform.OS === 'ios' ? 400: 375*/,
       borderBottomWidth: 1,
-      borderBottomColor: '#AEAEAE'
+      borderBottomColor: '#AEAEAE',
+      backgroundColor:'#fff'
+
     },
     name : {
         // padding: 70,
@@ -214,28 +218,28 @@ const styles = StyleSheet.create({
         fontSize:35,
     },
     text:{
-        fontSize: 18,
+        fontSize: 22,
         padding:10,
         margin:10,
-        marginLeft:10
+        marginLeft:10,
 //        width: Platform.OS === 'ios' ? 400 : 375
     },
     text_sub:{
-        fontSize: 12,
+        fontSize: 16,
         padding:0,
         paddingBottom:10,
         marginTop:-10,
         marginLeft:30,
-        color: '#4D4D4D'
+        color: '#4D4D4D',
 //        width: Platform.OS === 'ios' ? 400 : 375
     },
     textInput:{
-      fontSize:18,
+      fontSize:22,
       padding:10,
       paddingBottom:0,
       margin:10,
       borderBottomWidth:1,
-      borderBottomColor: '#36454F'
+      borderBottomColor: '#36454F',
     },
 
     container_button:{

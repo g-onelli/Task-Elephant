@@ -40,8 +40,9 @@ const styles = StyleSheet.create({
     },
 
     headerText:{
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: Platform.OS === 'ios'? '500' : '600',
+        marginLeft:Platform.OS === 'ios'? 0 : 40,
         
     },
     addIcon:{
@@ -55,7 +56,6 @@ const styles = StyleSheet.create({
     menuIcon: {
         position:'absolute',
         left: Platform.OS === 'ios'? -70 : 0,
-
         color: Platform.OS === 'ios'? '#007AFF' : '#2D312E'
     }
 

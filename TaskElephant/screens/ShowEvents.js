@@ -10,7 +10,8 @@ import TaskStore from '../objects/TaskStore'
 import { StackRouter } from 'react-navigation';
 import {NavigationEvents} from 'react-navigation';
 import Schedule from '../objects/Schedule';
-
+import eventShowStyle from '../styling/EventDisplay';
+import FButton from '../components/fullScreenButton';
 
 
 class ShowEvents extends React.Component{
@@ -183,14 +184,13 @@ class ShowEvents extends React.Component{
       // console.log(3333333);
       return (
         
-        <View style = {styles.container}>
-        <Button onPress={() => {this.props.navigation.navigate("ShowSchedule")}} 
-          title= 'Click here to view schedule.'>
-        </Button>
+        <View style = {eventShowStyle.container}>
+        <FButton onPress={() => {this.props.navigation.navigate("ShowSchedule")}} 
+          title= 'View Schedule'/>
         <NavigationEvents onDidFocus={async () => await this.componentDidMount()} />
         {this.state.events.length === 0 ?
-          <View style = {styles.empty}>
-            <Text style = {styles.startText}>You don't have any events yet</Text>
+          <View style = {eventShowStyle.empty}>
+            <Text style = {eventShowStyle.startText}>You don't have any events yet</Text>
           </View>
           :
         //   this.state.schedule.length !== 0 || this.state.notSchedule.length !== 0 ?
@@ -226,16 +226,16 @@ class ShowEvents extends React.Component{
         //     </View>  
         //   </View>
         //   :
-          <View style = {styles.content}>
+          <View style = {eventShowStyle.content}>
    
     
-            <View style = {styles.list}>
+            <View style = {eventShowStyle.list}>
     
               <FlatList 
                 data = {this.state.events}
                 renderItem={({item}) => (
                   <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingleEvent", item);}}>
-                    <Text style = {styles.scheduleItem}>
+                    <Text style = {eventShowStyle.scheduleItem}>
                       {item.getTitle()} | Starts {item.getStartTimeText()}
                       {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                       {/* {typeof item} */}
