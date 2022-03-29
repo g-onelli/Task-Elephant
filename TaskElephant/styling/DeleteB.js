@@ -20,7 +20,7 @@ const deleteButton = StyleSheet.create({
         
     },
     customButtonText: {
-        fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
+        //fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
         textTransform:'capitalize',
         letterSpacing:2,
         fontSize: 22,
