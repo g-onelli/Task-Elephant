@@ -15,7 +15,7 @@ const eventStyle = StyleSheet.create({
         padding:10,
         margin:10,
         width: Platform.OS === 'ios' ? 400 : 375,
-        fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
+        //fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
         backgroundColor:'#ededed',
         borderRadius: 3,
         elevation:8,
