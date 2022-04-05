@@ -12,6 +12,8 @@ import Task from '../objects/Task';
 import TaskItem from '../components/TaskItem';
 import TaskStore from '../objects/TaskStore';
 import Log from '../objects/Log';
+import CustomButton from '../components/customButton';
+import createStyle from '../styling/TaskCreation';
 
 
 export default function CreateTask({navigation}) {
@@ -115,36 +117,35 @@ export default function CreateTask({navigation}) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={createStyle.container}>
       
-      <TextInput placeholder="Task title input here" 
-      onChangeText={text => setTextIn(text)} style = {styles.textInput}/>
+      <TextInput placeholder="What is the task?" 
+      onChangeText={text => setTextIn(text)} style = {createStyle.textInput}/>
 
-      <TextInput placeholder="Task energy-cost input here [0-100]" 
-      onChangeText={energy => setEnergyIn(energy)} style = {styles.textInput}/>
+      <TextInput placeholder="How tired are you afterwards? [0-100]" 
+      onChangeText={energy => setEnergyIn(energy)} style = {createStyle.textInput}/>
 
-      <TextInput placeholder="Task time-cost input here [min]" 
-      onChangeText={time => setTimeIn(time)} style = {styles.textInput}/>
+      <TextInput placeholder="How long does this usually take? [min]" 
+      onChangeText={time => setTimeIn(time)} style = {createStyle.textInput}/>
 
-      <Button title="Task deadline input here" onPress={() => setDeadlineWindowStatus(true)}/>
+      <CustomButton title="When is the task due?" onPress={() => setDeadlineWindowStatus(true)}/>
       <DatePicker modal open={deadlineWindowStatus} date={deadlineIn} onConfirm={(date) => {setDeadlineWindowStatus(false); setDeadlineIn(new Date(date))}}
       onCancel={() => {setDeadlineWindowStatus(false)}}/>
 
-      <Text> 
-        {"Task deadline: " + displayDate(deadlineIn)} 
+      <Text style={createStyle.Text}> 
+        {"I need this done by: " + displayDate(deadlineIn)} 
       </Text>
 
-      <Picker prompt={"Task priority input here"} selectedValue={priorityIn} 
-        style={styles.defaultPicker} onValueChange={(itemValue,itemIndex) => setPriorityIn(itemValue)}> 
+      <Picker prompt={"How important is the task to you"} selectedValue={priorityIn} 
+        style={createStyle.defaultPicker} onValueChange={(itemValue,itemIndex) => setPriorityIn(itemValue)}> 
         <Picker.Item label="High" value = {7}/>
         <Picker.Item label="Medium" value = {3}/>
         <Picker.Item label="Low" value = {1}/>
       </Picker>
 
-      <View style = {styles.buttonView}>
-        <Button onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn); alarmTest();}} 
-        title= 'Click here to display generated task.'>
-        </Button>
+      <View style = {createStyle.buttonView}>
+        <CustomButton onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn); alarmTest();}} 
+        title= 'Generate Task'/>
 
       </View>
 

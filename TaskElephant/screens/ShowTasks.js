@@ -11,6 +11,9 @@ import {NavigationEvents} from 'react-navigation';
 import Schedule from '../objects/Schedule';
 import ScheduleStore from '../objects/ScheduleStore';
 import Log from '../objects/Log.js';
+import CustomButton from '../components/customButton';
+import taskSheet from '../styling/TaskDisplay';
+import FButton from '../components/fullScreenButton';
 
 
 
@@ -200,27 +203,26 @@ class ShowTasks extends React.Component{
     // console.log(3333333);
     return (
       
-      <View style = {styles.container}>
-      <Button onPress={() => {this.props.navigation.navigate("ShowSchedule")}} 
-        title= 'Click here to view schedule.'>
-      </Button>
+      <View style = {taskSheet.container}>
+      <FButton onPress={() => {this.props.navigation.navigate("ShowSchedule")}} 
+        title= 'View Schedule'/>
       <NavigationEvents onDidFocus={async () => await this.componentDidMount()} />
       {this.state.tasks.length === 0 ?
-        <View style = {styles.empty}>
-          <Text style = {styles.startText}>You don't have any tasks yet</Text>
+        <View style = {taskSheet.empty}>
+          <Text style = {taskSheet.startText}>You don't have any tasks yet</Text>
         </View>
         :
         this.state.schedule.length !== 0 || this.state.notSchedule.length !== 0 ?
-        <View style = {styles.content}>
+        <View style = {taskSheet.content}>
  
   
-          <View style = {styles.list}>
+          <View style = {taskSheet.list}>
   
             <FlatList 
               data = {this.state.schedule}
               renderItem={({item}) => (
                 <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingleTask", item);}}>
-                  <Text style = {styles.scheduleItem}>
+                  <Text style = {taskSheet.scheduleItem}>
                     {item.getTitle()} | Due {item.getDeadlineText()} ({item.getPriority()})
                     {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                     {/* {typeof item} */}
@@ -232,7 +234,7 @@ class ShowTasks extends React.Component{
               data = {this.state.notSchedule}
               renderItem={({item}) => (
                 <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingle", item);}}>
-                  <Text style = {styles.item}>
+                  <Text style = {taskSheet.item}>
                     {item.getTitle()} | Due {item.getDeadlineText()} ({item.getPriority()})
                     {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                     {/* {typeof item} */}
@@ -243,17 +245,17 @@ class ShowTasks extends React.Component{
           </View>  
         </View>
         :
-        <View style = {styles.content}>
+        <View style = {taskSheet.content}>
  
   
-          <View style = {styles.list}>
+          <View style = {taskSheet.list}>
   
             <FlatList 
               data = {this.state.tasks}
               renderItem={({item}) => (
                 <TouchableOpacity onPress = {()=>{this.props.navigation.navigate("ShowSingleTask", item);console.log("Nav Attempted");}}>
-                  <Text style = {styles.scheduleItem}>
-                    {item.getTitle()} | Due {item.getDeadlineText()} ({item.getPriority()})
+                  <Text style = {taskSheet.scheduleItem}>
+                    {item.getTitle()} | Due {item.getDeadlineText()} 
                     {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                     {/* {typeof item} */}
                   </Text>

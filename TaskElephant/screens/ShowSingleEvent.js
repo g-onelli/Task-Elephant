@@ -11,6 +11,8 @@ import EventStore from '../objects/EventStore';
 import { StackRouter } from 'react-navigation';
 import {NavigationEvents} from 'react-navigation';
 import { HeaderTitle } from 'react-navigation-stack';
+import CustomButton from '../components/customButton';
+import { borderColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 
 
@@ -31,14 +33,13 @@ class ShowSingleEvent extends React.Component{
                 <Text style = {styles.text}>Start time: {this.dateToString(this.props.navigation.getParam('startTime'))}</Text>
                 
                 <View style = {styles.ButtonView}>
-                    <Button color = '#FE4643'onPress={() => {EventStore.removeEvent(new Event(
+                    <CustomButton page='delete' color = '#FE4643'onPress={() => {EventStore.removeEvent(new Event(
                         this.props.navigation.getParam('title'),
                         this.props.navigation.getParam('timeCost'),
                         this.props.navigation.getParam('startTime')));
                         this.props.navigation.goBack();
                     }} 
-                        title= 'Delete'>
-                    </Button>
+                        title= 'Delete'/>
                 </View>
             </View>
         )
@@ -51,7 +52,7 @@ export default ShowSingleEvent;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: 'rgba(250,131,50,0.70)',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -62,10 +63,14 @@ const styles = StyleSheet.create({
         borderWidth:1,
         padding:10,
         margin:10,
-        width: Platform.OS === 'ios' ? 400 : 375
+        width: Platform.OS === 'ios' ? 400 : 375,
+        backgroundColor:'#ededed',
+        borderRadius:4
       },
 
       ButtonView: {
-          marginTop:120
+          marginTop:120,
+          backgroundColor:'rgba(0,0,0,.6)',
+          borderRadius:10
       }
 })

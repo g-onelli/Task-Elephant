@@ -13,7 +13,8 @@ import ScheduleStore from '../objects/ScheduleStore';
 import EventStore from '../objects/EventStore';
 import ConfigStore from '../objects/ConfigStore';
 import Log from '../objects/Log';
-
+import FButton from '../components/fullScreenButton'; 
+import scheduleSheet from '../styling/ScheduleDisplay';
 
 
 class ShowSchedule extends React.Component{
@@ -262,35 +263,34 @@ class ShowSchedule extends React.Component{
     // console.log(3333333);
     return (
       
-      <View style = {styles.container}>
-      { <Button onPress={() => {this.createSchedule()}} 
-        title= 'Click here to generate a schedule.'>
-      </Button> }
+    <View style = {scheduleSheet().container}>
+      { <FButton onPress={() => {this.createSchedule()}} 
+        title= 'Generate a schedule'/>}
       <NavigationEvents onDidFocus={async () => await this.componentDidMount()} />
       {this.state.scheduleToday.length === 0 ?
-        <View style = {styles.empty}>
-          <Text style = {styles.startText}>You schedule is empty now</Text>
+        <View style = {scheduleSheet().empty}>
+          <Text style = {scheduleSheet().startText}>You schedule is empty now</Text>
         </View>
         :
-        <View style = {styles.content}>
+        <View style = {scheduleSheet().content}>
  
   
-          <View style = {styles.list}>
+          <View style = {scheduleSheet().list}>
   
             <FlatList 
               data = {this.state.scheduleToday}
               renderItem={({item}) => (
                 item.status?
                 <TouchableOpacity onPress = {async () => {await ScheduleStore.completeScheduleItem(item); await this.componentDidMount()}}>
-                <Text style = {styles.scheduleItem}>
+                <Text style = {scheduleSheet(item.content.getEnergyCost).scheduleItem}>
                 {item.content.title} | Starts {this.getTimeText(item.startTime)}
                 {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                 {/* {typeof item} */}
                 </Text>
                 </TouchableOpacity>
                 :
-                <Text style = {styles.item}>
-                {item.content.title} | Starts {this.getTimeText(item.startTime)}
+                <Text style = {scheduleSheet(item.content.getEnergyCost).item}>
+                {item.content.title} | Starts {this.getTimeText(item.startTime)} 
                 {/* , {item.getEnergyCost()}, {item.getTimeCost()}, {item.getDeadline()}, {item.getPriority()} */}
                 {/* {typeof item} */}
                 </Text>
@@ -301,7 +301,7 @@ class ShowSchedule extends React.Component{
         </View>
       }
 
-      </View>
+    </View>
     )
   }
 }

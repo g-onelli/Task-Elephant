@@ -10,6 +10,7 @@ import { StackRouter } from 'react-navigation';
 import {NavigationEvents} from 'react-navigation';
 import { HeaderTitle } from 'react-navigation-stack';
 import Log from '../objects/Log.js';
+import CustomButton from '../components/customButton';
 
 
 
@@ -32,7 +33,7 @@ class ShowSingleTask extends React.Component{
                 <Text style = {styles.text}>Base Priority: {this.props.navigation.getParam('basePriority')}</Text>
                 
                 <View style = {styles.ButtonView}>
-                    <Button color = '#FE4643'onPress={() => {
+                    <CustomButton page='delete' color = '#FE4643'onPress={() => {
                         TaskStore.removeTask(new Task(
                         this.props.navigation.getParam('title'),
                         this.props.navigation.getParam('energyCost'),
@@ -44,8 +45,7 @@ class ShowSingleTask extends React.Component{
                         this.props.navigation.goBack();
                         
                     }} 
-                        title= 'Delete'>
-                    </Button>
+                        title= 'Delete'/>
                 </View>
             </View>
         )
@@ -58,7 +58,7 @@ export default ShowSingleTask;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: 'rgba(115,162,243,.9)',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -69,10 +69,14 @@ const styles = StyleSheet.create({
         borderWidth:1,
         padding:10,
         margin:10,
+        backgroundColor:'#ededed',
+        borderRadius:4,
         width: Platform.OS === 'ios' ? 400 : 375
       },
 
       ButtonView: {
-          marginTop:120
+          marginTop:120,
+          backgroundColor:'rgba(0,0,0,.6)',
+          borderRadius:10
       }
 })
