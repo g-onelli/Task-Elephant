@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import { Platform } from "react-native-web";
+import { Platform, StyleSheet, View } from "react-native";
+
 
 const styleButton = StyleSheet.create({
     customButtonContainer:{
@@ -14,7 +14,7 @@ const styleButton = StyleSheet.create({
         borderRadius: 10,
         padding:10,
         //height:50,
-        width:'90%',
+        width: Platform.OS == 'ios' ? 300 : '90%',
         marginBottom:10,
         marginTop:4,
         borderWidth:2,
