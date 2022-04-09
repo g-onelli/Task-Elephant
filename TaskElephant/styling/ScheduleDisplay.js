@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 const scheduleSheet =(taskCheck)=> StyleSheet.create({
     container: {
@@ -22,10 +22,6 @@ const scheduleSheet =(taskCheck)=> StyleSheet.create({
       },
     
     empty:{
-        // flex:1,
-        // alignItems: 'center',
-        // justifyContent: 'center'
-    
         justifyContent:'center',
         alignItems: 'center',
         top: '40%', left: 0, 
@@ -36,7 +32,7 @@ const scheduleSheet =(taskCheck)=> StyleSheet.create({
     startText: {
         color: '#000',
         fontSize: 18,
-        //fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
+        fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
         letterSpacing: 2,
         textTransform:'capitalize',
     },
@@ -51,6 +47,7 @@ const scheduleSheet =(taskCheck)=> StyleSheet.create({
         textAlign:'center',
         fontWeight:'bold',
         letterSpacing:2,
+        overflow:'hidden',
         backgroundColor: taskCheck != null? "rgba(115,162,243,.9)":"rgba(250,131,50,0.80)",
       },  
     
