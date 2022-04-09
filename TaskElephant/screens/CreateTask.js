@@ -14,6 +14,7 @@ import TaskStore from '../objects/TaskStore';
 import Log from '../objects/Log';
 import CustomButton from '../components/customButton';
 import createStyle from '../styling/TaskCreation';
+import returnDate from '../objects/SwitchTime';
 
 
 
@@ -24,6 +25,7 @@ export default function CreateTask({navigation}) {
   const [timeIn, setTimeIn] = useState(-1);
   const [hrTime,setHrTime] = useState(-1);
   const [minTime,setMinTime] = useState(-1);
+  const [amHr, setAmHr] = useState(-1);
   const [deadlineIn, setDeadlineIn] = useState(new Date(Date.now()));
   const [priorityIn, setPriorityIn] = useState(7);
 
@@ -76,7 +78,7 @@ export default function CreateTask({navigation}) {
 
    async function onPressButton(title,energy,time,deadline,priority) {
     let timeValue = createTime();
-    console.log(timeValue);
+    //console.log(timeValue);
     var testTask = initTask(title,energy,timeValue,deadline,priority);
     if (testTask == null) return;
     let allTasks = await TaskStore.getAllTasks();
@@ -117,7 +119,26 @@ export default function CreateTask({navigation}) {
     timeValue = timeValue.toString();
     return timeValue;
   }
- 
+  function nonMilitaryTime(timeInValue){
+    let amerTime;
+    let deadNum = parseInt(deadlineIn.getHours());
+    if(deadNum>12){
+      amerTime = deadNum-12;
+      amerTime = amerTime.toString() + ":"+deadlineIn.getMinutes();
+    }else{
+      amerTime = deadlineIn.getHours()+ ":"+deadlineIn.getMinutes();
+    }
+    return amerTime
+  }
+
+  function fullDate(){
+    let month = deadlineIn.getMonth();
+    let day = deadlineIn.getDay();
+    let year = deadlineIn.getFullYear();
+    let timeValue = nonMilitaryTime();
+    let fullDateValue = month + "/"+day+"/"+year+" "+timeValue;
+    return fullDateValue;
+  }
 
 
 
@@ -136,7 +157,7 @@ export default function CreateTask({navigation}) {
       onChangeText={energy => setEnergyIn(energy)} style = {createStyle.textInput}/>
 
       <Text style={createStyle.secondText}> 
-        {"How long does this usually take to complete? "} 
+        {"How long does this usually take? "} 
       </Text>
 
       <View style={createStyle.childContainer}>
@@ -147,12 +168,12 @@ export default function CreateTask({navigation}) {
         onChangeText={mintime=>setMinTime(mintime) /*=> setTimeIn(time)*/} style = {createStyle.childInput}/>
       </View>
 
-      <CustomButton title="When is the task due?" onPress={() => setDeadlineWindowStatus(true)}/>
+      <CustomButton title="When is this due?" onPress={() => setDeadlineWindowStatus(true)}/>
       <DatePicker textColor="#fff" modal open={deadlineWindowStatus} date={deadlineIn} onConfirm={(date) => {setDeadlineWindowStatus(false); setDeadlineIn(new Date(date))}}
       onCancel={() => {setDeadlineWindowStatus(false)}}/>
 
       <Text style={createStyle.Text}> 
-        {"I need this done by: " + displayDate(deadlineIn)} 
+        {"I need this done by: " + returnDate(deadlineIn) }
       </Text>
 
       <Picker prompt={"How important is the task to you"} selectedValue={priorityIn} 
@@ -173,7 +194,8 @@ export default function CreateTask({navigation}) {
 
 
 
-      {/* <View style = {styles.list}>
+      {/* displayDate(deadlineIn) 
+      <View style = {styles.list}>
 
         <FlatList
         data = {tasks}
