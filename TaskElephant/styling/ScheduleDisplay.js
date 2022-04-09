@@ -1,10 +1,13 @@
 import { StyleSheet, Platform } from "react-native";
+import originalPalette from './styleConstants/Colors';
+import borderStyle from './styleConstants/Border';
+import textStyling from './styleConstants/Texts';
 
 const scheduleSheet =(taskCheck)=> StyleSheet.create({
     container: {
         marginTop:0,
         flex:1,
-        backgroundColor: "rgba(115,162,243,.3)",
+        backgroundColor: originalPalette.genSheetBackground,
       },
     
     content: {
@@ -32,7 +35,7 @@ const scheduleSheet =(taskCheck)=> StyleSheet.create({
     startText: {
         color: '#000',
         fontSize: 18,
-        fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
+        fontFamily: Platform.OS == 'ios'? textStyling.iosFont: textStyling.androidFont,
         letterSpacing: 2,
         textTransform:'capitalize',
     },
@@ -40,27 +43,26 @@ const scheduleSheet =(taskCheck)=> StyleSheet.create({
     scheduleItem:{
         padding:16,
         marginTop:16,
-        borderColor: "#000",
-        borderWidth: 1,
-        borderStyle: "dashed",
-        borderRadius: 10,
+        borderColor: originalPalette.black,
+        borderWidth: borderStyle.narrowBorder,
+        borderStyle: borderStyle.borderLine,
+        borderRadius: borderStyle.lrgCurve,
         textAlign:'center',
         fontWeight:'bold',
-        letterSpacing:2,
+        letterSpacing: 2,
         overflow:'hidden',
-        backgroundColor: taskCheck != null? "rgba(115,162,243,.9)":"rgba(250,131,50,0.80)",
+        backgroundColor: taskCheck != null? originalPalette.scheduleTaskItem: originalPalette.eventBackground,
       },  
     
     item:{
-        backgroundColor: "rgba(225,225,225,0.3)",
-        color: "rgba(0,0,0,0.5)",
-    
+        backgroundColor: originalPalette.itemBackground,
+        color: originalPalette.itemTextColor,
         padding:16,
         marginTop:16,
-        borderColor: "#bbb",
-        borderWidth: 1,
-        borderStyle: "dashed",
-        borderRadius: 10,
+        borderColor: originalPalette.itemBorderColor,
+        borderWidth: borderStyle.narrowBorder,
+        borderStyle: borderStyle.borderLine,
+        borderRadius: borderStyle.lrgCurve,
         textAlign:'center'
       }
 })
