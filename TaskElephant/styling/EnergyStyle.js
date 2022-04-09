@@ -1,12 +1,15 @@
 import { StyleSheet, Platform } from "react-native";
 import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import originalPalette from './styleConstants/Colors';
+import borderStyle from './styleConstants/Border';
+import textStyling from './styleConstants/Texts';
 
 const energyCSS = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor:'rgba(115,162,243,.3)',
+      backgroundColor: originalPalette.genSheetBackground,
     },
     container_slider:{
       flex: 1,
@@ -23,7 +26,8 @@ const energyCSS = StyleSheet.create({
         fontSize:22,
         padding:10, 
         textAlign:'center',
-        fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
+        fontFamily: Platform.OS == 'ios'? textStyling.iosFont: textStyling.androidFont,
+        letterSpacing: 2,
     },
 
     Slider:{
