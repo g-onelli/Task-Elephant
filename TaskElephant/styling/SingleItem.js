@@ -1,5 +1,6 @@
-import { StyleSheet, View } from "react-native";
-import { Platform } from "react-native-web";
+import { StyleSheet, View , Platform} from "react-native";
+
+
 let section = 'event';
 let checkPage = (section)=>{
     let colorChoice;
