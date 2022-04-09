@@ -1,5 +1,7 @@
 import { StyleSheet, View , Platform} from "react-native";
-
+import originalPalette from './styleConstants/Colors';
+import borderStyle from './styleConstants/Border';
+import textStyling from './styleConstants/Texts';
 
 let section = 'event';
 let checkPage = (section)=>{
@@ -21,23 +23,23 @@ console.log(checkPage);
 const oneItem = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#73a2f3',
+        backgroundColor: originalPalette.taskBackground,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start',
       },
       textInput:{
-          backgroundColor: '#fff',
+          backgroundColor: originalPalette.white,
       },
       text:{
         height: 50,
         fontSize: 20,
-        borderWidth:1,
+        borderWidth:borderStyle.narrowBorder,
         padding:10,
         margin:10,
         width: Platform.OS === 'ios' ? 400 : 375,
-        backgroundColor:'#fff',
-        borderRadius: 10,
+        backgroundColor: originalPalette.white,
+        borderRadius: borderStyle.lrgCurve,
         elevation:8,
       },
 
