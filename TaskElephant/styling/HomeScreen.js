@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import { Platform } from "react-native-web";
+import { StyleSheet, View, Platform } from "react-native";
+
 
 
 const welcomeStyle = StyleSheet.create({
@@ -12,27 +12,22 @@ const welcomeStyle = StyleSheet.create({
     },
     topSentence:{
         fontSize:35,
-        marginBottom:0
+        marginBottom:0,
+        fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
     },
     name : {
-        // padding: 70,
         marginBottom:100,
         fontSize:35,
+        fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
     },
 
     button:{
         marginTop : 100,
-
-        // position : 'absolute',
-        // padding: 50,
         height:280
     },
     button1:{
         alignSelf: 'flex-end',
         marginTop : 200,
-        //position : 'absolute',
-        //padding: 50,
-        //height:10,
         width:10,
         fontSize:10
     },
