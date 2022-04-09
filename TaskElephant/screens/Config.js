@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Platform} from 'react-native';
 
 import {AppRegistry, StyleSheet, View, Text,Button, TextInput, TouchableOpacity } from 'react-native';
 
@@ -126,7 +127,7 @@ export default class Config extends React.Component{
       <View style = {styles.container}>
           <NavigationEvents onDidFocus={async () => await this.componentDidMount()} />
 
-          <View style ={styles.config_entry}>
+          <View style ={styles.config_email}>
           <View style ={styles.config_entry_main}>
             <Text/>
           </View>
@@ -198,20 +199,35 @@ const styles = StyleSheet.create({
       alignItems:'flex-start',
       justifyContent: 'space-between',
       flexDirection: 'row',
-      width: '100%'/*Platform.OS === 'ios' ? 400: 375*/,
+      width: Platform.OS === 'ios' ? 400: 375,
 //      borderBottomWidth: 1,
-//      borderBottomColor: '#AEAEAE'
+//      borderBottomColor: '#AEAEAE' 
     },
     config_entry: {
       display: 'flex',
       alignItems:'flex-start',
       flexDirection: 'column',
-      width: '100%'/*Platform.OS === 'ios' ? 400: 375*/,
+      width: '97%',
       borderBottomWidth: 1,
       borderBottomColor: '#AEAEAE',
-      backgroundColor:'#fff'
-
+      backgroundColor:'#fff',
+      marginTop:10,
+      marginBottom:0,
+      marginLeft:5,
+      marginRight:5,
     },
+
+    config_email: {
+      display: 'flex',
+      alignItems:'center',
+      flexDirection: 'column',
+      width: '100%',
+      borderBottomWidth: 1,
+      borderTopColor:'#000',
+      borderBottomColor: '#AEAEAE',
+      backgroundColor:'#fff',
+    },
+
     name : {
         // padding: 70,
         marginBottom:180,
@@ -270,9 +286,3 @@ const styles = StyleSheet.create({
 
   });
 
-
-// const styles = StyleSheet.create({
-//     container : {
-//         padding: 24
-//     }
-// });
