@@ -16,11 +16,14 @@ import CustomButton from '../components/customButton';
 import createStyle from '../styling/TaskCreation';
 
 
+
 export default function CreateTask({navigation}) {
 // [1,2] = useState is a variable declaration. 1 is the 'get' method, 2 is the 'set' method.    
   const [textIn, setTextIn] = useState(null);
   const [energyIn, setEnergyIn] = useState(-1);
   const [timeIn, setTimeIn] = useState(-1);
+  const [hrTime,setHrTime] = useState(-1);
+  const [minTime,setMinTime] = useState(-1);
   const [deadlineIn, setDeadlineIn] = useState(new Date(Date.now()));
   const [priorityIn, setPriorityIn] = useState(7);
 
@@ -72,8 +75,9 @@ export default function CreateTask({navigation}) {
    }
 
    async function onPressButton(title,energy,time,deadline,priority) {
-
-    var testTask = initTask(title,energy,time,deadline,priority);
+    let timeValue = createTime();
+    console.log(timeValue);
+    var testTask = initTask(title,energy,timeValue,deadline,priority);
     if (testTask == null) return;
     let allTasks = await TaskStore.getAllTasks();
 //    testTask.setKey((allTasks.length+1).toString());
@@ -107,6 +111,12 @@ export default function CreateTask({navigation}) {
     return (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear().toString().slice(-2) + " - " 
       + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
   }
+
+  function createTime(){
+    let timeValue = parseInt((hrTime*60))+parseInt(minTime);
+    timeValue = timeValue.toString();
+    return timeValue;
+  }
  
 
 
@@ -119,17 +129,26 @@ export default function CreateTask({navigation}) {
   return (
     <View style={createStyle.container}>
       
-      <TextInput placeholder="What is the task?" 
+      <TextInput placeholder="What is the task?" placeholderTextColor='rgba(4,7,32,0.75)'
       onChangeText={text => setTextIn(text)} style = {createStyle.textInput}/>
 
-      <TextInput placeholder="How tired are you afterwards? [0-100]" 
+      <TextInput placeholder="How tired are you afterwards? [0-100]" placeholderTextColor='rgba(4,7,32,0.75)'
       onChangeText={energy => setEnergyIn(energy)} style = {createStyle.textInput}/>
 
-      <TextInput placeholder="How long does this usually take? [min]" 
-      onChangeText={time => setTimeIn(time)} style = {createStyle.textInput}/>
+      <Text style={createStyle.secondText}> 
+        {"How long does this usually take to complete? "} 
+      </Text>
+
+      <View style={createStyle.childContainer}>
+        <TextInput placeholder="[hr]" placeholderTextColor='rgba(4,7,32,0.75)'
+        onChangeText={hrtime=>setHrTime(hrtime) /*time => setTimeIn(time)*/} style = {createStyle.childInput}/>
+
+        <TextInput placeholder=" [min]" placeholderTextColor='rgba(4,7,32,0.75)'
+        onChangeText={mintime=>setMinTime(mintime) /*=> setTimeIn(time)*/} style = {createStyle.childInput}/>
+      </View>
 
       <CustomButton title="When is the task due?" onPress={() => setDeadlineWindowStatus(true)}/>
-      <DatePicker modal open={deadlineWindowStatus} date={deadlineIn} onConfirm={(date) => {setDeadlineWindowStatus(false); setDeadlineIn(new Date(date))}}
+      <DatePicker textColor="#fff" modal open={deadlineWindowStatus} date={deadlineIn} onConfirm={(date) => {setDeadlineWindowStatus(false); setDeadlineIn(new Date(date))}}
       onCancel={() => {setDeadlineWindowStatus(false)}}/>
 
       <Text style={createStyle.Text}> 
@@ -144,7 +163,7 @@ export default function CreateTask({navigation}) {
       </Picker>
 
       <View style = {createStyle.buttonView}>
-        <CustomButton onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn); alarmTest();}} 
+        <CustomButton onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn);}} 
         title= 'Generate Task'/>
 
       </View>
@@ -174,39 +193,3 @@ export default function CreateTask({navigation}) {
   );
 }
 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-
-  textInput:{
-    height: 50,
-    fontSize: 20,
-    borderWidth:1,
-    padding:10,
-    margin:10,
-    width: Platform.OS === 'ios' ? 400 : 375
-    
-  },
-
-  buttonView:{
-    marginTop:125,
-    fontSize:40
-  },
-  
-  defaultPicker:{
-     width: 200,
-     height: 50
-     
-  },
-
-  list:{
-    marginTop:0
-  },
-
-  
-});
