@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 const eventShowStyle = StyleSheet.create({
   container: {
@@ -21,10 +21,6 @@ const eventShowStyle = StyleSheet.create({
   },
 
   empty: {
-    // flex:1,
-    // alignItems: 'center',
-    // justifyContent: 'center'
-
     justifyContent: 'center',
     alignItems: 'center',
     top: '40%', left: 0,
@@ -34,7 +30,7 @@ const eventShowStyle = StyleSheet.create({
   startText: {
     color: '#000',
     fontSize: 18,
-    //fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
+    fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
     letterSpacing: 2,
     textTransform:'capitalize',
   },
@@ -48,12 +44,13 @@ const eventShowStyle = StyleSheet.create({
     borderRadius: 10,
     textAlign: 'center',
     backgroundColor:'#ededed',
+    overflow: 'hidden',
+    
   },
 
   item: {
     backgroundColor: "rgba(225,225,225,0.3)",
     color: "rgba(0,0,0,0.5)",
-
     padding: 16,
     marginTop: 16,
     borderColor: "#bbb",
