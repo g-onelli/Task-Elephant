@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
         margin:10,
         width: Platform.OS === 'ios' ? 400 : 375,
         backgroundColor:'#ededed',
-        borderRadius:4
+        borderRadius:4,
+        overflow: 'hidden',
       },
 
       ButtonView: {
