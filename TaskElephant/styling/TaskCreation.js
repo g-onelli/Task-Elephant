@@ -1,9 +1,12 @@
 import { StyleSheet } from "react-native";
+import originalPalette from './styleConstants/Colors';
+import borderStyle from './styleConstants/Border';
+import textStyling from './styleConstants/Texts';
 
 const createStyle = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'rgba(115,162,243,.9)',
+        backgroundColor: originalPalette.scheduleTaskItem,
         alignItems: 'center',
         //justifyContent: 'space-around',//flex-start
       },
@@ -18,26 +21,29 @@ const createStyle = StyleSheet.create({
       childInput:{
         height: 50,
         fontSize: 20,
-        borderWidth:1,
+        borderWidth:borderStyle.narrowBorder,
         padding:10,
         margin:10,
         marginBottom:0,
-        backgroundColor:'#ededed',
-        borderRadius: 3,
+        backgroundColor: originalPalette.inputColor,
+        borderRadius: borderStyle.smlCurve,
         elevation:8,
         width: 160,
       },
     
       textInput:{
         height: 50,
-        fontSize: 20,
-        borderWidth:1,
+        fontSize: 17,
+        borderWidth:borderStyle.narrowBorder,
         padding:10,
         margin:10,
+        marginBottom: Platform.OS == 'ios' ? 20:10,
         width: Platform.OS === 'ios' ? 400 : 375,
-        backgroundColor:'#ededed',
-        borderRadius: 3,
+        backgroundColor: originalPalette.inputColor,
+        borderRadius: borderStyle.smlCurve,
         elevation:8,
+        letterSpacing: 2,
+        fontFamily: Platform.OS == 'ios'? textStyling.iosFont: textStyling.androidFont,
         
       },
     
@@ -50,9 +56,10 @@ const createStyle = StyleSheet.create({
       defaultPicker:{
          width: 200,
          height: 50,
-         backgroundColor:'#ededed',
+         //backgroundColor:'#ededed',
          marginBottom:0,
-         
+         letterSpacing: 2,
+        
          
       },
     
@@ -61,25 +68,29 @@ const createStyle = StyleSheet.create({
       },
      
       Text:{
-        backgroundColor:'rgba(237,237,237,.9)',
-        padding: 10,
+        backgroundColor: originalPalette.creationTextBackground,
+        padding: 5,
         minWidth:'100%',
         margin:20,
-        fontSize:20,
+        fontSize:17,
         textAlign:'center',
-        borderWidth:1,
-        fontWeight:'bold'
+        borderWidth:borderStyle.narrowBorder,
+        fontWeight:'bold',
+        letterSpacing: 2,
+        fontFamily: Platform.OS == 'ios'? textStyling.iosFont: textStyling.androidFont,
       },
 
       secondText:{
-        backgroundColor:'rgba(237,237,237,.9)',
-        padding: 10,
+        backgroundColor: originalPalette.creationTextBackground,
+        padding: 5,
         minWidth:'100%',
         margin:10,
         fontSize:15,
         textAlign:'center',
-        borderWidth:1,
-        fontWeight:'bold'
+        borderWidth:borderStyle.narrowBorder,
+        fontWeight:'bold',
+        letterSpacing: 2,
+        fontFamily: Platform.OS == 'ios'? textStyling.iosFont: textStyling.androidFont,
       }
     
 });
