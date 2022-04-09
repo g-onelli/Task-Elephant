@@ -20,6 +20,8 @@ export default function CreateEvent({navigation}) {
 // [1,2] = useState is a variable declaration. 1 is the 'get' method, 2 is the 'set' method.    
   const [textIn, setTextIn] = useState(null);
 //   const [energyIn, setEnergyIn] = useState(-1);
+  const [hrTime,setHrTime] = useState(-1);
+  const [minTime,setMinTime] = useState(-1);
   const [timeIn, setTimeIn] = useState(-1);
   const [startTimeIn, setStartTimeIn] = useState(new Date(Date.now()));
 //   const [priorityIn, setPriorityIn] = useState(7);
@@ -47,7 +49,7 @@ export default function CreateEvent({navigation}) {
 
 //  "Time cost value must be limited, or we'll run into issues regarding 
 //    time cost values too large to fit in a schedule, or possibly even a day.  "
-    if (time < 0 || time > 180 || isNaN(parseInt(time))){
+    if (time < 0 || isNaN(parseInt(time))){
       alert("Error: " + time + " not a valid time cost value. [0 - 180]");
       return;
     }
@@ -73,9 +75,9 @@ export default function CreateEvent({navigation}) {
     return new Event(title,time,startTime);
    }
 
-   async function onPressButton(title,time,startTime) {
-
-    var testEvent = initEvent(title,time,startTime);
+   async function onPressButton(title,startTime) {
+    let timeValue = createTime();
+    var testEvent = initEvent(title,timeValue,startTime);
     if (testEvent == null) return;
     let allEvents = await EventStore.getAllEvents();
     testEvent.setKey((allEvents.length+1).toString());
@@ -110,7 +112,11 @@ export default function CreateEvent({navigation}) {
   }
  
 
-
+  function createTime(){
+    let timeValue = parseInt((hrTime*60))+parseInt(minTime);
+    timeValue = timeValue.toString();
+    return timeValue;
+  }
 
 
   async function alarmTest(){
@@ -120,17 +126,26 @@ export default function CreateEvent({navigation}) {
   return (
     <View style={eventStyle.container}>
       
-      <TextInput placeholder="What is this event?" 
+      <TextInput placeholder="What is this event?" placeholderTextColor='rgba(4,7,32,0.75)'
       onChangeText={text => setTextIn(text)} style = {eventStyle.textInput}/>
 
       {/* <TextInput placeholder="Task energy-cost input here [0-100]" 
       onChangeText={energy => setEnergyIn(energy)} style = {eventStyle.textInput}/> */}
 
-      <TextInput placeholder="How long is the event? [min]" 
-      onChangeText={time => setTimeIn(time)} style = {eventStyle.textInput}/>
+      <Text style={eventStyle.secondText}> 
+        {"How long is the event? "} 
+      </Text>
+
+      <View style={eventStyle.childContainer}>
+        <TextInput placeholder="[hr]" placeholderTextColor='rgba(4,7,32,0.75)'
+        onChangeText={hrtime=>setHrTime(hrtime) /*time => setTimeIn(time)*/} style = {eventStyle.childInput}/>
+
+        <TextInput placeholder=" [min]" placeholderTextColor='rgba(4,7,32,0.75)'
+        onChangeText={mintime=>setMinTime(mintime) /*=> setTimeIn(time)*/} style = {eventStyle.childInput}/>
+      </View>
 
       <CustomButton title="When does the event start?" onPress={() => setStartTimeWindowStatus(true)}/>
-      <DatePicker modal open={startTimeWindowStatus} date={startTimeIn} onConfirm={(date) => {setStartTimeWindowStatus(false); setStartTimeIn(new Date(date))}}
+      <DatePicker textColor="#fff" modal open={startTimeWindowStatus} date={startTimeIn} onConfirm={(date) => {setStartTimeWindowStatus(false); setStartTimeIn(new Date(date))}}
       onCancel={() => {setStartTimeWindowStatus(false)}}/>
 
       <Text style={eventStyle.Text}> 
@@ -145,7 +160,7 @@ export default function CreateEvent({navigation}) {
       </Picker> */}
 
       <View style = {eventStyle.buttonView}>
-        <CustomButton onPress={() => {onPressButton(textIn,timeIn,startTimeIn); alarmTest();}} 
+        <CustomButton onPress={() => {onPressButton(textIn,startTimeIn); alarmTest();}} 
         title= 'Generate Event'/>
 
       </View>
@@ -175,39 +190,3 @@ export default function CreateEvent({navigation}) {
   );
 }
 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-
-  textInput:{
-    height: 50,
-    fontSize: 20,
-    borderWidth:1,
-    padding:10,
-    margin:10,
-    width: Platform.OS === 'ios' ? 400 : 375
-    
-  },
-
-  buttonView:{
-    marginTop:125,
-    fontSize:40
-  },
-  
-  defaultPicker:{
-     width: 200,
-     height: 50
-     
-  },
-
-  list:{
-    marginTop:0
-  },
-
-  
-});
