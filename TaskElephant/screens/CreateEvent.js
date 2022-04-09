@@ -15,6 +15,7 @@ import EventStore from '../objects/EventStore';
 import Event from '../objects/Event';
 import CustomButton from '../components/customButton';
 import eventStyle from '../styling/EventCreation';
+import returnDate from '../objects/SwitchTime';
 
 export default function CreateEvent({navigation}) {
 // [1,2] = useState is a variable declaration. 1 is the 'get' method, 2 is the 'set' method.    
@@ -149,7 +150,7 @@ export default function CreateEvent({navigation}) {
       onCancel={() => {setStartTimeWindowStatus(false)}}/>
 
       <Text style={eventStyle.Text}> 
-        {"The event starts: " + displayDate(startTimeIn)} 
+        {"The event starts: " + returnDate(startTimeIn)} 
       </Text>
 
       {/* <Picker prompt={"Task priority input here"} selectedValue={priorityIn} 
