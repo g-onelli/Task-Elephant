@@ -1,13 +1,15 @@
 import { StyleSheet, View , Platform} from "react-native";
-
+import originalPalette from './styleConstants/Colors';
+import borderStyle from './styleConstants/Border';
+import textStyling from './styleConstants/Texts';
 
 const deleteButton = StyleSheet.create({
     customButtonContainer:{     
         justifyContent:'center',
         alignItems:'center',
         elevation: 8,
-        backgroundColor: '#FE4643',
-        borderRadius: 10,
+        backgroundColor: originalPalette.deleteButtonColor,
+        borderRadius: borderStyle.lrgCurve,
         padding:10,
         height:50,
         width:'90%',
@@ -16,14 +18,14 @@ const deleteButton = StyleSheet.create({
         
     },
     customButtonText: {
-        fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
+        fontFamily: Platform.OS == 'ios'? textStyling.iosFont: textStyling.androidFont,
         textTransform:'capitalize',
-        letterSpacing:2,
+        letterSpacing: 2,
         fontSize: 22,
         fontWeight:"bold",
-        color: '#fff',
+        color: originalPalette.white,
         alignSelf: "center",
-        textShadowColor:"#808080",
+        textShadowColor: originalPalette.txtShadow,
         textShadowOffset: {width:0.75,height:0.75},
         textShadowRadius: 3,
     },
