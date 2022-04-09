@@ -5,7 +5,27 @@ const createStyle = StyleSheet.create({
         flex: 1,
         backgroundColor: 'rgba(115,162,243,.9)',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        //justifyContent: 'space-around',//flex-start
+      },
+      
+      childContainer:{
+        flex:1,
+        flexDirection:"row",
+        justifyContent:"space-around",
+        margin:0,
+      },
+
+      childInput:{
+        height: 50,
+        fontSize: 20,
+        borderWidth:1,
+        padding:10,
+        margin:10,
+        marginBottom:0,
+        backgroundColor:'#ededed',
+        borderRadius: 3,
+        elevation:8,
+        width: 160,
       },
     
       textInput:{
@@ -22,8 +42,9 @@ const createStyle = StyleSheet.create({
       },
     
       buttonView:{
-        marginTop:125,
-        fontSize:40
+        marginTop:200,
+        marginBottom:50,
+        fontSize:40,
       },
       
       defaultPicker:{
@@ -45,6 +66,17 @@ const createStyle = StyleSheet.create({
         minWidth:'100%',
         margin:20,
         fontSize:20,
+        textAlign:'center',
+        borderWidth:1,
+        fontWeight:'bold'
+      },
+
+      secondText:{
+        backgroundColor:'rgba(237,237,237,.9)',
+        padding: 10,
+        minWidth:'100%',
+        margin:10,
+        fontSize:15,
         textAlign:'center',
         borderWidth:1,
         fontWeight:'bold'
