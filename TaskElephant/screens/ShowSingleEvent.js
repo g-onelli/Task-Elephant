@@ -13,6 +13,7 @@ import {NavigationEvents} from 'react-navigation';
 import { HeaderTitle } from 'react-navigation-stack';
 import CustomButton from '../components/customButton';
 import { borderColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
+import returnDate from '../objects/SwitchTime';
 
 
 
@@ -20,9 +21,9 @@ class ShowSingleEvent extends React.Component{
     
     dateToString(date_miliseconds){
         var date = new Date(date_miliseconds);
-        return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().slice(-2) + " - " 
-          + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
-        }
+        let prettyDate = returnDate(date);
+        return prettyDate;
+    }
 
     render(){
         return (
