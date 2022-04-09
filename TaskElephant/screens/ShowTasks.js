@@ -204,8 +204,6 @@ class ShowTasks extends React.Component{
     return (
       
       <View style = {taskSheet.container}>
-      <FButton onPress={() => {this.props.navigation.navigate("ShowSchedule")}} 
-        title= 'View Schedule'/>
       <NavigationEvents onDidFocus={async () => await this.componentDidMount()} />
       {this.state.tasks.length === 0 ?
         <View style = {taskSheet.empty}>
@@ -417,66 +415,3 @@ class ShowTasks extends React.Component{
 // }
 
 export default ShowTasks;
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop:0,
-    flex:1,
-    backgroundColor: "#fff",
-  },
-
-  content: {
-    flex:1,
-    padding:40
-  },
-  list:{
-    marginTop:10
-  },
-
-  button:{
-    marginBottom:20
-  },
-
-  empty:{
-    // flex:1,
-    // alignItems: 'center',
-    // justifyContent: 'center'
-
-    justifyContent:'center',
-    alignItems: 'center',
-    top: '40%', left: 0, 
-    right: 0, bottom: 0, 
-    
-  },
-
-  startText:{
-    color:'#9D9B9C',
-    fontSize: 18
-  },
-
-  scheduleItem:{
-    padding:16,
-    marginTop:16,
-    borderColor: "#bbb",
-    borderWidth: 1,
-    borderStyle: "dashed",
-    borderRadius: 10,
-    textAlign:'center'
-  },  
-
-  item:{
-    backgroundColor: "rgba(225,225,225,0.3)",
-    color: "rgba(0,0,0,0.5)",
-
-    padding:16,
-    marginTop:16,
-    borderColor: "#bbb",
-    borderWidth: 1,
-    borderStyle: "dashed",
-    borderRadius: 10,
-    textAlign:'center'
-  }
-
-})
