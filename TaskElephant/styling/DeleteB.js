@@ -1,12 +1,8 @@
-import { StyleSheet, View } from "react-native";
-import { Platform } from "react-native-web";
+import { StyleSheet, View , Platform} from "react-native";
+
 
 const deleteButton = StyleSheet.create({
-    customButtonContainer:{
-        //flex:1,
-       // flexDirection:'row',
-        //flexWrap:'wrap',
-        //position:'relative',      
+    customButtonContainer:{     
         justifyContent:'center',
         alignItems:'center',
         elevation: 8,
@@ -20,7 +16,7 @@ const deleteButton = StyleSheet.create({
         
     },
     customButtonText: {
-        //fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
+        fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
         textTransform:'capitalize',
         letterSpacing:2,
         fontSize: 22,
