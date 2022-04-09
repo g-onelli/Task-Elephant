@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 const taskSheet = StyleSheet.create({
@@ -34,7 +34,7 @@ const taskSheet = StyleSheet.create({
   startText: {
     color: '#000',
     fontSize: 18,
-    //fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
+    fontFamily: Platform.OS == 'ios'? 'Verdana': 'sans-serif',
     letterSpacing: 2,
     textTransform:'capitalize',
   },
@@ -47,13 +47,13 @@ const taskSheet = StyleSheet.create({
     borderStyle: "dashed",
     borderRadius: 10,
     textAlign: 'center',
-    backgroundColor:'#ededed'
+    backgroundColor:'#ededed',
+    overflow: 'hidden',
   },
 
   item: {
     backgroundColor: "rgba(225,225,225,0.3)",
     color: "rgba(0,0,0,0.5)",
-
     padding: 16,
     marginTop: 16,
     borderColor: "#bbb",
