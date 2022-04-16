@@ -10,13 +10,19 @@ import ConfigStore from '../objects/ConfigStore';
 import {NavigationEvents} from 'react-navigation';
 import CustomButton from '../components/customButton';
 import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
+//import sendEmail from '../objects/SendData';
 
 export default class Config extends React.Component{
 
   state = {
     config_temp:0,
     dayStart:"9",
-    dayEnd:"22"
+    dayEnd:"22",
+    timeDiplay: "AM",
+  }
+
+  timeDisplayValue = {
+    timeName: "AM"
   }
 
 
@@ -83,6 +89,7 @@ export default class Config extends React.Component{
   saveConfigs = async() => {
     var startDay = this.state.dayStart
     var endDay = this.state.dayEnd
+    var timeDiplay = this.state.timeDiplay
 
     if (startDay == null || isNaN(parseInt(startDay))){
       alert("Error: DayStart not a valid config value.")
@@ -107,8 +114,14 @@ export default class Config extends React.Component{
       return;
     }
 
+    if(timeDiplay!="AM" && timeDiplay!="MIL"){
+      alert("Error: You need to input either Am or Mil.")
+      return;
+    }
+
     await ConfigStore.saveConfig(this.state.dayStart,"startDay");
     await ConfigStore.saveConfig(this.state.dayEnd,"endDay");
+    await ConfigStore.saveConfig(this.state.timeDiplay,"timeDisplay");
     alert("Configuration Saved");
     return;
   }
@@ -116,9 +129,18 @@ export default class Config extends React.Component{
   async componentDidMount(){
     this.setState({dayStart:await ConfigStore.getConfig("startDay")});
     this.setState({dayEnd:await ConfigStore.getConfig("endDay")});
+    this.setState({timeDiplay:await ConfigStore.getConfig("timeDisplay")});
 
   }
+  useAmTime(strInput){
+    if(strInput.includes("am")){
 
+    }else if(strInput.includes("pm")){
+
+    }else{
+
+    }
+  }
 
 
   render() {
@@ -163,9 +185,23 @@ export default class Config extends React.Component{
             The end of your day, when the app will not schedule tasks.
           </Text>
           </View>
+         
+          <View style = {styles.config_entry}>
+          <View style ={styles.config_entry_main}>
+            <Text style = {styles.text}>
+              {'Time Display'} 
+            </Text>
+            <TextInput placeholder = "Am or Mil" style = {[styles.textInput,{width:55}]} 
+              value = {this.state.timeDiplay} onChangeText = {text => this.setState({timeDiplay:text})}/>
+          </View>
+          <Text style = {styles.text_sub}>
+            The time display method, either american time, Am, (ie 2:30 am) or military time, Mil, (ie 20:00).
+          </Text>
+         </View>
+
           
           <View style = {styles.container_button}>
-            <TouchableOpacity onPress = {this.debugNav} style = {styles.button}>
+            <TouchableOpacity onPress = { this.debugNav } style = {styles.button}>
               <Text style = {styles.button_text}>
                 Debug
               </Text>
@@ -186,7 +222,6 @@ export default class Config extends React.Component{
 
 }}
 
-
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -199,7 +234,7 @@ const styles = StyleSheet.create({
       alignItems:'flex-start',
       justifyContent: 'space-between',
       flexDirection: 'row',
-      width: Platform.OS === 'ios' ? 400: 375,
+      width: Platform.OS === 'ios' ? '90%': '90%',
 //      borderBottomWidth: 1,
 //      borderBottomColor: '#AEAEAE' 
     },
@@ -247,6 +282,7 @@ const styles = StyleSheet.create({
         marginTop:-10,
         marginLeft:30,
         color: '#4D4D4D',
+        letterSpacing:2
 //        width: Platform.OS === 'ios' ? 400 : 375
     },
     textInput:{
