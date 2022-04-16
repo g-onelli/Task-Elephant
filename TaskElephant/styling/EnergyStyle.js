@@ -39,6 +39,9 @@ const energyCSS = StyleSheet.create({
         height:280
     },
 
+    energyButtons:{
+        width: 200,
+    }
 
   });
 
