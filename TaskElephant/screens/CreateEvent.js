@@ -150,7 +150,7 @@ export default function CreateEvent({navigation}) {
       onCancel={() => {setStartTimeWindowStatus(false)}}/>
 
       <Text style={eventStyle.Text}> 
-        {"The event starts: " + returnDate(startTimeIn)} 
+        {returnDate(startTimeIn)} 
       </Text>
 
       {/* <Picker prompt={"Task priority input here"} selectedValue={priorityIn} 
