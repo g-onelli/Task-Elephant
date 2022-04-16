@@ -15,6 +15,7 @@ import ConfigStore from '../objects/ConfigStore';
 import Log from '../objects/Log';
 import FButton from '../components/fullScreenButton'; 
 import scheduleSheet from '../styling/ScheduleDisplay';
+import returnDate from '../objects/SwitchTime';
 
 
 class ShowSchedule extends React.Component{
@@ -191,8 +192,8 @@ class ShowSchedule extends React.Component{
 
   getTimeText(date){
     date = new Date(date);
-    return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear().toString().slice(-2) + " - " 
-      + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+    let prettyDate = returnDate(date);
+    return prettyDate;
   }
 
 
