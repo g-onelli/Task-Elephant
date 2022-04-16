@@ -61,7 +61,7 @@ export default class EnergyDay extends React.Component{
           </Text>
             <Slider value={this.state.energy} minimumTrackTintColor= 'rgb(250,131,50)' onValueChange={value => this.setState({energy: value})} minimumValue={1} maximumValue={100}/>
           <Text> {" "}</Text>
-          <CustomButton title = 'Continue to Tasks!' onPress = {this.pressHandler}/>
+          <CustomButton energycheck='true' title = 'Continue to Tasks!' onPress = {this.pressHandler}/>
           <Text>{" "}</Text>
           <CustomButton title = 'Continue to Events!' onPress = {this.pressHandler2}/>
 
