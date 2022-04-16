@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         margin:10,
         backgroundColor:'#ededed',
         borderRadius:4,
-        width: Platform.OS === 'ios' ? 400 : 375,
+        width: Platform.OS === 'ios' ? "90%" : "90%",
         overflow: 'hidden',
       },
 
