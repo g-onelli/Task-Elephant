@@ -119,7 +119,7 @@ export default function CreateTask({navigation}) {
     timeValue = timeValue.toString();
     return timeValue;
   }
-  function nonMilitaryTime(timeInValue){
+  /*function nonMilitaryTime(timeInValue){
     let amerTime;
     let deadNum = parseInt(deadlineIn.getHours());
     if(deadNum>12){
@@ -138,7 +138,7 @@ export default function CreateTask({navigation}) {
     let timeValue = nonMilitaryTime();
     let fullDateValue = month + "/"+day+"/"+year+" "+timeValue;
     return fullDateValue;
-  }
+  }*/
 
 
 
@@ -148,12 +148,13 @@ export default function CreateTask({navigation}) {
   }
 
   return (
-    <View style={createStyle.container}>
+    <ScrollView style={{flex:1}}>
+      <View style={createStyle.container}>
       
       <TextInput placeholder="What is the task?" placeholderTextColor='rgba(4,7,32,0.75)'
       onChangeText={text => setTextIn(text)} style = {createStyle.textInput}/>
 
-      <TextInput placeholder="How tired are you afterwards? [0-100]" placeholderTextColor='rgba(4,7,32,0.75)'
+      <TextInput placeholder="How tiring is this? [0-100]" placeholderTextColor='rgba(4,7,32,0.75)'
       onChangeText={energy => setEnergyIn(energy)} style = {createStyle.textInput}/>
 
       <Text style={createStyle.secondText}> 
@@ -173,15 +174,17 @@ export default function CreateTask({navigation}) {
       onCancel={() => {setDeadlineWindowStatus(false)}}/>
 
       <Text style={createStyle.Text}> 
-        {"I need this done by: " + returnDate(deadlineIn) }
+        {returnDate(deadlineIn)}
       </Text>
 
-      <Picker prompt={"How important is the task to you"} selectedValue={priorityIn} 
-        style={createStyle.defaultPicker} onValueChange={(itemValue,itemIndex) => setPriorityIn(itemValue)}> 
+      <View>
+        <Picker prompt={"How important is the task to you"} selectedValue={priorityIn} 
+        style={createStyle.defaultPicker} onValueChange={(itemValue,itemIndex) => setPriorityIn(itemValue)} itemStyle={{backgroundColor:"rgba(237,237,237,0.85)",borderColor:"#000",borderWidth:1}}> 
         <Picker.Item label="High" value = {7}/>
         <Picker.Item label="Medium" value = {3}/>
         <Picker.Item label="Low" value = {1}/>
-      </Picker>
+        </Picker>
+      </View>
 
       <View style = {createStyle.buttonView}>
         <CustomButton onPress={() => {onPressButton(textIn,energyIn,timeIn,deadlineIn,priorityIn);}} 
@@ -190,7 +193,7 @@ export default function CreateTask({navigation}) {
       </View>
 
 
-	  <StatusBar style="auto" />
+	    <StatusBar style="auto" />
 
 
 
@@ -208,7 +211,8 @@ export default function CreateTask({navigation}) {
       </View> */}
 
 
-    </View>
+      </View>
+    </ScrollView>
 
     
   
