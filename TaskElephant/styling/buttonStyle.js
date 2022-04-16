@@ -4,22 +4,28 @@ import borderStyle from './styleConstants/Border';
 import textStyling from './styleConstants/Texts';
 
 const styleButton = StyleSheet.create({
-    customButtonContainer:{
-        //flex:1,
-       // flexDirection:'row',
-        //flexWrap:'wrap',
-        //position:'relative',      
+    customButtonContainer:{    
         justifyContent:'center',
- //       alignItems:'center',
         elevation: 8,
         backgroundColor: originalPalette.white,
         borderRadius: borderStyle.lrgCurve,
         padding:10,
-        //height:50,
-        width: Platform.OS == 'ios' ? 300 : '90%',
-        marginBottom:10,
-        marginTop:4,
+        width: '90%',
+        margin:0,
         borderWidth:borderStyle.wideBorder,
+        alignItems:'center'
+        
+    },
+    energyButtonContainer:{     
+        justifyContent:'center',
+        elevation: 8,
+        backgroundColor: originalPalette.white,
+        borderRadius: borderStyle.lrgCurve,
+        padding:10,
+        width: 300,
+        margin:0,
+        borderWidth:borderStyle.wideBorder,
+        alignItems:'center'
         
     },
     customButtonText: {
