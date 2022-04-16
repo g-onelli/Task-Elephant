@@ -5,17 +5,15 @@ import textStyling from './styleConstants/Texts';
 
 const eventStyle = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: originalPalette.eventBackground,
         alignItems: 'center',
         justifyContent: 'flex-start',
       },
 
       childContainer:{
-        flex:1,
         flexDirection:"row",
         justifyContent:"space-around",
-        margin:0,
+        margin:10,
       },
 
       childInput:{
@@ -38,7 +36,7 @@ const eventStyle = StyleSheet.create({
         borderWidth:borderStyle.narrowBorder,
         padding:10,
         margin:10,
-        width: Platform.OS === 'ios' ? 400 : 375,
+        width: Platform.OS === 'ios' ? '90%' : 375,
         fontFamily: Platform.OS == 'ios'? textStyling.iosFont: textStyling.androidFont,
         backgroundColor: originalPalette.inputColor,
         color: originalPalette.black,
@@ -48,8 +46,8 @@ const eventStyle = StyleSheet.create({
       },
     
       buttonView:{
-        marginTop:200,
-        marginBottom:50,
+        marginTop:175,
+        marginBottom:100,
         fontSize:40
       },
       
@@ -67,7 +65,7 @@ const eventStyle = StyleSheet.create({
         backgroundColor: originalPalette.creationTextBackground,
         padding: 5,
         minWidth:'100%',
-        margin:20,
+        margin:15,
         fontSize:20,
         textAlign:'center',
         borderWidth:borderStyle.narrowBorder,
