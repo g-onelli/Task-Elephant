@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { StyleSheet, View, Text, Button, FlatList, TouchableOpacity, ScrollView, RefreshControlBase } from 'react-native';
+import { StyleSheet, View, Text, Button, FlatList, TouchableOpacity, ScrollView, RefreshControlBase, Platform } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -22,7 +22,15 @@ class ShowSingleEvent extends React.Component{
     dateToString(date_miliseconds){
         var date = new Date(date_miliseconds);
         let prettyDate = returnDate(date);
-        return prettyDate;
+        let fullDate = prettyDate.substring(0,10).trim();
+        return fullDate;
+    }
+
+    timeToString(date_miliseconds){
+        var date = new Date(date_miliseconds);
+        let prettyDate = returnDate(date);
+        let fullTime = prettyDate.substring((prettyDate.length - 6)).trim();
+        return fullTime;
     }
 
     render(){
@@ -31,7 +39,8 @@ class ShowSingleEvent extends React.Component{
             <View style={styles.container}>
                 <Text style = {styles.text}>Title: {this.props.navigation.getParam('title')}</Text>
                 <Text style = {styles.text}>Time Cost: {this.props.navigation.getParam('timeCost')/1000 /60}</Text>
-                <Text style = {styles.text}>Start time: {this.dateToString(this.props.navigation.getParam('startTime'))}</Text>
+                <Text style = {styles.text}>Start Date: {this.dateToString(this.props.navigation.getParam('startTime'))} </Text>
+                <Text style={styles.text}>Start Time: {this.timeToString(this.props.navigation.getParam('startTime'))}</Text>
                 
                 <View style = {styles.ButtonView}>
                     <CustomButton page='delete' color = '#FE4643'onPress={() => {EventStore.removeEvent(new Event(
@@ -64,7 +73,7 @@ const styles = StyleSheet.create({
         borderWidth:1,
         padding:10,
         margin:10,
-        width: Platform.OS === 'ios' ? 400 : 375,
+        width: Platform.OS === 'ios' ? '90%':"90%", //400 : 375,
         backgroundColor:'#ededed',
         borderRadius:4,
         overflow: 'hidden',
