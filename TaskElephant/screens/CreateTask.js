@@ -71,7 +71,7 @@ export default function CreateTask({navigation}) {
     return new Task(title,energy,time,deadline,priority);
    }
 
-   async function onPressButton(title,energy,time,deadline,priority) {
+  async function onPressButton(title,energy,time,deadline,priority) {
 
     var testTask = initTask(title,energy,time,deadline,priority);
     if (testTask == null) return;
@@ -138,9 +138,12 @@ export default function CreateTask({navigation}) {
 
       <Picker prompt={"How important is the task to you"} selectedValue={priorityIn} 
         style={createStyle.defaultPicker} onValueChange={(itemValue,itemIndex) => setPriorityIn(itemValue)}> 
+        
         <Picker.Item label="High" value = {7}/>
         <Picker.Item label="Medium" value = {3}/>
         <Picker.Item label="Low" value = {1}/>
+        
+        
       </Picker>
 
       <View style = {createStyle.buttonView}>
